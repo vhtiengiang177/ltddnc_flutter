@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1015103808094",
+    "project_id": "ltddnc-flutter",
+    "storage_bucket": "ltddnc-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015103808094:android:ff1f083cbc27e95bf08acf",
+        "android_client_info": {
+          "package_name": "com.example.ltddnc_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015103808094-vl0us83udfn68ckt1jv54q029jndfrnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD1sU8uI2wLDuaYLVwlUOO1a_OcmajSss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015103808094-vl0us83udfn68ckt1jv54q029jndfrnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

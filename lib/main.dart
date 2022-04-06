@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: ElevatedButton(
             onPressed: (() => {
+              
                   userProvider.logout(),
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => LoginScreen()))

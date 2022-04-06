@@ -1,12 +1,7 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:ltddnc_flutter/mock/user.dart';
 import 'package:ltddnc_flutter/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 class UserProvider with ChangeNotifier {
   User? user;

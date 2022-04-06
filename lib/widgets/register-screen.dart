@@ -72,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
                       controller: _name,
+                      maxLength: 30,
                       decoration: InputDecoration(
                           hintText: 'Enter your name',
                           errorText: _validateName ? _nameErrorText : null,
@@ -99,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: EdgeInsets.all(8.0),
                       child: TextField(
                           controller: _email,
+                        maxLength: 30,
                           decoration: InputDecoration(
                               hintText: 'Enter your email',
                               errorText:
@@ -139,6 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: TextField(
                       controller: _phonenumber,
                       keyboardType: TextInputType.phone,
+                      maxLength: 10,
                       decoration: InputDecoration(
                           hintText: 'Enter your phone number',
                           errorText: _validatePhoneNumber

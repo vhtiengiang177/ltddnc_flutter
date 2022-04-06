@@ -1,7 +1,9 @@
 class User {
   final String? id;
+  final String? name;
   final String? email;
+  final String? phone;
   final String? password;
 
-  const User({this.id, this.email, this.password});
+  const User({this.id, this.name, this.email, this.phone, this.password});
 }

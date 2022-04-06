@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/main.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constant.dart';
 import 'package:ltddnc_flutter/widgets/register-screen.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,11 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _password = TextEditingController();
   bool _validateEmail = false;
   bool _validatePassword = false;
+  bool _validateCredentials = false;
   String _emailErrorText = "Email can't be empty";
   String _passwordErrorText = "Password can't be empty";
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -100,8 +105,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     contentPadding: EdgeInsets.only(left: 10, right: 10)),
                 style: TextStyle(fontSize: 18)),
           ),
+          Visibility(
+            maintainSize: false,
+            maintainState: true,
+            visible: _validateCredentials,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Invalid Credentials',
+                style: TextStyle(color: Colors.red[600], fontSize: 15),
+              ),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
                 Expanded(
@@ -114,23 +131,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       if (_email.text.isNotEmpty != true) {
                         _emailErrorText = "Email can't be empty";
+                        return;
                       } else if (_password.text.isNotEmpty != true) {
                         _passwordErrorText = "Password can't be empty";
                         return;
                       }
-
-                      Navigator.push(
-                          context,
-                          // Create the SelectionScreen in the next ste.
-                          MaterialPageRoute(
-                              builder: (context) => MyHomePage(
-                                    title: "",
-                                  )));
+                      userProvider
+                          .login(_email.text, _password.text)
+                          .then((value) => {
+                                if (userProvider.user != null)
+                                  {
+                                    _email.clear(),
+                                    _password.clear(),
+                                    _validateCredentials = false,
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyHomePage()))
+                                  }
+                                else
+                                  {_validateCredentials = true}
+                              });
                     },
-                    child: const Text(
+                    child: Text(
                       "LOGIN",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: ColorCustom.inputColor,
                           fontSize: 24,
                           fontWeight: FontWeight.bold),
                     ),

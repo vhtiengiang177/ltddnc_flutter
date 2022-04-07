@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/main.dart';
+import 'package:ltddnc_flutter/screens/home-screen.dart';
 import 'package:ltddnc_flutter/shared/constant.dart';
+import 'package:ltddnc_flutter/widgets/body-screen.dart';
 import 'package:ltddnc_flutter/widgets/login-screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +32,7 @@ class _SlashScreenState extends State<SlashScreen> {
           if (snapshot.data == true) {
             Future.delayed(Duration(seconds: 2)).then((value) =>
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MyHomePage())));
+                    MaterialPageRoute(builder: (context) => BodyScreen())));
           }
           return Scaffold(
               backgroundColor: Colors.white,

@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: EdgeInsets.all(8.0),
                       child: TextField(
                           controller: _email,
-                        maxLength: 30,
+                          maxLength: 30,
                           decoration: InputDecoration(
                               hintText: 'Enter your email',
                               errorText:
@@ -136,29 +136,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         'Phone number: ',
                         style: TextStyle(fontSize: 20),
                       )),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _phonenumber,
-                      keyboardType: TextInputType.phone,
-                      maxLength: 10,
-                      decoration: InputDecoration(
-                          hintText: 'Enter your phone number',
-                          errorText: _validatePhoneNumber
-                              ? _phoneNumberErrorText
-                              : null,
-                          fillColor: ColorCustom.inputColor,
-                          filled: true,
-                          enabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 10, right: 10)),
-                      style: TextStyle(fontSize: 18),
-                      textInputAction: TextInputAction.next,
-                      onChanged: (text) => {
-                        setState(() {
-                          _validatePhoneNumber = _phonenumber.text.isEmpty;
-                        })
-                      },
+                  Focus(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _phonenumber,
+                        keyboardType: TextInputType.phone,
+                        maxLength: 10,
+                        decoration: InputDecoration(
+                            hintText: 'Enter your phone number',
+                            errorText: _validatePhoneNumber
+                                ? _phoneNumberErrorText
+                                : null,
+                            fillColor: ColorCustom.inputColor,
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.only(left: 10, right: 10)),
+                        style: TextStyle(fontSize: 18),
+                        textInputAction: TextInputAction.next,
+                      ),
                     ),
+                    onFocusChange: (hasFocus) {
+                      if (!hasFocus) {
+                        setState(() {
+                          if (_phonenumber.text.isEmpty) {
+                            _validatePhoneNumber = _phonenumber.text.isEmpty;
+                            _phoneNumberErrorText =
+                                "Phone number can't be empty";
+                          }
+                          if (_phonenumber.text.trim().length == 10) {
+                            _validatePhoneNumber = true;
+                            _phoneNumberErrorText =
+                                "Phone number must be 10 digits";
+                          } else
+                            _validatePhoneNumber = false;
+                        });
+                      }
+                    },
                   ),
                   const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -166,38 +181,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         'Password: ',
                         style: TextStyle(fontSize: 20),
                       )),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _password,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          hintText: 'Enter your password',
-                          errorText:
-                              _validatePassword ? _passwordErrorText : null,
-                          fillColor: ColorCustom.inputColor,
-                          filled: true,
-                          enabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 10, right: 10)),
-                      style: TextStyle(fontSize: 18),
-                      textInputAction: TextInputAction.next,
-                      onChanged: (text) => {
-                        setState(() {
+                  Focus(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _password,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            hintText: 'Enter your password',
+                            errorText:
+                                _validatePassword ? _passwordErrorText : null,
+                            fillColor: ColorCustom.inputColor,
+                            filled: true,
+                            enabledBorder: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.only(left: 10, right: 10)),
+                        style: TextStyle(fontSize: 18),
+                        textInputAction: TextInputAction.next,
+                      ),
+                    ),
+                    onFocusChange: (hasFocus) {
+                      var passwordValid = RegExp(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                          .hasMatch(_password.text);
+
+                      setState(() {
+                        if (_password.text.isEmpty) {
                           _validatePassword = _password.text.isEmpty;
                           _passwordErrorText = "Password can't be empty";
-                          _confirmPasswordErrorText =
-                              "Confirm password can't be empty";
-                          if (_password.text.isNotEmpty &&
-                              _confirmpassword.text.isNotEmpty &&
-                              _confirmpassword.text != _password.text) {
-                            _validateConfirmPassword = true;
-                            _confirmPasswordErrorText = "Password mismatch";
-                          } else if (_confirmpassword.text.isNotEmpty &&
-                              _confirmpassword.text == _password.text)
-                            _validateConfirmPassword = false;
-                        })
-                      },
-                    ),
+                        } else if (!passwordValid) {
+                          _validatePassword = false;
+                          _passwordErrorText =
+                              "Password must have minimum 1 uppercase, lowercase, numeric number and special character";
+                        }
+                        if (_password.text.isNotEmpty &&
+                            _confirmpassword.text.isNotEmpty &&
+                            _confirmpassword.text != _password.text) {
+                          _validateConfirmPassword = true;
+                          _confirmPasswordErrorText = "Password mismatch";
+                        } else if (_confirmpassword.text.isNotEmpty &&
+                            _confirmpassword.text == _password.text)
+                          _validateConfirmPassword = false;
+                      });
+                    },
                   ),
                   const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -245,7 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: const EdgeInsets.all(8),
                     child: Row(children: [
                       Expanded(
-                        child: Consumer<UserProvider>(
+                          child: Consumer<UserProvider>(
                         builder: (context, value, _) => ElevatedButton(
                           onPressed: () async {
                             setState(() {

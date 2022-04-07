@@ -48,30 +48,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: ElevatedButton(
-            onPressed: (() => {
-              
-                  userProvider.logout(),
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()))
-                }),
-            child: Text("Logout")),
-      ),
-    );
-  }
-}

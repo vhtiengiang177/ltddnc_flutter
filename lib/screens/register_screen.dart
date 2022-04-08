@@ -5,7 +5,7 @@ import 'package:ltddnc_flutter/models/user.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../shared/constant.dart';
+import '../shared/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -27,11 +27,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _validatePhoneNumber = false;
   bool _validatePassword = false;
   bool _validateConfirmPassword = false;
-  String _nameErrorText = "Name can't be empty";
-  String _emailErrorText = "Email can't be empty";
-  String _phoneNumberErrorText = "Phone number can't be empty";
-  String _passwordErrorText = "Password can't be empty";
-  String _confirmPasswordErrorText = "Confirm password can't be empty";
+  String _nameErrorText = "Vui lòng nhập tên";
+  String _emailErrorText = "Vui lòng nhập email";
+  String _phoneNumberErrorText = "Vui lòng nhập số điện thoại";
+  String _passwordErrorText = "Vui lòng nhập mật khẩu";
+  String _confirmPasswordErrorText = "Vui lòng nhập xác thực mật khẩu";
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Text("Register",
+                    child: Text("Đăng ký",
                         style: GoogleFonts.roboto(
                             fontWeight: FontWeight.bold,
                             color: ColorCustom.primaryColor,
@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Name: ',
+                        'Tên: ',
                         style: TextStyle(fontSize: 20),
                       )),
                   Padding(
@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _name,
                       maxLength: 30,
                       decoration: InputDecoration(
-                          hintText: 'Enter your name',
+                          hintText: 'Nhập tên của bạn',
                           errorText: _validateName ? _nameErrorText : null,
                           fillColor: ColorCustom.inputColor,
                           filled: true,
@@ -102,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _email,
                           maxLength: 30,
                           decoration: InputDecoration(
-                              hintText: 'Enter your email',
+                              hintText: 'Nhập email của bạn',
                               errorText:
                                   _validateEmail ? _emailErrorText : null,
                               fillColor: ColorCustom.inputColor,
@@ -120,10 +120,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             .hasMatch(_email.text);
                         setState(() {
                           if (_email.text.trim() == "") {
-                            _emailErrorText = "Email can't be empty";
+                            _emailErrorText = "Vui lòng nhập email";
                           } else if (!emailValid) {
                             _validateEmail = !emailValid;
-                            _emailErrorText = "Invalid email format";
+                            _emailErrorText = "Định dạng email không hợp lệ";
                           } else
                             _validateEmail = false;
                         });
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Phone number: ',
+                        'Số điện thoại: ',
                         style: TextStyle(fontSize: 20),
                       )),
                   Focus(
@@ -142,9 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: TextField(
                         controller: _phonenumber,
                         keyboardType: TextInputType.phone,
-                        maxLength: 10,
                         decoration: InputDecoration(
-                            hintText: 'Enter your phone number',
+                            hintText: 'Nhập số điện thoại của bạn',
                             errorText: _validatePhoneNumber
                                 ? _phoneNumberErrorText
                                 : null,
@@ -163,12 +162,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (_phonenumber.text.isEmpty) {
                             _validatePhoneNumber = _phonenumber.text.isEmpty;
                             _phoneNumberErrorText =
-                                "Phone number can't be empty";
+                                "Vui lòng nhập số điện thoại";
                           }
-                          if (_phonenumber.text.trim().length == 10) {
+                          if (_phonenumber.text.trim().length != 10) {
                             _validatePhoneNumber = true;
                             _phoneNumberErrorText =
-                                "Phone number must be 10 digits";
+                                "Số điện thoại không hợp lệ";
                           } else
                             _validatePhoneNumber = false;
                         });
@@ -178,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Password: ',
+                        'Mật khẩu: ',
                         style: TextStyle(fontSize: 20),
                       )),
                   Focus(
@@ -188,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _password,
                         obscureText: true,
                         decoration: InputDecoration(
-                            hintText: 'Enter your password',
+                            hintText: 'Nhập mật khẩu',
                             errorText:
                                 _validatePassword ? _passwordErrorText : null,
                             fillColor: ColorCustom.inputColor,
@@ -208,17 +207,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setState(() {
                         if (_password.text.isEmpty) {
                           _validatePassword = _password.text.isEmpty;
-                          _passwordErrorText = "Password can't be empty";
+                          _passwordErrorText = "Vui lòng nhập mật khẩu";
                         } else if (!passwordValid) {
                           _validatePassword = false;
                           _passwordErrorText =
-                              "Password must have minimum 1 uppercase, lowercase, numeric number and special character";
+                              "Mật khẩu phải chứa ít nhất 1 ký tự hoa, ký tự thường, số và ký tự đặc biệt";
                         }
                         if (_password.text.isNotEmpty &&
                             _confirmpassword.text.isNotEmpty &&
                             _confirmpassword.text != _password.text) {
                           _validateConfirmPassword = true;
-                          _confirmPasswordErrorText = "Password mismatch";
+                          _confirmPasswordErrorText = "Mật khẩu không khớp";
                         } else if (_confirmpassword.text.isNotEmpty &&
                             _confirmpassword.text == _password.text)
                           _validateConfirmPassword = false;
@@ -228,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Confirm Password: ',
+                        'Nhập lại mật khẩu: ',
                         style: TextStyle(fontSize: 20),
                       )),
                   Padding(
@@ -237,7 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _confirmpassword,
                       obscureText: true,
                       decoration: InputDecoration(
-                          hintText: 'Confirm your password',
+                          hintText: 'Nhập lại mật khẩu',
                           errorText: _validateConfirmPassword
                               ? _confirmPasswordErrorText
                               : null,
@@ -253,12 +252,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _validateConfirmPassword =
                                 _confirmpassword.text.isEmpty;
                             _confirmPasswordErrorText =
-                                "Confirm password can't be empty";
+                                "Vui lòng nhập lại mật khẩu";
                           } else if (_password.text.isNotEmpty &&
                               _confirmpassword.text.isNotEmpty &&
                               _confirmpassword.text != _password.text) {
                             _validateConfirmPassword = true;
-                            _confirmPasswordErrorText = "Password mismatch";
+                            _confirmPasswordErrorText = "Mật khẩu không khớp";
                           } else {
                             _validateConfirmPassword =
                                 _confirmpassword.text.isEmpty;
@@ -299,7 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return;
                           },
                           child: Text(
-                            "REGISTER",
+                            "ĐĂNG KÝ",
                             style: TextStyle(
                                 color: ColorCustom.textPrimaryColor,
                                 fontSize: 24,

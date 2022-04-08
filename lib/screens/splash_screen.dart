@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ltddnc_flutter/main.dart';
-import 'package:ltddnc_flutter/screens/home-screen.dart';
-import 'package:ltddnc_flutter/shared/constant.dart';
-import 'package:ltddnc_flutter/widgets/body-screen.dart';
-import 'package:ltddnc_flutter/widgets/login-screen.dart';
+import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:ltddnc_flutter/screens/body-screen.dart';
+import 'package:ltddnc_flutter/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SlashScreen extends StatefulWidget {
@@ -41,7 +39,7 @@ class _SlashScreenState extends State<SlashScreen> {
                 children: [
                   Image.asset('assets/introduction/splash.gif'),
                   Text(
-                    "Loading...",
+                    "Burger Bistro xin chào!",
                     style: TextStyle(
                       fontSize: 25,
                       color: ColorCustom.primaryColor,

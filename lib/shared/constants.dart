@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class ColorCustom {
   static Color primaryColor = Color(0xFFFFB300);
   static Color secondaryColor = Color(0xFF666666);
-  static Color textPrimaryColor = Color(0xFFFFFFFF);
+  static Color textPrimaryColor = Color.fromARGB(255, 7, 7, 7);
   static Color inputColor = Color(0xFFEAEAEA);
+  static Color selectedColor = Color.fromARGB(255, 253, 253, 253);
+  static Color unselectedColor = Color.fromARGB(255, 255, 231, 199);
 }
 
 class Palette {
@@ -40,3 +42,5 @@ class Palette {
     },
   );
 }
+
+final imageFailed = "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=184141fa-b368-4bff-b673-74097a69f47a";

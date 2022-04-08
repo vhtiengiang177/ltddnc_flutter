@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ltddnc_flutter/screens/account-screen.dart';
-import 'package:ltddnc_flutter/screens/home-screen.dart';
-import 'package:ltddnc_flutter/shared/constant.dart';
+import 'package:ltddnc_flutter/screens/account_screen.dart';
+import 'package:ltddnc_flutter/screens/home_screen.dart';
+import 'package:ltddnc_flutter/shared/constants.dart';
 
 class BodyScreen extends StatefulWidget {
   const BodyScreen({Key? key}) : super(key: key);
@@ -16,19 +16,30 @@ class _BodyScreenState extends State<BodyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search...',
-              fillColor: ColorCustom.inputColor,
-              filled: true,
-              enabledBorder: InputBorder.none,
-            ),
-            style: TextStyle(fontSize: 18),
-            textInputAction: TextInputAction.search),
+        title: SizedBox(
+          height: 40,
+          child: TextField(
+              cursorRadius: Radius.circular(5.0),
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Tìm  kiếm...',
+                fillColor: ColorCustom.inputColor,
+                filled: true,
+                enabledBorder: InputBorder.none,
+              ),
+              style: TextStyle(fontSize: 18),
+              textInputAction: TextInputAction.search),
+        ),
       ),
       body: getBody(),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: ColorCustom.primaryColor,
+        iconSize: 28,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedItemColor: ColorCustom.selectedColor,
+        unselectedItemColor: ColorCustom.unselectedColor,
+        selectedIconTheme: IconThemeData(size: 35),
         type: BottomNavigationBarType.fixed,
         currentIndex: this.selectedIndex,
         items: [
@@ -51,7 +62,7 @@ class _BodyScreenState extends State<BodyScreen> {
   }
 
   Widget getBody() {
-    if (selectedIndex == 3) {
+    if (selectedIndex == 2) {
       return AccountScreen();
     }
     return HomeScreen();

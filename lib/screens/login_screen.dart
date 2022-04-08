@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/main.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
-import 'package:ltddnc_flutter/screens/home-screen.dart';
-import 'package:ltddnc_flutter/shared/constant.dart';
-import 'package:ltddnc_flutter/widgets/body-screen.dart';
-import 'package:ltddnc_flutter/widgets/register-screen.dart';
+import 'package:ltddnc_flutter/screens/home_screen.dart';
+import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:ltddnc_flutter/screens/body-screen.dart';
+import 'package:ltddnc_flutter/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,8 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _validateEmail = false;
   bool _validatePassword = false;
   bool _validateCredentials = false;
-  String _emailErrorText = "Email can't be empty";
-  String _passwordErrorText = "Password can't be empty";
+  String _emailErrorText = "Vui lòng nhập email";
+  String _passwordErrorText = "Vui lòng nhập mật khẩu";
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Image.asset('assets/icon.png')),
           Align(
             alignment: Alignment.center,
-            child: Text("Login",
+            child: Text("Đăng nhập",
                 style: GoogleFonts.roboto(
                     fontWeight: FontWeight.bold,
                     color: ColorCustom.primaryColor,
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextField(
                   controller: _email,
                   decoration: InputDecoration(
-                      hintText: 'Enter your email',
+                      hintText: 'Nhập email của bạn',
                       errorText: _validateEmail ? _emailErrorText : null,
                       fillColor: ColorCustom.inputColor,
                       filled: true,
@@ -77,10 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     .hasMatch(_email.text);
                 setState(() {
                   if (_email.text.trim() == "") {
-                    _emailErrorText = "Email can't be empty";
+                    _emailErrorText = "Vui lòng nhập email";
                   } else if (!emailValid) {
                     _validateEmail = !emailValid;
-                    _emailErrorText = "Invalid email format";
+                    _emailErrorText = "Định dạng email không hợp lệ";
                   } else
                     _validateEmail = false;
                 });
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
           const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Password: ',
+                'Mật khẩu: ',
                 style: TextStyle(fontSize: 20),
               )),
           Padding(
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _password,
                 obscureText: true,
                 decoration: InputDecoration(
-                    hintText: 'Enter your password',
+                    hintText: 'Nhập mật khẩu',
                     errorText: _validatePassword ? _passwordErrorText : null,
                     fillColor: ColorCustom.inputColor,
                     filled: true,
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Invalid Credentials',
+                'Tài khoản không hợp lệ',
                 style: TextStyle(color: Colors.red[600], fontSize: 15),
               ),
             ),
@@ -132,10 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
 
                       if (_email.text.isNotEmpty != true) {
-                        _emailErrorText = "Email can't be empty";
+                        _emailErrorText = "Vui lòng nhập email";
                         return;
                       } else if (_password.text.isNotEmpty != true) {
-                        _passwordErrorText = "Password can't be empty";
+                        _passwordErrorText = "Vui lòng nhập mật khẩu";
                         return;
                       }
                       userProvider
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                     },
                     child: Text(
-                      "LOGIN",
+                      "ĐĂNG NHẬP",
                       style: TextStyle(
                           color: ColorCustom.textPrimaryColor,
                           fontSize: 24,
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'or',
+                'hoặc',
                 style: TextStyle(fontSize: 20),
               ),
               TextButton(
@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
                 child: Text(
-                  'Register',
+                  'Đăng ký',
                   style: TextStyle(
                       fontSize: 20,
                       color: ColorCustom.primaryColor,

@@ -24,7 +24,14 @@ class _QuantityState extends State<Quantity> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(color: ColorCustom.primaryColor, width: 2))),
-        Container(width: 25, height: 25, child: Text('${quantity}')),
+        Container(
+            width: 25,
+            height: 25,
+            alignment: Alignment.center,
+            child: Text(
+              '${quantity}',
+              style: TextStyle(fontSize: 16),
+            )),
         Container(
             child: Icon(
               Icons.add,

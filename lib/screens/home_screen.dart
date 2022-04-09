@@ -39,6 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+        Padding(
+          padding:
+              EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+          child: TextField(
+              cursorRadius: Radius.circular(5.0),
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Tìm  kiếm...',
+                fillColor: ColorCustom.inputColor,
+                filled: true,
+                enabledBorder: InputBorder.none,
+              ),
+              style: TextStyle(fontSize: 18),
+              textInputAction: TextInputAction.search),
+        ),
         CarouselSlider(
           options: CarouselOptions(
             height: 180.0,

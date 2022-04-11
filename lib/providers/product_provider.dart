@@ -8,13 +8,19 @@ class ProductProvider with ChangeNotifier {
 
   ProductProvider({this.product});
 
-  CollectionReference products =
-      FirebaseFirestore.instance.collection('products');
+  // CollectionReference products =
+  //     FirebaseFirestore.instance.collection('products');
+  CollectionReference categories =
+      FirebaseFirestore.instance.collection('categories');
 
-  Future<void> getAllProduct() async {
-    print("getAllProduct");
+  Future<void> getAll(idCategory) async {
+    print(idCategory);
     listProduct = [];
-    await products.get().then((querySnapshot) {
+    await categories
+        .doc(idCategory)
+        .collection('products')
+        .get()
+        .then((querySnapshot) {
       querySnapshot.docs.forEach((e) {
         final element = e.data();
         try {
@@ -23,7 +29,8 @@ class ProductProvider with ChangeNotifier {
                 id: e.id,
                 name: element['name'],
                 price: element['price'],
-                image: element['image']);
+                image: element['image'],
+                description: element['description']);
 
             listProduct.add(product);
             print(product);
@@ -33,6 +40,28 @@ class ProductProvider with ChangeNotifier {
         }
       });
     });
+
+    // print("getAllProduct");
+    // listProduct = [];
+    // await products.get().then((querySnapshot) {
+    //   querySnapshot.docs.forEach((e) {
+    //     final element = e.data();
+    //     try {
+    //       if (element is Map<String, dynamic>) {
+    //         Product product = new Product(
+    //             id: e.id,
+    //             name: element['name'],
+    //             price: element['price'],
+    //             image: element['image']);
+
+    //         listProduct.add(product);
+    //         print(product);
+    //       }
+    //     } on Exception catch (e) {
+    //       print(e.toString());
+    //     }
+    //   });
+    // });
 
     notifyListeners();
   }

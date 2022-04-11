@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/mock/carousel.dart';
+import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:ltddnc_flutter/widgets/list_categories.dart';
 import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +27,18 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = true;
       });
 
-      Provider.of<ProductProvider>(context).getAllProduct().then((_) {
+      // Provider.of<ProductProvider>(context).getAllProduct().then((_) {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      // });
+
+      Provider.of<CategoryProvider>(context).getAll().then((_) {
         setState(() {
           _isLoading = false;
         });
       });
+
       _isInit = false;
     }
 
@@ -38,22 +48,33 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
+      physics: ScrollPhysics(),
       children: <Widget>[
-        Padding(
-          padding:
-              EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-          child: TextField(
-              cursorRadius: Radius.circular(5.0),
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Tìm  kiếm...',
-                fillColor: ColorCustom.inputColor,
-                filled: true,
-                enabledBorder: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 18),
-              textInputAction: TextInputAction.search),
+        Container(
+          height: 50,
+          child: Center(
+              child: Text("Burger Bistro",
+                  style: GoogleFonts.patuaOne(
+                    color: ColorCustom.primaryColor,
+                    fontSize: 32,
+                  ))),
         ),
+        // Padding(
+        //   padding:
+        //       EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        //   child: TextField(
+        //       cursorRadius: Radius.circular(5.0),
+        //       decoration: InputDecoration(
+        //         prefixIcon: Icon(Icons.search),
+        //         hintText: 'Tìm  kiếm...',
+        //         fillColor: ColorCustom.inputColor,
+        //         filled: true,
+        //         enabledBorder: InputBorder.none,
+        //       ),
+        //       style: TextStyle(fontSize: 18),
+        //       textInputAction: TextInputAction.search),
+        // ),
         CarouselSlider(
           options: CarouselOptions(
             height: 180.0,
@@ -79,9 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
               .toList(),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 15, top: 15),
           child: Text(
-            'SẢN PHẨM',
+            'DANH MỤC',
             style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -95,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(),
                 )
-              : ListProduct(),
+              : ListCategories(),
         ),
       ],
     );

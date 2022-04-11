@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/splash_screen.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
       key: key,
       providers: [
         ChangeNotifierProvider(create: ((context) => UserProvider())),
-        ChangeNotifierProvider(create: ((context) => ProductProvider()))
+        ChangeNotifierProvider(create: ((context) => ProductProvider())),
+        ChangeNotifierProvider(create: ((context) => CategoryProvider()))
       ],
       child: Consumer<UserProvider>(
         builder: (context, value, _) {
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Palette.lightTheme,
                 textTheme:
-                    GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+                    GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
               ),
               home: SlashScreen());
         },

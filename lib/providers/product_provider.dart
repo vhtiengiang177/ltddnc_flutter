@@ -41,28 +41,6 @@ class ProductProvider with ChangeNotifier {
       });
     });
 
-    // print("getAllProduct");
-    // listProduct = [];
-    // await products.get().then((querySnapshot) {
-    //   querySnapshot.docs.forEach((e) {
-    //     final element = e.data();
-    //     try {
-    //       if (element is Map<String, dynamic>) {
-    //         Product product = new Product(
-    //             id: e.id,
-    //             name: element['name'],
-    //             price: element['price'],
-    //             image: element['image']);
-
-    //         listProduct.add(product);
-    //         print(product);
-    //       }
-    //     } on Exception catch (e) {
-    //       print(e.toString());
-    //     }
-    //   });
-    // });
-
     notifyListeners();
   }
 }

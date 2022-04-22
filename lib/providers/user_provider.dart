@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ltddnc_flutter/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class UserProvider with ChangeNotifier {
   User? user;
 
   UserProvider({this.user});
+
+  static var client = http.Client();
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   // User login(String email, String password) {
@@ -71,5 +76,15 @@ class UserProvider with ChangeNotifier {
     prefs.remove("userData");
 
     notifyListeners();
+  }
+
+  Future<void> test() async {
+    print("test");
+    var response = await http.Client().get(Uri.parse(
+        'http://ac00-2402-800-6374-d586-3008-f9ae-915-30f1.ngrok.io/api/products'));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      print(jsonString);
+    }
   }
 }

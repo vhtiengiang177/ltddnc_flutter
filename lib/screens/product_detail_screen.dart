@@ -78,7 +78,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Quantity(),
+                      Quantity(quantity: 0,),
                       ElevatedButton(
                           onPressed: () => {},
                           child: Text("Thêm vào giỏ",

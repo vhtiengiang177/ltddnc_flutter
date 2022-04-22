@@ -14,7 +14,10 @@ class CategoryProvider with ChangeNotifier {
   Future<void> getAll() async {
     print("getAllCategories");
     listCategory = [];
-    await categories.get().then((querySnapshot) {
+    await categories
+        .orderBy("name")
+        .get()
+        .then((querySnapshot) {
       querySnapshot.docs.forEach((e) {
         final element = e.data();
         try {

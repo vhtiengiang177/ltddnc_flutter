@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
+import 'package:ltddnc_flutter/screens/cart_screen.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -66,7 +67,7 @@ class _BodyScreenState extends State<BodyScreen> {
     if (selectedIndex == 2) {
       return AccountScreen();
     } else if (selectedIndex == 1) {
-      // cart
+      return CartScreen();
     }
     return HomeScreen();
   }

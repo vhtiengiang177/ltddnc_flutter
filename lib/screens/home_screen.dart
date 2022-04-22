@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/mock/carousel.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/list_categories.dart';
 import 'package:ltddnc_flutter/widgets/list_product.dart';
@@ -26,12 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = true;
       });
-
-      // Provider.of<ProductProvider>(context).getAllProduct().then((_) {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // });
 
       Provider.of<CategoryProvider>(context).getAll().then((_) {
         setState(() {

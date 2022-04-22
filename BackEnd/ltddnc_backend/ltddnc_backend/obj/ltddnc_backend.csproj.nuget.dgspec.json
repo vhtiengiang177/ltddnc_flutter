@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Final_Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj": {}
+    "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj": {}
   },
   "projects": {
-    "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Final_Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj": {
+    "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Final_Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj",
+        "projectUniqueName": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj",
         "projectName": "ltddnc_backend",
-        "projectPath": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Final_Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj",
+        "projectPath": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\ltddnc_backend.csproj",
         "packagesPath": "C:\\Users\\Thao\\.nuget\\packages\\",
-        "outputPath": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Final_Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\obj\\",
+        "outputPath": "D:\\SPKT\\TAI_LIEU_NAM_4\\LTDDNC\\Flutter\\BackEnd\\ltddnc_backend\\ltddnc_backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Thao\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,34 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.24, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUI": {
+              "target": "Package",
+              "version": "[6.3.0, )"
             }
           },
           "imports": [

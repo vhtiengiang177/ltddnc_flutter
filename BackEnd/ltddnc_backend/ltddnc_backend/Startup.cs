@@ -36,7 +36,7 @@ namespace ltddnc_backend
             services.AddDbContext<DataDbContext>(options => options.UseSqlServer(@"Data Source=localhost; Initial Catalog=flutterdb; User ID=sa; PWD=kimdong",
             b => b.MigrationsAssembly("ltddnc-flutter")));
 
-
+          
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -47,7 +47,7 @@ namespace ltddnc_backend
             });
 
             services.AddSingleton(new AccountService());
-
+           
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
             {
                 option.RequireHttpsMetadata = false;
@@ -62,9 +62,9 @@ namespace ltddnc_backend
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-            // services.AddControllers().AddNewtonsoftJson(options =>
-            // options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            // );
+           // services.AddControllers().AddNewtonsoftJson(options =>
+               // options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+           // );
             //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             //services.AddScoped<IImageService, ImageService>();
         }

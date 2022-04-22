@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
+import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 
 class BodyScreen extends StatefulWidget {
@@ -15,22 +16,22 @@ class _BodyScreenState extends State<BodyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SizedBox(
-          height: 40,
-          child: TextField(
-              cursorRadius: Radius.circular(5.0),
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Tìm  kiếm...',
-                fillColor: ColorCustom.inputColor,
-                filled: true,
-                enabledBorder: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 18),
-              textInputAction: TextInputAction.search),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: SizedBox(
+      //     height: 40,
+      //     child: TextField(
+      //         cursorRadius: Radius.circular(5.0),
+      //         decoration: InputDecoration(
+      //           prefixIcon: Icon(Icons.search),
+      //           hintText: 'Tìm  kiếm...',
+      //           fillColor: ColorCustom.inputColor,
+      //           filled: true,
+      //           enabledBorder: InputBorder.none,
+      //         ),
+      //         style: TextStyle(fontSize: 18),
+      //         textInputAction: TextInputAction.search),
+      //   ),
+      // ),
       body: getBody(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorCustom.primaryColor,
@@ -64,6 +65,8 @@ class _BodyScreenState extends State<BodyScreen> {
   Widget getBody() {
     if (selectedIndex == 2) {
       return AccountScreen();
+    } else if (selectedIndex == 1) {
+      // cart
     }
     return HomeScreen();
   }

@@ -43,4 +43,5 @@ class Palette {
   );
 }
 
-final imageFailed = "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=184141fa-b368-4bff-b673-74097a69f47a";
+final imageFailed =
+    "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=af6d074d-e58e-4cf1-98a1-de1f4cca1e3b";

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/models/user.dart';
+import 'package:ltddnc_flutter/models/useraccountparams.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +28,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _validatePhoneNumber = false;
   bool _validatePassword = false;
   bool _validateConfirmPassword = false;
+  bool _validateCredentials = false;
   String _nameErrorText = "Vui lòng nhập tên";
   String _emailErrorText = "Vui lòng nhập email";
   String _phoneNumberErrorText = "Vui lòng nhập số điện thoại";
   String _passwordErrorText = "Vui lòng nhập mật khẩu";
   String _confirmPasswordErrorText = "Vui lòng nhập xác thực mật khẩu";
+
+  String _errorText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -188,6 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                             hintText: 'Nhập mật khẩu',
+                            errorMaxLines: 2,
                             errorText:
                                 _validatePassword ? _passwordErrorText : null,
                             fillColor: ColorCustom.inputColor,
@@ -209,11 +214,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _validatePassword = _password.text.isEmpty;
                           _passwordErrorText = "Vui lòng nhập mật khẩu";
                         } else if (!passwordValid) {
-                          _validatePassword = false;
+                          _validatePassword = true;
                           _passwordErrorText =
                               "Mật khẩu phải chứa ít nhất 1 ký tự hoa, ký tự thường, số và ký tự đặc biệt";
-                        }
-                        if (_password.text.isNotEmpty &&
+                        } else if (_password.text.isNotEmpty &&
                             _confirmpassword.text.isNotEmpty &&
                             _confirmpassword.text != _password.text) {
                           _validateConfirmPassword = true;
@@ -221,6 +225,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         } else if (_confirmpassword.text.isNotEmpty &&
                             _confirmpassword.text == _password.text)
                           _validateConfirmPassword = false;
+                        else
+                          _validatePassword = false;
                       });
                     },
                   ),
@@ -266,6 +272,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
+                  Visibility(
+                    maintainSize: false,
+                    maintainState: true,
+                    visible: _validateCredentials,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        _errorText,
+                        style: TextStyle(color: Colors.red[600], fontSize: 15),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(children: [
@@ -287,12 +305,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 !_validatePhoneNumber &&
                                 !_validatePassword &&
                                 !_validateConfirmPassword) {
-                              User newUser = new User(
+                              UserAccountParams newUser = new UserAccountParams(
                                   name: _name.text,
                                   email: _email.text,
                                   phone: _phonenumber.text,
-                                  password: _password.text);
-                              await userProvider.register(newUser);
+                                  password: _password.text,
+                                  state: 1,
+                                  idRole: 1);
+                              // User newUser = new User(
+                              //     name: _name.text,
+                              //     email: _email.text,
+                              //     phone: _phonenumber.text,
+                              //     password: _password.text);
+                              await userProvider
+                                  .register(newUser)
+                                  .then((value) {
+                                if (value != null) {
+                                  _errorText = value;
+                                  _validateCredentials = true;
+                                }
+                              });
                               Navigator.of(context).pop(_email.text);
                             }
                             return;

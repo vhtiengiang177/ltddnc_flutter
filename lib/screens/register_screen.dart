@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ltddnc_flutter/models/user.dart';
 import 'package:ltddnc_flutter/models/useraccountparams.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +16,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _phonenumber = TextEditingController();
@@ -320,12 +318,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               await userProvider
                                   .register(newUser)
                                   .then((value) {
-                                if (value != null) {
+                                if (value == null) {
+                                  Navigator.of(context).pop(_email.text);
+                                } else {
                                   _errorText = value;
                                   _validateCredentials = true;
                                 }
                               });
-                              Navigator.of(context).pop(_email.text);
                             }
                             return;
                           },

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
@@ -44,6 +46,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    setState(() {
+      _name.text = userProvider.user?.name ?? "";
+      _email.text = userProvider.user?.email ?? "";
+      _phonenumber.text = userProvider.user?.phone ?? "";
+      _address.text = userProvider.user?.address ?? "";
+    });
     return Scaffold(
       body: SafeArea(
         child: _isLoading

@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/mock/carousel.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
-import 'package:ltddnc_flutter/providers/product_provider.dart';
-import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/list_categories.dart';
-import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -87,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       image: DecorationImage(
-                        image: NetworkImage(item),
+                        image: AssetImage(item),
                         fit: BoxFit.cover,
                       ),
                     ),

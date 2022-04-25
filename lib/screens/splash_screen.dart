@@ -52,7 +52,6 @@ class _SlashScreenState extends State<SlashScreen> {
 
   Future<bool> autoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-
     final id = prefs.getString('userId');
 
     return id?.isNotEmpty == true;

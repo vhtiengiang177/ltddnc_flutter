@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/menu_account_screen.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return ListView(
       children: [
         Padding(
@@ -27,7 +30,7 @@ class AccountScreen extends StatelessWidget {
                         height: 75,
                       ),
                       Text(
-                        "Võ Hồng Tiên Giang",
+                        userProvider.user?.name ?? "",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),

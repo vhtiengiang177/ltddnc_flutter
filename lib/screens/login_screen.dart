@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context) => RegisterScreen()));
 
                   setState(() {
-                    _email.text = result.toString();
+                    if (result != null) _email.text = result.toString();
                   });
                 },
                 child: Text(

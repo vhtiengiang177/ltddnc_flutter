@@ -49,4 +49,4 @@ final imageFailed =
     "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=af6d074d-e58e-4cf1-98a1-de1f4cca1e3b";
 
 final apiHost =
-    "http://d2c8-2402-800-6375-8097-5819-c94d-7be0-e946.ngrok.io/api";
+    "http://29bb-2402-800-6375-8097-5819-c94d-7be0-e946.ngrok.io/api";

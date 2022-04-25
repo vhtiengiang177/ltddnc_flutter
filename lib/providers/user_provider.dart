@@ -121,7 +121,7 @@ class UserProvider with ChangeNotifier {
       print(user);
       final prefs = await SharedPreferences.getInstance();
       user = userResponse;
-      prefs.setInt("userId", userResponse.idAccount!);
+      prefs.setString("userId", userResponse.idAccount.toString());
 
       notifyListeners();
       return null;
@@ -133,4 +133,23 @@ class UserProvider with ChangeNotifier {
 
     return "Lỗi không xác định";
   }
+
+  //   Future<String?> getUser(int accountId) async {
+  //   print("getUser: " + accountId.toString());
+  //   var response = await client.get(
+  //       Uri.parse(apiHost + routeAPIAccount + "/getuser/" + accountId.toString()),
+  //       headers: {"Content-Type": "application/json"});
+  //   if (response.statusCode == 200) {
+  //     User userResponse = userFromJson(response.body);
+  //     print(user);
+
+  //     return null;
+  //   } else if (response.statusCode == 400) {
+  //     user = null;
+  //     print("getuser failed");
+  //     return response.body;
+  //   }
+
+  //   return "Lỗi không xác định";
+  // }
 }

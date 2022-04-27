@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/main.dart';
 import 'package:ltddnc_flutter/models/account.dart';
@@ -158,20 +159,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       //         });
                       Account account = new Account(
                           email: _email.text, password: _password.text);
-                      userProvider.login(account).then((value) => {
-                            if (value == null)
-                              {
-                                _email.clear(),
-                                _password.clear(),
-                                _validateCredentials = false,
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BodyScreen()))
-                              }
-                            else
-                              {_errorText = value, _validateCredentials = true}
-                          });
+                      userProvider
+                          .login(account)
+                          .then((value) => {
+                                if (value == null)
+                                  {
+                                    _email.clear(),
+                                    _password.clear(),
+                                    _validateCredentials = false,
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => BodyScreen()))
+                                  }
+                                else
+                                  {
+                                    _errorText = value,
+                                    _validateCredentials = true
+                                  }
+                              })
+                          .catchError((error, stackTrace) {
+                            Fluttertoast.showToast(msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
+                      });
                     },
                     child: Text(
                       "ĐĂNG NHẬP",

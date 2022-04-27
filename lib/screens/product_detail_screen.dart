@@ -27,9 +27,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               children: [
                 Container(
                   height: 250,
-                  child: widget.product.image != null ? Image.network('${widget.product.image}',
-                    fit: BoxFit.fitWidth,
-                  ) : Image.asset('assets/no-image-available.jpg', fit: BoxFit.fitWidth,),
+                  child: widget.product.image != null
+                      ? Image.network(
+                          '${widget.product.image}',
+                          fit: BoxFit.fitWidth,
+                        )
+                      : Image.asset(
+                          'assets/no-image-available.jpg',
+                          fit: BoxFit.fitWidth,
+                        ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -37,7 +43,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Text(
                     '${widget.product.name}',
                     style: TextStyle(
-                        color: ColorCustom.primaryColor,
+                        color: ColorCustom.textPrimaryColor,
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
@@ -47,7 +53,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Text(
                     '${formatCurrency.format(widget.product.price)}',
                     style: TextStyle(
-                        color: ColorCustom.secondaryColor,
+                        color: ColorCustom.textPrimaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -59,7 +65,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     widget.product.description ?? '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 6,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontSize: 16, color: ColorCustom.secondaryColor),
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -78,7 +85,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Quantity(quantity: 0,),
+                      Quantity(
+                        quantity: 1,
+                      ),
                       ElevatedButton(
                           onPressed: () => {},
                           child: Text("Thêm vào giỏ",

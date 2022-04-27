@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ltddnc_flutter/models/user.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +33,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         _isLoading = true;
       });
 
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      setState(() {
+        _name.text = userProvider.user?.name ?? "";
+        _email.text = userProvider.user?.email ?? "";
+        _phonenumber.text = userProvider.user?.phone ?? "";
+        _address.text = userProvider.user?.address ?? "";
+      });
       // handle
       Future.delayed(Duration(seconds: 1)).then((_) => {
             setState(() {
@@ -46,13 +55,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    setState(() {
-      _name.text = userProvider.user?.name ?? "";
-      _email.text = userProvider.user?.email ?? "";
-      _phonenumber.text = userProvider.user?.phone ?? "";
-      _address.text = userProvider.user?.address ?? "";
-    });
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: _isLoading
@@ -111,25 +114,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: TextField(
-                            controller: _name,
-                            maxLength: 30,
-                            decoration: InputDecoration(
-                                hintText: 'Nhập tên của bạn',
-                                errorText:
-                                    _validateName ? _nameErrorText : null,
-                                fillColor: ColorCustom.inputColor,
-                                filled: true,
-                                enabledBorder: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.only(left: 10, right: 10)),
-                            style: TextStyle(fontSize: 16),
-                            textInputAction: TextInputAction.next,
-                            onChanged: (text) => {
-                              setState(() {
-                                _validateName = _name.text.isEmpty;
-                              })
-                            },
-                          ),
+                              controller: _name,
+                              maxLength: 30,
+                              decoration: InputDecoration(
+                                  hintText: 'Nhập tên của bạn',
+                                  errorText:
+                                      _validateName ? _nameErrorText : null,
+                                  fillColor: ColorCustom.inputColor,
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.only(left: 10, right: 10)),
+                              style: TextStyle(fontSize: 16),
+                              textInputAction: TextInputAction.next),
                         ),
                         const Padding(
                             padding: EdgeInsets.only(
@@ -240,12 +237,38 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 fillColor: ColorCustom.inputColor,
                                 filled: true,
                                 enabledBorder: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.only(left: 10, right: 10)),
+                                contentPadding: EdgeInsets.all(10)),
                             style: TextStyle(fontSize: 16),
                             textInputAction: TextInputAction.next,
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (() {
+                                    User userParams = User(
+                                        idAccount: userProvider.user?.idAccount,
+                                        name: _name.text,
+                                        phone: _phonenumber.text,
+                                        address: _address.text,
+                                        email: _email.text);
+                                    userProvider
+                                        .updateInfo(userParams)
+                                        .then((value) {
+                                      if (value != null) {
+                                        Fluttertoast.showToast(msg: value);
+                                      }
+                                    });
+                                  }),
+                                  child: Text("Lưu thông tin"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )

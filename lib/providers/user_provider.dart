@@ -111,11 +111,13 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<String?> login(Account account) async {
+    print("Login");
     print(accountParamsToJson(account));
     var response = await client.post(
         Uri.parse(apiHost + routeAPIAccount + "/login"),
         body: accountParamsToJson(account),
         headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
     if (response.statusCode == 200) {
       User userResponse = userFromJson(response.body);
       print(user);
@@ -134,22 +136,47 @@ class UserProvider with ChangeNotifier {
     return "Lỗi không xác định";
   }
 
-  //   Future<String?> getUser(int accountId) async {
-  //   print("getUser: " + accountId.toString());
-  //   var response = await client.get(
-  //       Uri.parse(apiHost + routeAPIAccount + "/getuser/" + accountId.toString()),
-  //       headers: {"Content-Type": "application/json"});
-  //   if (response.statusCode == 200) {
-  //     User userResponse = userFromJson(response.body);
-  //     print(user);
+  Future<String?> updateInfo(User userParams) async {
+    print("updateInfo");
+    print(userToJson(userParams));
+    var response = await client.patch(
+        Uri.parse(apiHost + routeAPIAccount + "/updateaccount"),
+        body: userToJson(userParams),
+        headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
 
-  //     return null;
-  //   } else if (response.statusCode == 400) {
-  //     user = null;
-  //     print("getuser failed");
-  //     return response.body;
-  //   }
+    print(response.body);
+    if (response.statusCode == 200) {
+      user = userParams;
 
-  //   return "Lỗi không xác định";
-  // }
+      notifyListeners();
+      return response.body;
+    } else if (response.statusCode == 400) {
+      user = null;
+      print("updateInfo failed");
+      return response.body;
+    }
+
+    return "Lỗi không xác định";
+  }
+
+  Future<String?> getUser(int accountId) async {
+    print("getUser: " + accountId.toString());
+    var response = await client.get(
+        Uri.parse(
+            apiHost + routeAPIAccount + "/getuser/" + accountId.toString()),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      User userResponse = userFromJson(response.body);
+      user = userResponse;
+      print(user);
+      return null;
+    } else if (response.statusCode == 400) {
+      user = null;
+      print("getuser failed");
+      return response.body;
+    }
+
+    return "Lỗi không xác định";
+  }
 }

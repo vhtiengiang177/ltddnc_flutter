@@ -12,8 +12,13 @@ class User {
   final String? email;
   const User({this.idAccount, this.name, this.phone, this.address, this.email});
 
-  Map<String, dynamic> toJson() =>
-      {"id": idAccount, "name": name, "phone": phone, "address": address};
+  Map<String, dynamic> toJson() => {
+        "idAccount": idAccount,
+        "name": name,
+        "phone": phone,
+        "address": address,
+        "email": email
+      };
 
   factory User.fromJson(Map<String, dynamic> json) => User(
       idAccount: json["idAccount"],

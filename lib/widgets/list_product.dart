@@ -75,14 +75,16 @@ class _ListProductState extends State<ListProduct> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Align(
-                                        alignment: Alignment.centerRight,
-                                        child: ElevatedButton(
-                                          child: Icon(
-                                              Icons.add_shopping_cart_rounded),
-                                          onPressed: () =>
-                                              {/** handle add to cart */},
-                                        ),
-                                      ),
+                                          alignment: Alignment.centerRight,
+                                          child: IconButton(
+                                            icon: Image.asset(
+                                              'assets/images/button/shopping-cart.png',
+                                              width: 24,
+                                            ),
+                                            onPressed: () => {
+                                              /* handle cart */
+                                            },
+                                          )),
                                     ],
                                   )
                                 ],

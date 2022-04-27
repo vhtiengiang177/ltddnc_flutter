@@ -16,6 +16,8 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +88,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Quantity(
+                        onChangeQuantity: onChangeQuantity,
                         quantity: 1,
                       ),
                       ElevatedButton(
@@ -113,5 +116,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ]),
       ),
     );
+  }
+
+  void onChangeQuantity(bool isIncrease) {
+    quantity += isIncrease ? 1 : -1;
+    print("quantity" + quantity.toString());
   }
 }

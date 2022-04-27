@@ -10,6 +10,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +87,8 @@ class _CartScreenState extends State<CartScreen> {
                                       Align(
                                           alignment: Alignment.centerRight,
                                           child: Quantity(
-                                            quantity: 1,
+                                            onChangeQuantity: onChangeQuantity,
+                                            quantity: quantity,
                                           )),
                                     ],
                                   )
@@ -149,6 +152,7 @@ class _CartScreenState extends State<CartScreen> {
                                       Align(
                                           alignment: Alignment.centerRight,
                                           child: Quantity(
+                                            onChangeQuantity: onChangeQuantity,
                                             quantity: 1,
                                           )),
                                     ],
@@ -209,5 +213,9 @@ class _CartScreenState extends State<CartScreen> {
         ]),
       ),
     );
+  }
+
+    void onChangeQuantity(bool isIncrease) {
+    quantity += isIncrease ? 1 : -1;
   }
 }

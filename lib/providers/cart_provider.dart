@@ -42,7 +42,7 @@ class CartProvider with ChangeNotifier {
                   Product product = new Product(
                       // id: e,
                       name: element['name'],
-                      price: element['price'],
+                      unitPrice: element['unitPrice'],
                       image: element['image'],
                       description: element['description']);
 

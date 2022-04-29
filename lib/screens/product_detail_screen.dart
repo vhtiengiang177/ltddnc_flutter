@@ -53,7 +53,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text(
-                    '${formatCurrency.format(widget.product.price)}',
+                    '${formatCurrency.format(widget.product.unitPrice)}',
                     style: TextStyle(
                         color: ColorCustom.textPrimaryColor,
                         fontSize: 20,

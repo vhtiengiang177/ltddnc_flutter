@@ -13,8 +13,8 @@ class ProductProvider with ChangeNotifier {
 
   // CollectionReference products =
   //     FirebaseFirestore.instance.collection('products');
-  CollectionReference categories =
-      FirebaseFirestore.instance.collection('categories');
+  // CollectionReference categories =
+  //     FirebaseFirestore.instance.collection('categories');
 
   // Future<void> getAll(idCategory) async {
   //   print(idCategory);
@@ -48,26 +48,29 @@ class ProductProvider with ChangeNotifier {
   // }
 
   final routeAPIProducts = "/products";
-  Future<List<Product>> getProducts(int? IdCategories) async {
+  Future<void> getProducts(int? IdCategories) async {
     print("get product: ");
-    var count =0;
+    listProduct = [];
+
     var response = await http.get(
-        Uri.parse(
-            apiHost + routeAPIProducts + "/getproductbycategoryid/" + IdCategories.toString()),
+        Uri.parse(apiHost +
+            routeAPIProducts +
+            "/getproductbycategoryid/" +
+            IdCategories.toString()),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       var productResponse = json.decode(response.body);
-      for (var p in productResponse){
-        Product product = Product(id: p['id'],name: p['name'],price: p['price'], image: p['image'], description: p["description"]);
+      for (var p in productResponse) {
+        Product product = Product(
+            id: p['id'],
+            name: p['name'],
+            unitPrice: p['unitPrice'],
+            image: p['image'],
+            description: p["description"]);
         listProduct.add(product);
-        count=count+1;
       }
-      print(count.toString());
-      return listProduct;
-
-    } else if (response.statusCode == 400) {
-    }
-
-    return [];
+      print(listProduct);
+      notifyListeners();
+    } else if (response.statusCode == 400) {}
   }
 }

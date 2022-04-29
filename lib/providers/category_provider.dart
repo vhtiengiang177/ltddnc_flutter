@@ -41,8 +41,9 @@ class CategoryProvider with ChangeNotifier {
 
   final routeAPICategories = "/categories";
 
-  Future<List<Category>> getCategories() async {
+  Future<void> getCategories() async {
     print("get category: ");
+    listCategory = [];
     var response = await http.get(Uri.parse(apiHost + routeAPICategories + "/"),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
@@ -52,9 +53,9 @@ class CategoryProvider with ChangeNotifier {
             Category(id: c['id'], name: c['name'], image: c['image']);
         listCategory.add(category);
       }
-      return listCategory;
-    } else if (response.statusCode == 400) {}
 
-    return [];
+      notifyListeners();
+    } 
+    else if (response.statusCode == 400) {}
   }
 }

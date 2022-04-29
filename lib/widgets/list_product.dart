@@ -46,7 +46,7 @@ class _ListProductState extends State<ListProduct> {
                             height: 100,
                             child: Image.network(
                               e.image ?? imageFailed,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                           Expanded(
@@ -68,7 +68,7 @@ class _ListProductState extends State<ListProduct> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '${formatCurrency.format(e.price)}',
+                                        '${formatCurrency.format(e.unitPrice)}',
                                         style: TextStyle(
                                             color: ColorCustom.primaryColor,
                                             fontSize: 18,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
@@ -38,7 +40,7 @@ class CartProvider with ChangeNotifier {
 
                 if (element is Map<String, dynamic>) {
                   Product product = new Product(
-                      id: e.id,
+                      // id: e,
                       name: element['name'],
                       price: element['price'],
                       image: element['image'],

@@ -23,7 +23,7 @@ class _ProductScreenState extends State<ProductScreen> {
       });
 
       Provider.of<ProductProvider>(context)
-          .getAll(widget.category.id)
+          .getProducts(widget.category.id)
           .then((_) {
         setState(() {
           _isLoading = false;

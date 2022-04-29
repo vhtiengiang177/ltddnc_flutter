@@ -18,47 +18,42 @@ class CategoryProvider with ChangeNotifier {
 
   // Future<void> getAll() async {
   //   print("getAllCategories");
+
+  //   print(listCategory);
   //   listCategory = [];
-  //   await categories
-  //       .orderBy("name")
-  //       .get()
-  //       .then((querySnapshot) {
+
+  //   print(listCategory);
+  //   await categories.orderBy("name").get().then((querySnapshot) {
+  //     print('------------${querySnapshot.docs.length}');
   //     querySnapshot.docs.forEach((e) {
   //       final element = e.data();
   //       try {
   //         if (element is Map<String, dynamic>) {
   //           Category category = new Category(
   //               id: e.id, name: element['name'], image: element['image']);
-  //
-  //           listCategory.add(category);
-  //         }
-  //       } on Exception catch (e) {
-  //         print(e.toString());
-  //       }
-  //     });
-  //   });
-  //
+
+  // // static var categories = http.;
+  // final routeAPICategories = "/categories";
+
   //   notifyListeners();
+  //   print(listCategory.length);
   // }
 
-  // static var categories = http.;
   final routeAPICategories = "/categories";
 
   Future<List<Category>> getCategories() async {
     print("get category: ");
-    var response = await http.get(
-        Uri.parse(
-            apiHost + routeAPICategories +"/" ),
+    var response = await http.get(Uri.parse(apiHost + routeAPICategories + "/"),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       var categoryResponse = json.decode(response.body);
-      for (var c in categoryResponse){
-          Category category = Category(id: c['id'],name: c['name'],image: c['image']);
-          listCategory.add(category);
+      for (var c in categoryResponse) {
+        Category category =
+            Category(id: c['id'], name: c['name'], image: c['image']);
+        listCategory.add(category);
       }
       return listCategory;
-    } else if (response.statusCode == 400) {
-    }
+    } else if (response.statusCode == 400) {}
 
     return [];
   }

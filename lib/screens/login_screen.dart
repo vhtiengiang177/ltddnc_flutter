@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/main.dart';
@@ -159,9 +160,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       //         });
                       Account account = new Account(
                           email: _email.text, password: _password.text);
+
+                      EasyLoading.show();
+
                       userProvider
                           .login(account)
                           .then((value) => {
+                                EasyLoading.dismiss(),
                                 if (value == null)
                                   {
                                     _email.clear(),
@@ -174,12 +179,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                 else
                                   {
-                                    _errorText = value,
-                                    _validateCredentials = true
+                                    setState(() => {
+                                          _errorText = value,
+                                          _validateCredentials = true
+                                        })
                                   }
                               })
                           .catchError((error, stackTrace) {
-                            Fluttertoast.showToast(msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
+                        Fluttertoast.showToast(
+                            msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
                       });
                     },
                     child: Text(

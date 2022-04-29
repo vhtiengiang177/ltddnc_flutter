@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 
 class Quantity extends StatefulWidget {
-  Quantity({Key? key, required this.quantity}) : super(key: key);
-  int quantity;
+  Quantity({Key? key, required this.quantity, required this.onChangeQuantity})
+      : super(key: key);
+
+  final Function onChangeQuantity;
+  final int quantity;
   @override
   State<Quantity> createState() => _QuantityState();
 }
 
 class _QuantityState extends State<Quantity> {
+  int quantity = 0;
+
+  @override
+  void initState() {
+    quantity = widget.quantity;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +44,7 @@ class _QuantityState extends State<Quantity> {
             height: 30,
             alignment: Alignment.center,
             child: Text(
-              '${widget.quantity}',
+              '${quantity}',
               style: TextStyle(fontSize: 16),
             )),
         InkWell(
@@ -54,17 +66,20 @@ class _QuantityState extends State<Quantity> {
 
   void decreaseQuantity() {
     print("decrease quantity");
-    if (widget.quantity > 0) {
+    if (quantity >= 1) {
+      widget.onChangeQuantity(false);
+
       setState(() {
-        widget.quantity -= 1;
+        quantity -= 1;
       });
     }
   }
 
   void increaseQuantity() {
     print("increase quantity");
+    widget.onChangeQuantity(true);
     setState(() {
-      widget.quantity += 1;
+      quantity += 1;
     });
   }
 }

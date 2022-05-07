@@ -43,12 +43,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 20.0, bottom: 8, left: 15.0, right: 15.0),
-                  child: Text(
-                    '${widget.product.name}',
-                    style: TextStyle(
-                        color: ColorCustom.textPrimaryColor,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${widget.product.name}',
+                        style: TextStyle(
+                            color: ColorCustom.textPrimaryColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Image.asset(
+                          'assets/images/button/heart-regular.png',
+                          width: 30,
+                        ),
+                        onPressed: () => {
+                          /* handle favorite */
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -92,19 +106,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         onChangeQuantity: onChangeQuantity,
                         quantity: 1,
                       ),
-                      IconButton(icon: Image.asset(
-                        'assets/images/button/white-heart.png',
-                        width: 60,
-                      ),
-                        onPressed: () => {
-                          /* handle favorite */
-                        },
-                      ),
                       ElevatedButton(
                           onPressed: () => {},
                           child: Text("Thêm vào giỏ",
                               style: TextStyle(fontSize: 18)))
-
                     ],
                   ),
                 ),

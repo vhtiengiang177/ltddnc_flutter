@@ -22,101 +22,90 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     return favoriteProvider.listProduct.isNotEmpty == true
         ? Column(
-      children: favoriteProvider.listProduct
-          .map(
-            (e) => InkWell(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProductDetailScreen(
-                    product: e,
-                  ))),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: ColorCustom.inputColor,
-            ),
-            clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.only(bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  child: Image.network(
-                    e.image ?? imageFailed,
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          e.name ?? '',
-                          style: TextStyle(fontSize: 22),
-                        ),
-
-                        Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${formatCurrency.format(e.unitPrice)}',
-                              style: TextStyle(
-                                  color: ColorCustom.primaryColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+            children: favoriteProvider.listProduct
+                .map(
+                  (e) => InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(
+                                  product: e,
+                                ))),
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: ColorCustom.inputColor,
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      margin: EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            child: Image.network(
+                              e.image ?? imageFailed,
+                              fit: BoxFit.cover,
                             ),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  icon: Image.asset(
-                                    'assets/images/button/shopping-cart.png',
-                                    width: 24,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    e.name ?? '',
+                                    style: TextStyle(fontSize: 22),
                                   ),
-                                  onPressed: () => {
-                                    /* handle cart */
-                                  },
-                                )),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  icon: Image.asset(
-                                    'assets/images/button/redheart.png',
-                                    width: 40,
-                                  ),
-                                  onPressed: () => {
-                                    /* handle favorite */
-                                  },
-                                )),
-                          ],
-                        )
-                      ],
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${formatCurrency.format(e.unitPrice)}',
+                                        style: TextStyle(
+                                            color: ColorCustom.primaryColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Align(
+                                          alignment: Alignment.centerRight,
+                                          child: IconButton(
+                                            icon: Image.asset(
+                                              'assets/images/button/heart.png',
+                                              width: 20,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () => {
+                                              /* handle favorite */
+                                            },
+                                          )),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          ),
-        ),
-      )
-          .toList(),
-    )
+                )
+                .toList(),
+          )
         : Text(
-      "Không có sản phẩm",
-      style: TextStyle(fontSize: 18),
-    );
+            "Không có sản phẩm",
+            style: TextStyle(fontSize: 18),
+          );
   }
 }

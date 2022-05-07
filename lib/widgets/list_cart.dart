@@ -105,9 +105,11 @@ class _ListCartState extends State<ListCart> {
                       ),
                     ))
                 .toList())
-        : Text(
-            "Không có sản phẩm trong giỏ, mua sắm ngay",
-            style: TextStyle(fontSize: 18),
+        : Center(
+            child: Text(
+              "Không có sản phẩm trong giỏ, mua sắm ngay",
+              style: TextStyle(fontSize: 18),
+            ),
           );
   }
 

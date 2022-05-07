@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/product.dart';
@@ -16,6 +17,8 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +30,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               children: [
                 Container(
                   height: 250,
-                  child: widget.product.image != null ? Image.network('${widget.product.image}',
-                    fit: BoxFit.fitWidth,
-                  ) : Image.asset('assets/no-image-available.jpg', fit: BoxFit.fitWidth,),
+                  child: widget.product.image != null
+                      ? Image.network(
+                          '${widget.product.image}',
+                          fit: BoxFit.fitWidth,
+                        )
+                      : Image.asset(
+                          'assets/no-image-available.jpg',
+                          fit: BoxFit.fitWidth,
+                        ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -37,7 +46,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Text(
                     '${widget.product.name}',
                     style: TextStyle(
-                        color: ColorCustom.primaryColor,
+                        color: ColorCustom.textPrimaryColor,
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
@@ -45,9 +54,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text(
-                    '${formatCurrency.format(widget.product.price)}',
+                    '${formatCurrency.format(widget.product.unitPrice)}',
                     style: TextStyle(
-                        color: ColorCustom.secondaryColor,
+                        color: ColorCustom.textPrimaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -59,7 +68,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     widget.product.description ?? '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 6,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontSize: 16, color: ColorCustom.secondaryColor),
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -78,11 +88,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Quantity(),
+                      Quantity(
+                        onChangeQuantity: onChangeQuantity,
+                        quantity: 1,
+                      ),
+                      IconButton(icon: Image.asset(
+                        'assets/images/button/white-heart.png',
+                        width: 60,
+                      ),
+                        onPressed: () => {
+                          /* handle favorite */
+                        },
+                      ),
                       ElevatedButton(
                           onPressed: () => {},
                           child: Text("Thêm vào giỏ",
                               style: TextStyle(fontSize: 18)))
+
                     ],
                   ),
                 ),
@@ -104,5 +126,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ]),
       ),
     );
+  }
+
+  void onChangeQuantity(bool isIncrease) {
+    quantity += isIncrease ? 1 : -1;
+    print("quantity" + quantity.toString());
   }
 }

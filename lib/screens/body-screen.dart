@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
+import 'package:ltddnc_flutter/screens/cart_screen.dart';
+import 'package:ltddnc_flutter/screens/favorite_screen.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
-import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
+import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BodyScreen extends StatefulWidget {
   const BodyScreen({Key? key}) : super(key: key);
@@ -35,22 +41,36 @@ class _BodyScreenState extends State<BodyScreen> {
       body: getBody(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorCustom.primaryColor,
-        iconSize: 28,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedItemColor: ColorCustom.selectedColor,
         unselectedItemColor: ColorCustom.unselectedColor,
-        selectedIconTheme: IconThemeData(size: 35),
+        selectedIconTheme: IconThemeData(size: 30),
         type: BottomNavigationBarType.fixed,
         currentIndex: this.selectedIndex,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_rounded), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "")
+              icon: ImageIcon(AssetImage('assets/images/button/home.png')),
+              label: "Home"),
+          BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage('assets/images/button/heart.png')),
+              label: "Favorite"),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                  AssetImage('assets/images/button/shopping-cart.png')),
+              label: "Cart"),
+          BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage('assets/images/button/user.png')),
+              label: "User")
         ],
-        onTap: (index) {
-          this.onTapBottomNavigationBarHandler(index);
+        onTap: (index) async {
+          print("bottom navigation: index = " + index.toString());
+          if ((index == 1 || index == 2 || index == 3) &&
+              await autoLogin() == false) {
+            showRequestLoginAlertDialog(context);
+          } else {
+            this.onTapBottomNavigationBarHandler(index);
+          }
         },
       ),
     );
@@ -63,11 +83,27 @@ class _BodyScreenState extends State<BodyScreen> {
   }
 
   Widget getBody() {
-    if (selectedIndex == 2) {
+    if (selectedIndex == 3) {
       return AccountScreen();
-    } else if (selectedIndex == 1) {
-      // cart
+    } else if (selectedIndex == 2) {
+      return CartScreen();
+    }
+    else if (selectedIndex == 1) {
+      return FavoriteScreen();
     }
     return HomeScreen();
+  }
+
+  Future<bool> autoLogin() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('userId');
+    var isAutoLogin = (id?.isNotEmpty == true);
+    print("autoLogin: " + isAutoLogin.toString());
+    if (isAutoLogin && userProvider.user == null) {
+      userProvider.getUser(int.parse(id!));
+    }
+
+    return id?.isNotEmpty == true;
   }
 }

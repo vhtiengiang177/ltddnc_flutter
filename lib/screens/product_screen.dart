@@ -23,7 +23,7 @@ class _ProductScreenState extends State<ProductScreen> {
       });
 
       Provider.of<ProductProvider>(context)
-          .getAll(widget.category.id)
+          .getProducts(widget.category.id)
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -48,16 +48,32 @@ class _ProductScreenState extends State<ProductScreen> {
                 Container(
                   height: 60,
                   color: Colors.amber,
-                  child: Row(children: [
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop(''),
-                        icon: Icon(Icons.arrow_back)),
-                    Text(
-                      '${widget.category.name}',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )
-                  ]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        IconButton(
+                            onPressed: () => Navigator.of(context).pop(''),
+                            icon: Icon(Icons.arrow_back)),
+                        Text(
+                          '${widget.category.name}',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
+                      ]),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: IconButton(
+                            icon: Image.asset(
+                              'assets/images/button/shopping-cart.png',
+                              width: 24,
+                            ),
+                            onPressed: () => {
+                              /* handle cart */
+                            },
+                          ))
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

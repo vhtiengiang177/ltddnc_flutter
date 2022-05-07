@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/main.dart';
+import 'package:ltddnc_flutter/models/account.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -24,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _validateCredentials = false;
   String _emailErrorText = "Vui lòng nhập email";
   String _passwordErrorText = "Vui lòng nhập mật khẩu";
+  String _errorText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Tài khoản không hợp lệ',
+                _errorText,
                 style: TextStyle(color: Colors.red[600], fontSize: 15),
               ),
             ),
@@ -138,10 +142,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         _passwordErrorText = "Vui lòng nhập mật khẩu";
                         return;
                       }
+                      // userProvider
+                      //     .login(_email.text, _password.text)
+                      //     .then((value) => {
+                      //           if (userProvider.user != null)
+                      //             {
+                      //               _email.clear(),
+                      //               _password.clear(),
+                      //               _validateCredentials = false,
+                      //               Navigator.pushReplacement(
+                      //                   context,
+                      //                   MaterialPageRoute(
+                      //                       builder: (context) => BodyScreen()))
+                      //             }
+                      //           else
+                      //             {_validateCredentials = true}
+                      //         });
+                      Account account = new Account(
+                          email: _email.text, password: _password.text);
+
+                      EasyLoading.show();
+
                       userProvider
-                          .login(_email.text, _password.text)
+                          .login(account)
                           .then((value) => {
-                                if (userProvider.user != null)
+                                EasyLoading.dismiss(),
+                                if (value == null)
                                   {
                                     _email.clear(),
                                     _password.clear(),
@@ -152,8 +178,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                             builder: (context) => BodyScreen()))
                                   }
                                 else
-                                  {_validateCredentials = true}
-                              });
+                                  {
+                                    setState(() => {
+                                          _errorText = value,
+                                          _validateCredentials = true
+                                        })
+                                  }
+                              })
+                          .catchError((error, stackTrace) {
+                        Fluttertoast.showToast(
+                            msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
+                      });
                     },
                     child: Text(
                       "ĐĂNG NHẬP",
@@ -191,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context) => RegisterScreen()));
 
                   setState(() {
-                    _email.text = result.toString();
+                    if (result != null) _email.text = result.toString();
                   });
                 },
                 child: Text(

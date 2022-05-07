@@ -46,7 +46,7 @@ class _ListProductState extends State<ListProduct> {
                             height: 100,
                             child: Image.network(
                               e.image ?? imageFailed,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                           Expanded(
@@ -68,21 +68,23 @@ class _ListProductState extends State<ListProduct> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '${formatCurrency.format(e.price)}',
+                                        '${formatCurrency.format(e.unitPrice)}',
                                         style: TextStyle(
                                             color: ColorCustom.primaryColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Align(
-                                        alignment: Alignment.centerRight,
-                                        child: ElevatedButton(
-                                          child: Icon(
-                                              Icons.add_shopping_cart_rounded),
-                                          onPressed: () =>
-                                              {/** handle add to cart */},
-                                        ),
-                                      ),
+                                          alignment: Alignment.centerRight,
+                                          child: IconButton(
+                                            icon: Image.asset(
+                                              'assets/images/button/shopping-cart.png',
+                                              width: 24,
+                                            ),
+                                            onPressed: () => {
+                                              /* handle cart */
+                                            },
+                                          )),
                                     ],
                                   )
                                 ],

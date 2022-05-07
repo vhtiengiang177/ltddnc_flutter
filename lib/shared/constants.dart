@@ -7,6 +7,8 @@ class ColorCustom {
   static Color inputColor = Color(0xFFEAEAEA);
   static Color selectedColor = Color.fromARGB(255, 253, 253, 253);
   static Color unselectedColor = Color.fromARGB(255, 255, 231, 199);
+  static Color buttonSecondaryColor = Color(0xFFE1E1E1);
+  static Color buttonSelectedColor = Color.fromARGB(255, 203, 203, 203);
 }
 
 class Palette {
@@ -45,3 +47,6 @@ class Palette {
 
 final imageFailed =
     "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=af6d074d-e58e-4cf1-98a1-de1f4cca1e3b";
+
+final apiHost =
+    "http://81ec-1-54-251-145.ngrok.io/api";

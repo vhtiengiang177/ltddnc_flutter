@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
 import 'package:ltddnc_flutter/screens/cart_screen.dart';
+import 'package:ltddnc_flutter/screens/favorite_screen.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -86,6 +87,9 @@ class _BodyScreenState extends State<BodyScreen> {
       return AccountScreen();
     } else if (selectedIndex == 2) {
       return CartScreen();
+    }
+    else if (selectedIndex == 1) {
+      return FavoriteScreen();
     }
     return HomeScreen();
   }

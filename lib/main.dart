@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
+import 'package:ltddnc_flutter/providers/favorite_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/splash_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: ((context) => UserProvider())),
         ChangeNotifierProvider(create: ((context) => ProductProvider())),
         ChangeNotifierProvider(create: ((context) => CategoryProvider())),
-        ChangeNotifierProvider(create: ((context) => CartProvider()))
+        ChangeNotifierProvider(create: ((context) => CartProvider())),
+        ChangeNotifierProvider(create: ((context) => FavoriteProvider())),
       ],
       child: Consumer<UserProvider>(
         builder: (context, value, _) {

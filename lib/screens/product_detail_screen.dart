@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/product.dart';
@@ -91,10 +92,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         onChangeQuantity: onChangeQuantity,
                         quantity: 1,
                       ),
+                      IconButton(icon: Image.asset(
+                        'assets/images/button/white-heart.png',
+                        width: 60,
+                      ),
+                        onPressed: () => {
+                          /* handle favorite */
+                        },
+                      ),
                       ElevatedButton(
                           onPressed: () => {},
                           child: Text("Thêm vào giỏ",
                               style: TextStyle(fontSize: 18)))
+
                     ],
                   ),
                 ),

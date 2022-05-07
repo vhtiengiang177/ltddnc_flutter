@@ -45,8 +45,7 @@ class Palette {
   );
 }
 
-final imageFailed =
-    "https://firebasestorage.googleapis.com/v0/b/ltddnc-flutter.appspot.com/o/no-image-available.jpg?alt=media&token=af6d074d-e58e-4cf1-98a1-de1f4cca1e3b";
+final imageFailed = "assets/no-image-available.jpg";
 
 final apiHost =
-    "http://3dab-2402-800-6374-d3f-f5fd-e54f-5554-2a7e.ngrok.io/api";
+    "http://aa43-2402-800-6374-d3f-80dc-f759-5c25-be5b.ngrok.io/api";

@@ -142,22 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         _passwordErrorText = "Vui lòng nhập mật khẩu";
                         return;
                       }
-                      // userProvider
-                      //     .login(_email.text, _password.text)
-                      //     .then((value) => {
-                      //           if (userProvider.user != null)
-                      //             {
-                      //               _email.clear(),
-                      //               _password.clear(),
-                      //               _validateCredentials = false,
-                      //               Navigator.pushReplacement(
-                      //                   context,
-                      //                   MaterialPageRoute(
-                      //                       builder: (context) => BodyScreen()))
-                      //             }
-                      //           else
-                      //             {_validateCredentials = true}
-                      //         });
                       Account account = new Account(
                           email: _email.text, password: _password.text);
 

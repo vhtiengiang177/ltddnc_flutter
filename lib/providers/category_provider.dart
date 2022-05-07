@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/models/category.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
-import 'package:ltddnc_flutter/widgets/list_categories.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryProvider with ChangeNotifier {
@@ -49,7 +47,7 @@ class CategoryProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       var categoryResponse = json.decode(response.body);
       for (var c in categoryResponse) {
-        Category category =
+        Category category = 
             Category(id: c['id'], name: c['name'], image: c['image']);
         listCategory.add(category);
       }

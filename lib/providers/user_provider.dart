@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ltddnc_flutter/models/account.dart';
 import 'package:ltddnc_flutter/models/user.dart';
@@ -17,6 +14,7 @@ class UserProvider with ChangeNotifier {
   static var client = http.Client();
   final routeAPIAccount = "/accounts";
   final routeAPIUser = "/users";
+  final routeAPICart = "/carts";
 
   // CollectionReference users = FirebaseFirestore.instance.collection('users');
   // User login(String email, String password) {
@@ -79,6 +77,10 @@ class UserProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
 
     prefs.remove("userId");
+    if (prefs.getString("cart") != null) {
+      await updateCart(prefs.getString("cart")!);
+    }
+    prefs.remove("cart");
 
     notifyListeners();
   }
@@ -178,5 +180,18 @@ class UserProvider with ChangeNotifier {
     }
 
     return "Lỗi không xác định";
+  }
+
+  Future<void> updateCart(String request) async {
+    print("Update Cart Before User Logout");
+    var response = await client.post(
+        Uri.parse(apiHost + routeAPICart + "/UpdateCart"),
+        body: request,
+        headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+    } else if (response.statusCode == 400) {
+      print("Failed");
+    }
   }
 }

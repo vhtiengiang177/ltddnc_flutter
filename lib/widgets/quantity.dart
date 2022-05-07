@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 
 class Quantity extends StatefulWidget {
-  Quantity({Key? key, required this.quantity, required this.onChangeQuantity})
+  Quantity(
+      {Key? key,
+      required this.quantity,
+      required this.onChangeQuantity,
+      this.index})
       : super(key: key);
 
   final Function onChangeQuantity;
   final int quantity;
+  final int? index;
   @override
   State<Quantity> createState() => _QuantityState();
 }
@@ -67,7 +72,7 @@ class _QuantityState extends State<Quantity> {
   void decreaseQuantity() {
     print("decrease quantity");
     if (quantity >= 1) {
-      widget.onChangeQuantity(false);
+      widget.onChangeQuantity(false, widget.index);
 
       setState(() {
         quantity -= 1;
@@ -77,7 +82,7 @@ class _QuantityState extends State<Quantity> {
 
   void increaseQuantity() {
     print("increase quantity");
-    widget.onChangeQuantity(true);
+    widget.onChangeQuantity(true, widget.index);
     setState(() {
       quantity += 1;
     });

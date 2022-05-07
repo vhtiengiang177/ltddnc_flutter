@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: ((context) => UserProvider())),
         ChangeNotifierProvider(create: ((context) => ProductProvider())),
-        ChangeNotifierProvider(create: ((context) => CategoryProvider()))
+        ChangeNotifierProvider(create: ((context) => CategoryProvider())),
+        ChangeNotifierProvider(create: ((context) => CartProvider()))
       ],
       child: Consumer<UserProvider>(
         builder: (context, value, _) {

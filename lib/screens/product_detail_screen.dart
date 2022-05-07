@@ -32,11 +32,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: widget.product.image != null
                       ? Image.network(
                           '${widget.product.image}',
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.cover,
                         )
                       : Image.asset(
-                          'assets/no-image-available.jpg',
-                          fit: BoxFit.fitWidth,
+                          imageFailed,
+                          fit: BoxFit.cover,
                         ),
                 ),
                 Padding(
@@ -118,7 +118,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  void onChangeQuantity(bool isIncrease) {
+  void onChangeQuantity(bool isIncrease, int? index) {
     quantity += isIncrease ? 1 : -1;
     print("quantity" + quantity.toString());
   }

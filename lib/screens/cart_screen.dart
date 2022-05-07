@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
-import 'package:ltddnc_flutter/widgets/quantity.dart';
+import 'package:ltddnc_flutter/widgets/list_cart.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -10,7 +14,46 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
+  bool _isInit = true;
+  bool _isLoading = false;
+  double _totalPrice = 0;
+
+  @override
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final prefs = await SharedPreferences.getInstance();
+      final cart = prefs.getString('cart');
+
+      if (cart != null && cart.isNotEmpty == true) {
+        Provider.of<CartProvider>(context, listen: false)
+            .getCartLocal()
+            .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+      } else {
+        final id = prefs.getString('userId');
+        Provider.of<CartProvider>(context, listen: false)
+            .getCart(int.parse(id!))
+            .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+      }
+
+      _isInit = false;
+    }
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,146 +74,19 @@ class _CartScreenState extends State<CartScreen> {
       body: SafeArea(
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            SizedBox(
+              height: 20,
+            ),
             Expanded(
-                child: ListView(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: ColorCustom.inputColor,
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      margin: EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            child: Image.network(
-                              imageFailed,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    'Burger tom',
-                                    style: TextStyle(fontSize: 22),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        /* '${formatCurrency.format(e.price)}'*/ '20 000 VND',
-                                        style: TextStyle(
-                                            color: ColorCustom.primaryColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Quantity(
-                                            onChangeQuantity: onChangeQuantity,
-                                            quantity: quantity,
-                                          )),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
+              child: _isLoading
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListCart(
+                      onChangeSelected: onChangeSelected,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: ColorCustom.inputColor,
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      margin: EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            child: Image.network(
-                              imageFailed,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    'Burger tom',
-                                    style: TextStyle(fontSize: 22),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        /* '${formatCurrency.format(e.price)}'*/ '20 000 VND',
-                                        style: TextStyle(
-                                            color: ColorCustom.primaryColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Quantity(
-                                            onChangeQuantity: onChangeQuantity,
-                                            quantity: 1,
-                                          )),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ])
-              ],
-            )),
+            ),
             Container(
               alignment: Alignment.center,
               height: 80,
@@ -191,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
                           style: TextStyle(fontSize: 17),
                         ),
                         Text(
-                          "40 000 VND",
+                          '${formatCurrency.format(_totalPrice)}',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )
@@ -215,7 +131,17 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-    void onChangeQuantity(bool isIncrease) {
-    quantity += isIncrease ? 1 : -1;
+  onChangeSelected() {
+    double totalPrice = 0;
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    cartProvider.listCart.forEach((element) {
+      if (element.selected == true) {
+        totalPrice +=
+            ((element.product?.unitPrice ?? 0) * (element.quantity ?? 0));
+      }
+    });
+    setState(() {
+      _totalPrice = totalPrice;
+    });
   }
 }

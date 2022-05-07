@@ -2,7 +2,7 @@ import 'dart:convert';
 
 Category categoryFromJson(String str) => Category.fromJson(json.decode(str));
 
-String userToJson(Category data) => json.encode(data.toJson());
+String categoryToJson(Category data) => json.encode(data.toJson());
 class Category {
   final int? id;
   final String? name;

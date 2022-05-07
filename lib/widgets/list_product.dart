@@ -44,10 +44,15 @@ class _ListProductState extends State<ListProduct> {
                           Container(
                             width: 100,
                             height: 100,
-                            child: Image.network(
-                              e.image ?? imageFailed,
-                              fit: BoxFit.fitWidth,
-                            ),
+                            child: e.image != null
+                                ? Image.network(
+                                    '${e.image}',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    imageFailed,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                           Expanded(
                             child: Padding(

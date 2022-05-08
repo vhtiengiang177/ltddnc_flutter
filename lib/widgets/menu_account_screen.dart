@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
+import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/change-password.dart';
 import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/screens/login_screen.dart';
@@ -161,7 +162,7 @@ class _MenuAccountScreenState extends State<MenuAccountScreen> {
               onPressed: () {
                 userProvider.logout();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                    MaterialPageRoute(builder: (context) => BodyScreen()));
               },
             ),
           ),

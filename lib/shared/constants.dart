@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorCustom {
-  static Color primaryColor = Color(0xFFFFB300);
+  static Color primaryColor = Color.fromARGB(255, 255, 179, 0);
   static Color secondaryColor = Color(0xFF666666);
   static Color textPrimaryColor = Color.fromARGB(255, 7, 7, 7);
   static Color inputColor = Color(0xFFEAEAEA);
@@ -48,4 +48,4 @@ class Palette {
 final imageFailed = "assets/no-image-available.jpg";
 
 final apiHost =
-    "http://aa43-2402-800-6374-d3f-80dc-f759-5c25-be5b.ngrok.io/api";
+    "http://6826-2402-800-6374-d3f-8d6b-4698-7d10-3c4e.ngrok.io/api";

@@ -75,7 +75,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Expanded(
               child: _isLoading

@@ -130,6 +130,24 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String> addItem(Cart cart) async {
+    print("addItem: ");
+
+    var response = await client.post(
+        Uri.parse(apiHost + routeAPICart + "/AddItem"),
+        body: cartToJson(cart),
+        headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return (response.body);
+    } else if (response.statusCode == 400) {
+      print("Failed");
+      return (response.body);
+    }
+
+    return "Lỗi hệ thống";
+  }
+
   Future<void> onQuantityChanged() async {
     var newCart = json.encode(listCart);
     final prefs = await SharedPreferences.getInstance();

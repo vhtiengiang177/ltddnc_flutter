@@ -17,6 +17,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
+  String iconHeart = 'heart-regular';
   int quantity = 1;
 
   @override
@@ -55,10 +56,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       IconButton(
                         icon: Image.asset(
-                          'assets/images/button/heart-regular.png',
+                          'assets/images/button/${iconHeart}.png',
                           width: 30,
+                          color: iconHeart.contains("regular") == true
+                              ? Colors.black
+                              : Colors.red,
                         ),
                         onPressed: () => {
+                          setState(
+                            () {
+                              if (iconHeart.contains("regular")) {
+                                iconHeart = 'heart';
+                              } else
+                                iconHeart = 'heart-regular';
+                            },
+                          )
                           /* handle favorite */
                         },
                       ),

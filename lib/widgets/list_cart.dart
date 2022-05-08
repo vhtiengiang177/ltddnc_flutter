@@ -22,89 +22,94 @@ class _ListCartState extends State<ListCart> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     return cartProvider.listCart.length > 0
-        ? Column(
-            children: cartProvider.listCart
-                .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: ColorCustom.inputColor,
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        margin: EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Checkbox(
-                                checkColor: Colors.black,
-                                value: e.selected,
-                                onChanged: (value) => {
-                                      setState(() {
-                                        e.selected = value;
-                                      }),
-                                      widget.onChangeSelected(),
-                                    }),
-                            Container(
-                              width: 100,
-                              height: 100,
-                              child: e.product?.image != null
-                                  ? Image.network(
-                                      '${e.product?.image}',
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      imageFailed,
-                                      fit: BoxFit.cover,
-                                    ),
+        ? SingleChildScrollView(
+            child: Column(
+                children: cartProvider.listCart
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 3.0),
+                          child: Container(
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: ColorCustom.inputColor,
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(
-                                      e.product?.name ?? "",
-                                      style: TextStyle(fontSize: 22),
-                                    ),
-                                    Row(
+                            clipBehavior: Clip.hardEdge,
+                            margin: EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Checkbox(
+                                    checkColor: Colors.black,
+                                    value: e.selected,
+                                    onChanged: (value) => {
+                                          setState(() {
+                                            e.selected = value;
+                                          }),
+                                          widget.onChangeSelected(),
+                                        }),
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  child: e.product?.image != null
+                                      ? Image.network(
+                                          '${e.product?.image}',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          imageFailed,
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 10),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
                                       children: [
                                         Text(
-                                          '${formatCurrency.format(e.product?.unitPrice ?? 0)}',
-                                          style: TextStyle(
-                                              color: ColorCustom.primaryColor,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                          e.product?.name ?? "",
+                                          style: TextStyle(fontSize: 22),
                                         ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Quantity(
-                                            onChangeQuantity: onChangeQuantity,
-                                            quantity: e.quantity ?? 1,
-                                            index: cartProvider.listCart
-                                                .indexOf(e),
-                                          ),
-                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${formatCurrency.format(e.product?.unitPrice ?? 0)}',
+                                              style: TextStyle(
+                                                  color:
+                                                      ColorCustom.primaryColor,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Quantity(
+                                                onChangeQuantity:
+                                                    onChangeQuantity,
+                                                quantity: e.quantity ?? 1,
+                                                index: cartProvider.listCart
+                                                    .indexOf(e),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ))
-                .toList())
+                          ),
+                        ))
+                    .toList()),
+          )
         : Center(
             child: Text(
               "Không có sản phẩm trong giỏ, mua sắm ngay",

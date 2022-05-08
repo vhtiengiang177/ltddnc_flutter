@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ltddnc_flutter/models/cart.dart';
+import 'package:ltddnc_flutter/models/product.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListProduct extends StatefulWidget {
   const ListProduct({Key? key}) : super(key: key);
@@ -15,10 +21,10 @@ class ListProduct extends StatefulWidget {
 
 class _ListProductState extends State<ListProduct> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
-
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     return productProvider.listProduct.isNotEmpty == true
         ? Column(
             children: productProvider.listProduct
@@ -86,8 +92,29 @@ class _ListProductState extends State<ListProduct> {
                                               'assets/images/button/shopping-cart.png',
                                               width: 24,
                                             ),
-                                            onPressed: () => {
-                                              /* handle cart */
+                                            onPressed: () async {
+                                              final prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              final id =
+                                                  prefs.getString('userId');
+                                              if (id != null) {
+                                                Cart cart = new Cart(
+                                                    idUser: int.parse(id),
+                                                    idProduct: e.id,
+                                                    quantity: 1);
+                                                cartProvider.addItem(cart).then(
+                                                    (value) => {
+                                                          Fluttertoast
+                                                              .showToast(
+                                                                  msg: value),
+                                                          cartProvider.getCart(
+                                                              int.parse(id))
+                                                        });
+                                              } else {
+                                                showRequestLoginAlertDialog(
+                                                    context);
+                                              }
                                             },
                                           )),
                                     ],

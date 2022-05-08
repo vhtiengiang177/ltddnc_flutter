@@ -19,8 +19,10 @@ class BodyScreen extends StatefulWidget {
 
 class _BodyScreenState extends State<BodyScreen> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       // appBar: AppBar(
       //   title: SizedBox(
@@ -66,7 +68,7 @@ class _BodyScreenState extends State<BodyScreen> {
         onTap: (index) async {
           print("bottom navigation: index = " + index.toString());
           if ((index == 1 || index == 2 || index == 3) &&
-              await autoLogin() == false) {
+              await userProvider.autoLogin() == false) {
             showRequestLoginAlertDialog(context);
           } else {
             this.onTapBottomNavigationBarHandler(index);
@@ -94,16 +96,5 @@ class _BodyScreenState extends State<BodyScreen> {
     return HomeScreen();
   }
 
-  Future<bool> autoLogin() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final prefs = await SharedPreferences.getInstance();
-    final id = prefs.getString('userId');
-    var isAutoLogin = (id?.isNotEmpty == true);
-    print("autoLogin: " + isAutoLogin.toString());
-    if (isAutoLogin && userProvider.user == null) {
-      userProvider.getUser(int.parse(id!));
-    }
 
-    return id?.isNotEmpty == true;
-  }
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +10,10 @@ import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
+import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({Key? key, required this.product})
+  const ProductDetailScreen({Key? key, required this.product}  )
       : super(key: key);
   final Product product;
   @override
@@ -19,14 +22,14 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
-  String iconHeart = 'heart-regular';
+  String iconHeart ='heart-regular';
   int quantity = 1;
-  
 
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -59,26 +62,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fontSize: 25,
                             fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                        icon: Image.asset(
-                          'assets/images/button/${iconHeart}.png',
-                          width: 30,
-                          color: iconHeart.contains("regular") == true
-                              ? Colors.black
-                              : Colors.red,
-                        ),
-                        onPressed: () => {
-                          setState(
-                            () {
-                              if (iconHeart.contains("regular")) {
-                                iconHeart = 'heart';
-                              } else
-                                iconHeart = 'heart-regular';
-                            },
-                          )
-                          /* handle favorite */
-                          favoriteProvider.addFavorite(userProvider.user?.idAccount,widget.product)
-                        },
+                      Container(
+                        height: 50,
+                        child: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
+                            ? IconButton(
+                          icon: Image.asset(
+                            'assets/images/button/heart.png',
+                            width: 30,
+                            color: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
+                                ? Colors.red
+                                : Colors.black,
+                          ),
+                          onPressed: () => {
+                            setState(
+                                  () {
+                                      iconHeart = 'heart-regular';
+                                      favoriteProvider.removeFavorite(userProvider.user?.idAccount,widget.product);
+                              },
+                            )
+
+                          },
+
+                        )
+                            : IconButton(
+
+                          icon: Image.asset(
+                            'assets/images/button/heart-regular.png',
+                            width: 30,
+                            color: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
+                                ? Colors.red
+                                : Colors.black,
+                          ),
+                          onPressed: () => {
+                            setState(
+                                  () {
+                                    iconHeart = 'heart';
+                                    favoriteProvider.addFavorite(userProvider.user?.idAccount,widget.product);
+                              },
+                            )
+                            /* handle favorite */
+
+                          },
+
+                        )
                       ),
                     ],
                   ),

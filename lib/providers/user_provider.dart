@@ -196,4 +196,15 @@ class UserProvider with ChangeNotifier {
       print("Failed");
     }
   }
+
+  Future<bool> autoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('userId');
+    var isAutoLogin = (id?.isNotEmpty == true);
+    print("autoLogin: " + isAutoLogin.toString());
+    if (isAutoLogin && user == null) {
+      getUser(int.parse(id!));
+    }
+    return id?.isNotEmpty == true;
+  }
 }

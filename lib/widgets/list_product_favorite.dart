@@ -23,7 +23,9 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     return favoriteProvider.listProduct.isNotEmpty == true
-        ? Column(
+        ? Expanded(
+        child: SingleChildScrollView(
+          child: Column(
             children: favoriteProvider.listProduct
                 .map(
                   (e) => InkWell(
@@ -105,7 +107,7 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
                   ),
                 )
                 .toList(),
-          )
+          )))
         : Text(
             "Không có sản phẩm",
             style: TextStyle(fontSize: 18),

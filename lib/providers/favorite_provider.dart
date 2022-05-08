@@ -13,7 +13,7 @@ class FavoriteProvider with ChangeNotifier {
 
   final routeAPIFavourites = "/favorites";
   Future<void> getProducts(int? IdUser) async {
-    print("get product: ");
+    print("get favorite: ");
     listProduct = [];
 
     var response = await http.get(
@@ -36,5 +36,42 @@ class FavoriteProvider with ChangeNotifier {
       print(listProduct);
       notifyListeners();
     } else if (response.statusCode == 400) {}
+  }
+
+  Future<void> removeFavorite(int? IdUser, Product product) async {
+    listProduct.remove(product);
+    print("remove favorite");
+    var response = await http.delete(
+        Uri.parse(apiHost +
+            routeAPIFavourites +
+            "/DeleteItemInFavorite/" + IdUser.toString() + "&&" +
+            product.id.toString()),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      print("remove favorite success");
+      }
+   else if (response.statusCode == 400) {
+      print("remove favorite failed");
+    }
+    notifyListeners();
+  }
+
+  Future<void> addFavorite(int? IdUser,Product product) async {
+    listProduct.add(product);
+    print("add favorite");
+
+    var response = await http.post(
+        Uri.parse(apiHost +
+            routeAPIFavourites +
+            "/AddItemToFavorite/" + IdUser.toString() + "&&" +
+            product.id.toString()),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      print("add favorite success");
+    }
+    else if (response.statusCode == 400) {
+      print("add favorite failed");
+    }
+    notifyListeners();
   }
 }

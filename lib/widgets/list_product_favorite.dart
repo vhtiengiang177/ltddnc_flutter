@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/providers/favorite_provider.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
@@ -20,6 +21,7 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return favoriteProvider.listProduct.isNotEmpty == true
         ? Column(
             children: favoriteProvider.listProduct
@@ -85,6 +87,7 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
                                             ),
                                             onPressed: () => {
                                               /* handle favorite */
+                                              favoriteProvider.removeFavorite(userProvider.user?.idAccount,e)
                                             },
                                           )),
                                     ],

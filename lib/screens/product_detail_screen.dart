@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/product.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
+import 'package:ltddnc_flutter/providers/favorite_provider.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +20,12 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
+  
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -60,6 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         onPressed: () => {
                           /* handle favorite */
+                          favoriteProvider.addFavorite(userProvider.user?.idAccount,widget.product)
                         },
                       ),
                     ],

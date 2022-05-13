@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/models/product.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({Key? key, required this.product})
@@ -22,6 +26,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -119,7 +124,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         quantity: 1,
                       ),
                       ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final id = prefs.getString('userId');
+                            if (id != null) {
+                              Cart cart = new Cart(
+                                  idUser: int.parse(id),
+                                  idProduct: widget.product.id,
+                                  quantity: quantity);
+                              cartProvider.addItem(cart).then((value) => {
+                                    Fluttertoast.showToast(msg: value),
+                                    cartProvider.getCart(int.parse(id))
+                                  });
+                            }
+                          },
                           child: Text("Thêm vào giỏ",
                               style: TextStyle(fontSize: 18)))
                     ],
@@ -145,8 +163,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  void onChangeQuantity(bool isIncrease, int? index) {
+  bool onChangeQuantity(bool isIncrease, int? index) {
     quantity += isIncrease ? 1 : -1;
-    print("quantity" + quantity.toString());
+    return true;
   }
 }

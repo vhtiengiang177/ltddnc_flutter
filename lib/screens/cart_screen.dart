@@ -1,14 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/providers/cart_provider.dart';
+import 'package:ltddnc_flutter/screens/confirm_order_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/list_cart.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  CartScreen({Key? key, required this.isBack}) : super(key: key);
 
+  final bool isBack;
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
@@ -19,6 +25,7 @@ class _CartScreenState extends State<CartScreen> {
   bool _isInit = true;
   bool _isLoading = false;
   double _totalPrice = 0;
+  bool checkedAllItems = false;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -57,17 +64,76 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cartProvider = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: widget.isBack,
           backgroundColor: ColorCustom.buttonSecondaryColor,
           centerTitle: true,
           title: Text("Giỏ hàng"),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Image.asset(
-                'assets/images/button/bin.png',
-                width: 25,
+              child: IconButton(
+                icon: Image.asset(
+                  'assets/images/button/bin.png',
+                  width: 25,
+                ),
+                onPressed: () {
+                  if (checkedAllItems == true) {
+                    cartProvider
+                        .deleteItems(cartProvider.listCart)
+                        .then((value) async {
+                      cartProvider.listCart
+                          .removeRange(0, cartProvider.listCart.length);
+                      setState(() {
+                        _totalPrice = 0;
+                      });
+                      var newListCarts = json.encode(cartProvider.listCart);
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setString("cart", newListCarts);
+                      if (value.statusCode == 200) {
+                        Fluttertoast.showToast(msg: value.body);
+                      } else if (value.statusCode == 400) {
+                        Fluttertoast.showToast(msg: value.body);
+                      }
+                      if (value.statusCode == 200) {
+                        Fluttertoast.showToast(msg: value.body);
+                      } else if (value.statusCode == 400) {
+                        Fluttertoast.showToast(msg: value.body);
+                      }
+                    });
+                  } else {
+                    List<Cart> lCartDeleted = cartProvider.listCart
+                        .where((element) => element.selected == true)
+                        .toList();
+                    if (lCartDeleted.length == 0) {
+                      Fluttertoast.showToast(
+                          msg: "Vui lòng chọn sản phẩm cần xoá");
+                    } else {
+                      cartProvider
+                          .deleteItems(lCartDeleted)
+                          .then((value) async {
+                        cartProvider.listCart
+                            .removeWhere((element) => element.selected == true);
+
+                        setState(() {
+                          _totalPrice = 0;
+                        });
+
+                        var newListCarts = json.encode(cartProvider.listCart);
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setString("cart", newListCarts);
+
+                        if (value.statusCode == 200) {
+                          Fluttertoast.showToast(msg: value.body);
+                        } else if (value.statusCode == 400) {
+                          Fluttertoast.showToast(msg: value.body);
+                        }
+                      });
+                    }
+                  }
+                },
               ),
             )
           ]),
@@ -91,34 +157,58 @@ class _CartScreenState extends State<CartScreen> {
               alignment: Alignment.center,
               height: 80,
               decoration: BoxDecoration(
-                  color: ColorCustom.inputColor,
-                  borderRadius: BorderRadius.circular(5)),
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(5),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tổng: ",
-                          style: TextStyle(fontSize: 17),
+                    Container(
+                      width: 100,
+                      padding: EdgeInsets.zero,
+                      child: CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          "Tất cả",
                         ),
-                        Text(
-                          '${formatCurrency.format(_totalPrice)}',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ],
+                        checkColor: Colors.black,
+                        value: checkedAllItems,
+                        onChanged: (value) => {
+                          setState(() {
+                            checkedAllItems = value ?? false;
+                            onChangeSelected(checkedAllItems);
+                          }),
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
                     ),
+                    Text('${formatCurrency.format(_totalPrice)}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
                     ElevatedButton(
-                        onPressed: () => {},
+                        onPressed: () {
+                          List<Cart> lCartSeleted = cartProvider.listCart
+                              .where((element) => element.selected == true)
+                              .toList();
+                          if (lCartSeleted.length == 0) {
+                            Fluttertoast.showToast(
+                                msg: "Vui lòng chọn sản phẩm cần đặt hàng");
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ConfirmOrderScreen(
+                                          listCart: lCartSeleted,
+                                        )));
+                          }
+                        },
                         child: Row(
                           children: [
-                            Text("Đặt hàng", style: TextStyle(fontSize: 18)),
-                            Icon(Icons.arrow_forward)
+                            Text("Đặt hàng", style: TextStyle(fontSize: 18))
                           ],
                         ))
                   ],
@@ -131,17 +221,39 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  onChangeSelected() {
-    double totalPrice = 0;
+  onChangeSelected(bool? allChecked) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    cartProvider.listCart.forEach((element) {
-      if (element.selected == true) {
-        totalPrice +=
-            ((element.product?.unitPrice ?? 0) * (element.quantity ?? 0));
-      }
-    });
+    double totalPrice = 0;
+    if (allChecked != null) {
+      cartProvider.listCart.forEach((element) {
+        element.selected = allChecked;
+        totalPrice = allChecked
+            ? totalPrice +
+                ((element.product?.unitPrice ?? 0) * (element.quantity ?? 0))
+            : 0;
+      });
+    } else {
+      bool isAllChecked = true;
+      cartProvider.listCart.forEach((element) {
+        if (element.selected == true) {
+          totalPrice +=
+              ((element.product?.unitPrice ?? 0) * (element.quantity ?? 0));
+        } else {
+          isAllChecked = false;
+        }
+      });
+      setState(() {
+        if (isAllChecked != checkedAllItems) checkedAllItems = !checkedAllItems;
+      });
+    }
     setState(() {
       _totalPrice = totalPrice;
     });
   }
+
+  // void onCheckboxAllItemsChanged(bool? value) {
+  //   Provider.of<CartProvider>(context).listCart.forEach((element) {
+  //     element.selected = value ?? false;
+  //   });
+  // }
 }

@@ -88,7 +88,7 @@ class _BodyScreenState extends State<BodyScreen> {
     if (selectedIndex == 3) {
       return AccountScreen();
     } else if (selectedIndex == 2) {
-      return CartScreen();
+      return CartScreen(isBack: false,);
     }
     else if (selectedIndex == 1) {
       return FavoriteScreen();

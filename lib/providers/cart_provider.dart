@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/models/product.dart';
 import 'package:http/http.dart' as http;
@@ -148,9 +149,23 @@ class CartProvider with ChangeNotifier {
     return "Lỗi hệ thống";
   }
 
+  Future<Response> deleteItems(List<Cart> listCartDeleted) async {
+    print("deleteItems: ");
+    print(listCartDeleted);
+
+    var response = await client.post(
+        Uri.parse(apiHost + routeAPICart + "/DeleteItemsInCart"),
+        body: json.encode(listCartDeleted),
+        headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
+
+    notifyListeners();
+    return (response);
+  }
+
   Future<void> onQuantityChanged() async {
-    var newCart = json.encode(listCart);
+    var newListCarts = json.encode(listCart);
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString("cart", newCart);
+    prefs.setString("cart", newListCarts);
   }
 }

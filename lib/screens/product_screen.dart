@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/models/category.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
+import 'package:ltddnc_flutter/screens/cart_screen.dart';
 import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
 import 'package:ltddnc_flutter/providers/favorite_provider.dart';
@@ -46,42 +47,51 @@ class _ProductScreenState extends State<ProductScreen> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : Column(children: [
-                Container(
-                  height: 60,
-                  color: Colors.amber,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        IconButton(
-                            onPressed: () => Navigator.of(context).pop(''),
-                            icon: Icon(Icons.arrow_back)),
-                        Text(
-                          '${widget.category.name}',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: IconButton(
-                            icon: Image.asset(
-                              'assets/images/button/shopping-cart.png',
-                              width: 24,
-                            ),
-                            onPressed: () => {
-                              /* handle cart */
-                            },
-                          ))
-                    ],
+            : SingleChildScrollView(
+                child: Column(children: [
+                  Container(
+                    height: 60,
+                    color: Colors.amber,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(children: [
+                          IconButton(
+                              onPressed: () => Navigator.of(context).pop(''),
+                              icon: Icon(Icons.arrow_back)),
+                          Text(
+                            '${widget.category.name}',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                        Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: IconButton(
+                              icon: Image.asset(
+                                'assets/images/button/shopping-cart.png',
+                                width: 24,
+                              ),
+                              onPressed: () => {
+                                /* handle cart */
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CartScreen(
+                                              isBack: true,
+                                            ))),
+                              },
+                            ))
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListProduct(),
-                )
-              ]),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListProduct(),
+                  )
+                ]),
+              ),
       ),
     );
   }

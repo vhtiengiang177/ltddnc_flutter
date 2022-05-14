@@ -1,19 +1,18 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/models/product.dart';
-import 'package:ltddnc_flutter/providers/product_provider.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/favorite_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
-import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({Key? key, required this.product}  )
+  const ProductDetailScreen({Key? key, required this.product})
       : super(key: key);
   final Product product;
   @override
@@ -22,13 +21,13 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
-  String iconHeart ='heart-regular';
   int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -63,49 +62,59 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                       Container(
-                        height: 50,
-                        child: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
-                            ? IconButton(
-                          icon: Image.asset(
-                            'assets/images/button/heart.png',
-                            width: 30,
-                            color: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
-                                ? Colors.red
-                                : Colors.black,
-                          ),
-                          onPressed: () => {
-                            setState(
-                                  () {
-                                      iconHeart = 'heart-regular';
-                                      favoriteProvider.removeFavorite(userProvider.user?.idAccount,widget.product);
-                              },
-                            )
-
-                          },
-
-                        )
-                            : IconButton(
-
-                          icon: Image.asset(
-                            'assets/images/button/heart-regular.png',
-                            width: 30,
-                            color: favoriteProvider.listProduct.where((e) => e.id == widget.product.id).length > 0
-                                ? Colors.red
-                                : Colors.black,
-                          ),
-                          onPressed: () => {
-                            setState(
-                                  () {
-                                    iconHeart = 'heart';
-                                    favoriteProvider.addFavorite(userProvider.user?.idAccount,widget.product);
-                              },
-                            )
-                            /* handle favorite */
-
-                          },
-
-                        )
-                      ),
+                          height: 50,
+                          child: favoriteProvider.listProduct
+                                      .where((e) => e.id == widget.product.id)
+                                      .length >
+                                  0
+                              ? IconButton(
+                                  icon: Image.asset(
+                                    'assets/images/button/heart.png',
+                                    width: 30,
+                                    color: favoriteProvider.listProduct
+                                                .where((e) =>
+                                                    e.id == widget.product.id)
+                                                .length >
+                                            0
+                                        ? Colors.red
+                                        : Colors.black,
+                                  ),
+                                  onPressed: () => {
+                                    setState(
+                                      () {
+                                        // iconHeart = 'heart-regular';
+                                        favoriteProvider
+                                            .removeFavorite(
+                                                userProvider.user?.idAccount,
+                                                widget.product);
+                                      },
+                                    )
+                                  },
+                                )
+                              : IconButton(
+                                  icon: Image.asset(
+                                    'assets/images/button/heart-regular.png',
+                                    width: 30,
+                                    color: favoriteProvider.listProduct
+                                                .where((e) =>
+                                                    e.id == widget.product.id)
+                                                .length >
+                                            0
+                                        ? Colors.red
+                                        : Colors.black,
+                                  ),
+                                  onPressed: () => {
+                                    setState(
+                                      () {
+                                        // iconHeart = 'heart';
+                                        favoriteProvider.addFavorite(
+                                            userProvider.user?.idAccount,
+                                            widget.product);
+                                      },
+                                    )
+                                    /* handle favorite */
+                                  },
+                                )),
                     ],
                   ),
                 ),
@@ -151,7 +160,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         quantity: 1,
                       ),
                       ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final id = prefs.getString('userId');
+                            if (id != null) {
+                              Cart cart = new Cart(
+                                  idUser: int.parse(id),
+                                  idProduct: widget.product.id,
+                                  quantity: quantity);
+                              cartProvider.addItem(cart).then((value) => {
+                                    Fluttertoast.showToast(msg: value),
+                                    cartProvider.getCart(int.parse(id))
+                                  });
+                            }
+                          },
                           child: Text("Thêm vào giỏ",
                               style: TextStyle(fontSize: 18)))
                     ],
@@ -177,8 +199,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  void onChangeQuantity(bool isIncrease, int? index) {
+  bool onChangeQuantity(bool isIncrease, int? index) {
     quantity += isIncrease ? 1 : -1;
-    print("quantity" + quantity.toString());
+    return true;
   }
 }

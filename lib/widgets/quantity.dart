@@ -17,7 +17,7 @@ class Quantity extends StatefulWidget {
 }
 
 class _QuantityState extends State<Quantity> {
-  int quantity = 0;
+  int quantity = 1;
 
   @override
   void initState() {
@@ -62,8 +62,8 @@ class _QuantityState extends State<Quantity> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   color: ColorCustom.primaryColor,
-                  border:
-                      Border.all(color: ColorCustom.primaryColor, width: 2))),
+                  border: Border.all(
+                      color: Palette.lightTheme.shade100, width: 2))),
         )
       ]),
     );
@@ -72,19 +72,23 @@ class _QuantityState extends State<Quantity> {
   void decreaseQuantity() {
     print("decrease quantity");
     if (quantity >= 1) {
-      widget.onChangeQuantity(false, widget.index);
-
-      setState(() {
-        quantity -= 1;
-      });
+      var result = widget.onChangeQuantity(false, widget.index);
+      if (result) {
+        setState(() {
+          quantity -= 1;
+        });
+      }
     }
   }
 
   void increaseQuantity() {
     print("increase quantity");
-    widget.onChangeQuantity(true, widget.index);
-    setState(() {
-      quantity += 1;
-    });
+    var result = false;
+    result = widget.onChangeQuantity(true, widget.index);
+    if (result) {
+      setState(() {
+        quantity += 1;
+      });
+    }
   }
 }

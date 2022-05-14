@@ -46,33 +46,33 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       body: SafeArea(
         child: _isLoading
             ? Center(
-          child: CircularProgressIndicator(),
-        )
-            : Column(children: [
-          Container(
-            height: 60,
-            color: Colors.amber,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(children: [
-
-                  Text(
-                    'Sản phẩm yêu thích',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(children: [
+                  Container(
+                    height: 60,
+                    color: Colors.amber,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(children: [
+                          Text(
+                            'Sản phẩm yêu thích',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListProductFavorite(),
                   )
                 ]),
-
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListProductFavorite(),
-          )
-        ]),
+              ),
       ),
     );
   }

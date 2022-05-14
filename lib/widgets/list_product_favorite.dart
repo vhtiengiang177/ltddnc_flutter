@@ -24,8 +24,8 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
     final userProvider = Provider.of<UserProvider>(context);
     return favoriteProvider.listProduct.isNotEmpty == true
         ? Expanded(
-        child: SingleChildScrollView(
-          child: Column(
+            child: SingleChildScrollView(
+                child: Column(
             children: favoriteProvider.listProduct
                 .map(
                   (e) => InkWell(
@@ -49,10 +49,15 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
                           Container(
                             width: 100,
                             height: 100,
-                            child: Image.network(
-                              e.image ?? imageFailed,
-                              fit: BoxFit.cover,
-                            ),
+                            child: e.image != null
+                                ? Image.network(
+                                    '${e.image}',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    imageFailed,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                           Expanded(
                             child: Padding(
@@ -89,7 +94,9 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
                                             ),
                                             onPressed: () => {
                                               /* handle favorite */
-                                              favoriteProvider.removeFavorite(userProvider.user?.idAccount,e)
+                                              favoriteProvider.removeFavorite(
+                                                  userProvider.user?.idAccount,
+                                                  e)
                                             },
                                           )),
                                     ],

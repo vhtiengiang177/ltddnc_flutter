@@ -202,7 +202,7 @@ class _CartScreenState extends State<CartScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ConfirmOrderScreen(
-                                          listCart: lCartSeleted,
+                                          listCartSelected: lCartSeleted,
                                         )));
                           }
                         },

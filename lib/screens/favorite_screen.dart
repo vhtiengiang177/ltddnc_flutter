@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ltddnc_flutter/models/category.dart';
-import 'package:ltddnc_flutter/models/user.dart';
 import 'package:ltddnc_flutter/providers/favorite_provider.dart';
-import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:ltddnc_flutter/widgets/list_product_favorite.dart';
 import 'package:provider/provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';

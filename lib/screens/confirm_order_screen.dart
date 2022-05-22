@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
+import 'package:ltddnc_flutter/models/order.dart';
+import 'package:ltddnc_flutter/models/order_detail.dart';
+import 'package:ltddnc_flutter/models/order_params.dart';
+import 'package:ltddnc_flutter/providers/order_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/alert-dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   ConfirmOrderScreen({Key? key, required this.listCartSelected})
@@ -16,8 +24,14 @@ class ConfirmOrderScreen extends StatefulWidget {
 
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   final _name = TextEditingController();
-  final _phoneNumbere = TextEditingController();
+  final _phoneNumber = TextEditingController();
   final _address = TextEditingController();
+  bool _validateName = false;
+  bool _validatePhoneNumber = false;
+  bool _validateAddress = false;
+  String _nameErrorText = "Vui lòng nhập tên";
+  String _phoneNumberErrorText = "Vui lòng nhập số điện thoại";
+  String _addressErrorText = "Vui lòng nhập địa chỉ";
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   double _totalPrice = 0;
   int _totalQuantity = 0;
@@ -30,7 +44,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     }
     setState(() {
       _name.text = userProvider.user!.name!;
-      _phoneNumbere.text = userProvider.user!.phone!;
+      _phoneNumber.text = userProvider.user!.phone!;
       if (userProvider.user!.address != null) {
         _address.text = userProvider.user!.address!;
       }
@@ -107,6 +121,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                         controller: _name,
                                         decoration: InputDecoration(
                                             hintText: 'Nhập tên người nhận',
+                                            errorText: _validateName
+                                                ? _nameErrorText
+                                                : null,
                                             fillColor: ColorCustom.inputColor,
                                             filled: true,
                                             enabledBorder: InputBorder.none,
@@ -131,21 +148,47 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                       fontSize: 14),
                                 ),
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        12.0, 0, 8.0, 0),
-                                    child: TextField(
-                                        controller: _phoneNumbere,
-                                        decoration: InputDecoration(
-                                            hintText:
-                                                'Nhập số điện thoại của bạn',
-                                            fillColor: ColorCustom.inputColor,
-                                            filled: true,
-                                            enabledBorder: InputBorder.none,
-                                            contentPadding: EdgeInsets.fromLTRB(
-                                                8, 4, 8, 4)),
-                                        style: TextStyle(fontSize: 14),
-                                        textInputAction: TextInputAction.next),
+                                  child: Focus(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          12.0, 0, 8.0, 0),
+                                      child: TextField(
+                                          controller: _phoneNumber,
+                                          decoration: InputDecoration(
+                                              hintText:
+                                                  'Nhập số điện thoại của bạn',
+                                              errorText: _validatePhoneNumber
+                                                  ? _phoneNumberErrorText
+                                                  : null,
+                                              fillColor: ColorCustom.inputColor,
+                                              filled: true,
+                                              enabledBorder: InputBorder.none,
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      8, 4, 8, 4)),
+                                          style: TextStyle(fontSize: 14),
+                                          textInputAction:
+                                              TextInputAction.next),
+                                    ),
+                                    onFocusChange: (hasFocus) {
+                                      if (!hasFocus) {
+                                        setState(() {
+                                          if (_phoneNumber.text.isEmpty) {
+                                            _validatePhoneNumber =
+                                                _phoneNumber.text.isEmpty;
+                                            _phoneNumberErrorText =
+                                                "Vui lòng nhập số điện thoại";
+                                          }
+                                          if (_phoneNumber.text.trim().length !=
+                                              10) {
+                                            _validatePhoneNumber = true;
+                                            _phoneNumberErrorText =
+                                                "Số điện thoại không hợp lệ";
+                                          } else
+                                            _validatePhoneNumber = false;
+                                        });
+                                      }
+                                    },
                                   ),
                                 ),
                               ],
@@ -170,6 +213,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                         controller: _address,
                                         decoration: InputDecoration(
                                             hintText: 'Nhập địa chỉ của bạn',
+                                            errorText: _validateAddress
+                                                ? _addressErrorText
+                                                : null,
                                             fillColor: ColorCustom.inputColor,
                                             filled: true,
                                             enabledBorder: InputBorder.none,
@@ -379,7 +425,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: _requestOrder,
+                      onPressed: () => _requestOrder(widget.listCartSelected),
                       child: Text("Đặt hàng"),
                       style: ButtonStyle(
                           padding: MaterialStateProperty.all(
@@ -404,7 +450,54 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     return new Future.value(false);
   }
 
-  void _requestOrder() {
+  Future<void> _requestOrder(List<Cart> listCartSelected) async {
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     // handle order
+    if (_name.text.isEmpty ||
+        _phoneNumber.text.isEmpty ||
+        _address.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Vui lòng nhập địa chỉ giao hàng");
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      final id = prefs.getString('userId');
+      if (id != null) {
+        Order order = new Order(
+            id: 0,
+            state: 1,
+            totalQuantity: _totalQuantity,
+            totalProductPrice: _totalPrice,
+            name: _name.text,
+            phone: _phoneNumber.text,
+            address: _address.text,
+            idUser: int.parse(id));
+        List<OrderDetail> lOrderDetail = [];
+        listCartSelected.forEach((element) {
+          OrderDetail orderDetail = OrderDetail(
+              idOrder: 0,
+              idProduct: element.idProduct,
+              unitPrice: element.product!.unitPrice,
+              quantity: element.quantity);
+          lOrderDetail.add(orderDetail);
+        });
+        OrderParams orderParams =
+            new OrderParams(order: order, listOrderDetail: lOrderDetail);
+        orderProvider.createOrder(orderParams).then((value) => {
+              if (value == 200)
+                {
+                  print("Create order success"),
+                  showAlertDialog(context, "Đặt hàng thành công!", ["Đóng"],
+                          "Thông báo")
+                      .then((value) => {
+                            if (value) {
+
+                              Navigator.of(context).pop()
+                              }
+                          })
+                }
+              else
+                print("Failed")
+            });
+      }
+    }
   }
 }

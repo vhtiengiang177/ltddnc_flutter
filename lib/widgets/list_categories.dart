@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
 import 'package:ltddnc_flutter/screens/product_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
-import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
 
 class ListCategories extends StatefulWidget {

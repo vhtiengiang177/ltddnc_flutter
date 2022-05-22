@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
 import 'package:ltddnc_flutter/screens/cart_screen.dart';
@@ -8,7 +7,6 @@ import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BodyScreen extends StatefulWidget {
   const BodyScreen({Key? key}) : super(key: key);

@@ -4,8 +4,6 @@ import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/screens/cart_screen.dart';
 import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
-import 'package:ltddnc_flutter/providers/favorite_provider.dart';
-import 'package:ltddnc_flutter/providers/user_provider.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.category}) : super(key: key);

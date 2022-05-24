@@ -7,6 +7,7 @@ import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/models/order.dart';
 import 'package:ltddnc_flutter/models/order_detail.dart';
 import 'package:ltddnc_flutter/models/order_params.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/order_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -39,7 +40,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   void initState() {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (userProvider.user == null) {
+    if (userProvider.user != null) {
       userProvider.getUser(userProvider.user!.idAccount!);
     }
     setState(() {
@@ -452,6 +453,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
   Future<void> _requestOrder(List<Cart> listCartSelected) async {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     // handle order
     if (_name.text.isEmpty ||
         _phoneNumber.text.isEmpty ||
@@ -485,17 +487,27 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               if (value == 200)
                 {
                   print("Create order success"),
+                  cartProvider
+                      .deleteItems(listCartSelected)
+                      .then((value) async {
+                    cartProvider.listCart
+                        .removeWhere((element) => element.selected == true);
+                  }),
                   showAlertDialog(context, "Đặt hàng thành công!", ["Đóng"],
                           "Thông báo")
                       .then((value) => {
-                            if (value) {
-
-                              Navigator.of(context).pop()
-                              }
+                            if (value) {Navigator.of(context).pop()}
                           })
                 }
               else
-                print("Failed")
+                {
+                  print("Failed"),
+                  showAlertDialog(
+                          context, "Đặt hàng thất bại!", ["Huỷ"], "Thông báo")
+                      .then((value) => {
+                            if (value = false) {Navigator.of(context).pop()}
+                          })
+                }
             });
       }
     }

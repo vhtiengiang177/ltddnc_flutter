@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/change-password.dart';
+import 'package:ltddnc_flutter/screens/order_history.dart';
 import 'package:ltddnc_flutter/screens/user-info-screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
@@ -123,7 +124,10 @@ class _MenuAccountScreenState extends State<MenuAccountScreen> {
                 ],
               ),
               onPressed: () {
-                /* handle event */
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderHistoryScreen()));
               },
             ),
           ),

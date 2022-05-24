@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ltddnc_flutter/models/order_detail.dart';
+
 Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 String orderToJson(Order data) => json.encode(data.toJson());
 
@@ -12,6 +14,7 @@ class Order {
   final String? phone;
   final String? address;
   final int? idUser;
+  final OrderDetail? firstOrderDetail;
 
   Order(
       {this.id,
@@ -21,7 +24,8 @@ class Order {
       this.name,
       this.phone,
       this.address,
-      this.idUser});
+      this.idUser,
+      this.firstOrderDetail});
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -31,7 +35,8 @@ class Order {
         "name": name,
         "phone": phone,
         "address": address,
-        "idUser": idUser
+        "idUser": idUser,
+        "firstOrderDetail": firstOrderDetail
       };
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -42,5 +47,6 @@ class Order {
       name: json["name"],
       phone: json["phone"],
       address: json["address"],
-      idUser: json["idUser"]);
+      idUser: json["idUser"],
+      firstOrderDetail: json["firstOrderDetail"]);
 }

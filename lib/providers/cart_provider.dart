@@ -162,6 +162,10 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> onQuantityChanged() async {
+    await updateListCartLocal();
+  }
+
+  updateListCartLocal() async {
     var newListCarts = json.encode(listCart);
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("cart", newListCarts);

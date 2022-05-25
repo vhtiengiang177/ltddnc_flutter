@@ -95,7 +95,7 @@ class _ListProductState extends State<ListProduct> {
                                         alignment: Alignment.bottomRight,
                                         child: IconButton(
                                           icon: Image.asset(
-                                            'assets/images/button/shopping-cart.png',
+                                            'assets/images/button/shopping-cart-add.png',
                                             width: 24,
                                           ),
                                           onPressed: () async {
@@ -121,6 +121,7 @@ class _ListProductState extends State<ListProduct> {
                                                   context);
                                             }
                                           },
+                                          splashColor: Colors.transparent,
                                         )),
                                   ],
                                 ),

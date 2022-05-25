@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/order.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:ltddnc_flutter/widgets/order_detail_item.dart';
 
 class ListOrder extends StatefulWidget {
   const ListOrder({Key? key, required this.listOrder}) : super(key: key);
@@ -20,16 +21,17 @@ class _ListOrderState extends State<ListOrder> {
             children: widget.listOrder
                 .map(
                   (e) => InkWell(
-                    // onTap: () => Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => ProductDetailScreen(
-                    //               product: e,
-                    //             ))),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OrderDetailItem(
+                                  orderSelected: e,
+                                ))),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 3.0),
                       child: Card(
+                        color: Colors.white,
                         child: Container(
                           height: 160,
                           child: Column(

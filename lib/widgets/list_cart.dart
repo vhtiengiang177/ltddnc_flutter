@@ -150,9 +150,7 @@ class _ListCartState extends State<ListCart> {
                                 .toList())
                             .then((value) async {
                           cartProvider.listCart.removeRange(index, index + 1);
-                          var newListCarts = json.encode(cartProvider.listCart);
-                          final prefs = await SharedPreferences.getInstance();
-                          prefs.setString("cart", newListCarts);
+                          cartProvider.updateListCartLocal();
                           if (value.statusCode == 200) {
                             Fluttertoast.showToast(msg: value.body);
                           } else if (value.statusCode == 400) {

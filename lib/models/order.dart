@@ -14,6 +14,7 @@ class Order {
   final String? phone;
   final String? address;
   final int? idUser;
+  final String? createDate;
   final OrderDetail? firstOrderDetail;
 
   Order(
@@ -25,6 +26,7 @@ class Order {
       this.phone,
       this.address,
       this.idUser,
+      this.createDate,
       this.firstOrderDetail});
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +38,7 @@ class Order {
         "phone": phone,
         "address": address,
         "idUser": idUser,
+        "createDate": createDate,
         "firstOrderDetail": firstOrderDetail
       };
 
@@ -48,5 +51,6 @@ class Order {
       phone: json["phone"],
       address: json["address"],
       idUser: json["idUser"],
+      createDate: json["createDate"],
       firstOrderDetail: json["firstOrderDetail"]);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ltddnc_flutter/models/order.dart';
 import 'package:ltddnc_flutter/providers/order_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
@@ -21,13 +20,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      // EasyLoading.show();
       setState(() {
         _isLoading = true;
       });
       final orderProvider = Provider.of<OrderProvider>(context, listen: false);
       orderProvider.getOrderByState(1).then((_) {
-        // EasyLoading.dismiss();
         setState(() {
           _isLoading = false;
         });
@@ -69,7 +66,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 setState(() {
                   _isLoading = true;
                 });
-                this.onTapHandler(index).whenComplete(() {
+                this.onTapHandler(index, orderProvider).whenComplete(() {
                   Future.delayed(Duration(seconds: 2))
                       .then((value) => setState(() {
                             _isLoading = false;
@@ -77,66 +74,56 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 });
               }),
         ),
-        body: TabBarView(children: [
-          // Dang xu ly
-          _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: 8.0,
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  // Dang xu ly
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      top: 8.0,
+                    ),
+                    child: ListOrder(
+                      listOrder: orderProvider.listOrder,
+                    ),
                   ),
-                  child: ListOrder(
-                    listOrder: orderProvider.listOrder,
+                  // Dang giao
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      top: 8.0,
+                    ),
+                    child: ListOrder(
+                      listOrder: orderProvider.listOrder,
+                    ),
                   ),
-                ),
-          // Dang giao
-          _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: 8.0,
+                  // Da giao
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      top: 8.0,
+                    ),
+                    child: ListOrder(
+                      listOrder: orderProvider.listOrder,
+                    ),
                   ),
-                  child: ListOrder(
-                    listOrder: orderProvider.listOrder,
+                  // Da huy
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      top: 8.0,
+                    ),
+                    child: ListOrder(
+                      listOrder: orderProvider.listOrder,
+                    ),
                   ),
-                ),
-          // Da giao
-          _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: 8.0,
-                  ),
-                  child: ListOrder(
-                    listOrder: orderProvider.listOrder,
-                  ),
-                ),
-          // Da huy
-          _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: 8.0,
-                  ),
-                  child: ListOrder(
-                    listOrder: orderProvider.listOrder,
-                  ),
-                ),
-        ]),
+                ],
+              ),
       ),
     );
   }
 
-  Future<void> onTapHandler(int index) async {
-    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+  Future<void> onTapHandler(int index, OrderProvider orderProvider) async {
     print("onTapHandler Order History");
     await orderProvider.getOrderByState(index + 1);
   }

@@ -8,6 +8,7 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/register_screen.dart';
 import 'package:provider/provider.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -166,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                               })
                           .catchError((error, stackTrace) {
+                        EasyLoading.dismiss();
                         Fluttertoast.showToast(
                             msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
                       });

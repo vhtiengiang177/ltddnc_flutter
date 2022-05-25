@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -446,7 +444,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     showAlertDialog(context, "Bạn có chắc chắn quay lại không?",
             ["Đồng ý", "Huỷ"], "Thông báo")
         .then((value) => {
-              if (value) {Navigator.of(context).pop()}
+              if (value) {Navigator.of(context).pop(false)}
             });
     return new Future.value(false);
   }
@@ -459,13 +457,24 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
         _phoneNumber.text.isEmpty ||
         _address.text.isEmpty) {
       Fluttertoast.showToast(msg: "Vui lòng nhập địa chỉ giao hàng");
+    } else if (_phoneNumber.text.trim().length != 10) {
+      setState(() {
+        _validatePhoneNumber = true;
+        _phoneNumberErrorText = "Số điện thoại không hợp lệ";
+      });
     } else {
+      setState(() {
+        _validateName = false;
+        _validatePhoneNumber = false;
+        _validateAddress = false;
+      });
       final prefs = await SharedPreferences.getInstance();
       final id = prefs.getString('userId');
       if (id != null) {
         Order order = new Order(
             id: 0,
             state: 1,
+            createDate: new DateTime.now().toIso8601String(),
             totalQuantity: _totalQuantity,
             totalProductPrice: _totalPrice,
             name: _name.text,
@@ -492,11 +501,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       .then((value) async {
                     cartProvider.listCart
                         .removeWhere((element) => element.selected == true);
+                    cartProvider.updateListCartLocal();
                   }),
                   showAlertDialog(context, "Đặt hàng thành công!", ["Đóng"],
                           "Thông báo")
                       .then((value) => {
-                            if (value) {Navigator.of(context).pop()}
+                            if (value) {Navigator.of(context).pop(true)}
                           })
                 }
               else
@@ -505,7 +515,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   showAlertDialog(
                           context, "Đặt hàng thất bại!", ["Huỷ"], "Thông báo")
                       .then((value) => {
-                            if (value = false) {Navigator.of(context).pop()}
+                            if (value = false)
+                              {Navigator.of(context).pop(false)}
                           })
                 }
             });

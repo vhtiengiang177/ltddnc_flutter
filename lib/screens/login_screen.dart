@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ltddnc_flutter/main.dart';
 import 'package:ltddnc_flutter/models/account.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
-import 'package:ltddnc_flutter/screens/home_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/register_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -170,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                               })
                           .catchError((error, stackTrace) {
+                        EasyLoading.dismiss();
                         Fluttertoast.showToast(
                             msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");
                       });

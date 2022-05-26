@@ -3,8 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
-import 'package:ltddnc_flutter/providers/favorite_provider.dart';
-import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/product_detail_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/auth-dialog.dart';
@@ -97,7 +95,7 @@ class _ListProductState extends State<ListProduct> {
                                         alignment: Alignment.bottomRight,
                                         child: IconButton(
                                           icon: Image.asset(
-                                            'assets/images/button/shopping-cart.png',
+                                            'assets/images/button/shopping-cart-add.png',
                                             width: 24,
                                           ),
                                           onPressed: () async {
@@ -123,6 +121,7 @@ class _ListProductState extends State<ListProduct> {
                                                   context);
                                             }
                                           },
+                                          splashColor: Colors.transparent,
                                         )),
                                   ],
                                 ),

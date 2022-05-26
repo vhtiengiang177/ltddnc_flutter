@@ -86,12 +86,12 @@ class _CartScreenState extends State<CartScreen> {
                         .then((value) async {
                       cartProvider.listCart
                           .removeRange(0, cartProvider.listCart.length);
+
                       setState(() {
                         _totalPrice = 0;
                       });
-                      var newListCarts = json.encode(cartProvider.listCart);
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.setString("cart", newListCarts);
+
+                      cartProvider.updateListCartLocal();
                       if (value.statusCode == 200) {
                         Fluttertoast.showToast(msg: value.body);
                       } else if (value.statusCode == 400) {
@@ -121,9 +121,7 @@ class _CartScreenState extends State<CartScreen> {
                           _totalPrice = 0;
                         });
 
-                        var newListCarts = json.encode(cartProvider.listCart);
-                        final prefs = await SharedPreferences.getInstance();
-                        prefs.setString("cart", newListCarts);
+                        cartProvider.updateListCartLocal();
 
                         if (value.statusCode == 200) {
                           Fluttertoast.showToast(msg: value.body);
@@ -190,7 +188,7 @@ class _CartScreenState extends State<CartScreen> {
                           fontWeight: FontWeight.bold,
                         )),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           List<Cart> lCartSeleted = cartProvider.listCart
                               .where((element) => element.selected == true)
                               .toList();
@@ -198,12 +196,20 @@ class _CartScreenState extends State<CartScreen> {
                             Fluttertoast.showToast(
                                 msg: "Vui lòng chọn sản phẩm cần đặt hàng");
                           } else {
-                            Navigator.push(
+                            bool result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ConfirmOrderScreen(
-                                          listCart: lCartSeleted,
+                                          listCartSelected: lCartSeleted,
                                         )));
+                            if (result == true) {
+                              setState(() {
+                                _totalPrice = 0;
+                                checkedAllItems = false;
+                              });
+                            } else {
+                              onChangeSelected(null);
+                            }
                           }
                         },
                         child: Row(

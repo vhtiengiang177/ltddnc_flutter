@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
@@ -164,6 +162,10 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> onQuantityChanged() async {
+    await updateListCartLocal();
+  }
+
+  updateListCartLocal() async {
     var newListCarts = json.encode(listCart);
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("cart", newListCarts);

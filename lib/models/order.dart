@@ -7,7 +7,7 @@ String orderToJson(Order data) => json.encode(data.toJson());
 
 class Order {
   final int? id;
-  final int? state;
+  int? state;
   final int? totalQuantity;
   final double? totalProductPrice;
   final String? name;
@@ -15,6 +15,7 @@ class Order {
   final String? address;
   final int? idUser;
   final String? createDate;
+  final String? cancelDate;
   final OrderDetail? firstOrderDetail;
 
   Order(
@@ -27,6 +28,7 @@ class Order {
       this.address,
       this.idUser,
       this.createDate,
+      this.cancelDate,
       this.firstOrderDetail});
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +41,7 @@ class Order {
         "address": address,
         "idUser": idUser,
         "createDate": createDate,
+        "cancelDate": cancelDate,
         "firstOrderDetail": firstOrderDetail
       };
 
@@ -52,5 +55,6 @@ class Order {
       address: json["address"],
       idUser: json["idUser"],
       createDate: json["createDate"],
+      cancelDate: json["cancelDate"],
       firstOrderDetail: json["firstOrderDetail"]);
 }

@@ -114,11 +114,23 @@ class _ListCartState extends State<ListCart> {
                         ))
                     .toList()),
           )
-        : Center(
-            child: Text(
-              "Không có sản phẩm trong giỏ, mua sắm ngay",
-              style: TextStyle(fontSize: 18),
-            ),
+        : Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              Image.asset(
+                'assets/images/icon/empty-cart.png',
+                width: 90,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Chưa có sản phẩm trong giỏ hàng",
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
           );
   }
 
@@ -129,13 +141,6 @@ class _ListCartState extends State<ListCart> {
       Cart cart = cartProvider.listCart.elementAt(index);
       int quantity = cart.quantity!;
       if (isIncrease) {
-        // if (quantity + 1 > cart.product!.stock!) {
-        //   showAlertDialog(context,
-        //       "Đơn hàng.", ["Đồng ý"], null);
-        //   return false;
-        // } else {
-        //  cartProvider.listCart.elementAt(index).quantity = quantity + 1;
-        // }
         cartProvider.listCart.elementAt(index).quantity = quantity + 1;
       } else if (!isIncrease) {
         if (quantity - 1 <= 0) {

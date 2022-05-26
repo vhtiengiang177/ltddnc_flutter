@@ -13,7 +13,15 @@ class Product {
   final int? state;
   final int? idCategory;
 
-  Product({this.id, this.name, this.unitPrice, this.image, this.description, this.stock, this.state, this.idCategory});
+  Product(
+      {this.id,
+      this.name,
+      this.unitPrice,
+      this.image,
+      this.description,
+      this.stock,
+      this.state,
+      this.idCategory});
 
   Map<String, dynamic> toJson() => {
         "id": id,

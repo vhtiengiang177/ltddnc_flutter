@@ -10,6 +10,10 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ltddnc_flutter/providers/review_provider.dart';
+import 'package:ltddnc_flutter/screens/review_screen.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({Key? key, required this.product})
@@ -22,6 +26,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
+  double? _ratingValue;
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +88,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     setState(
                                       () {
                                         // iconHeart = 'heart-regular';
-                                        favoriteProvider
-                                            .removeFavorite(
-                                                userProvider.user?.idAccount,
-                                                widget.product);
+                                        favoriteProvider.removeFavorite(
+                                            userProvider.user?.idAccount,
+                                            widget.product);
                                       },
                                     )
                                   },
@@ -140,6 +144,203 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     textAlign: TextAlign.justify,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Đánh giá",
+                        style: TextStyle(
+                            color: ColorCustom.textPrimaryColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      //
+                      TextButton(
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ReviewScreen(
+                                        product: widget.product,
+                                      )));
+
+                          // setState(() {
+                          //   if (result != null) _email.text = result.toString();
+                          // });
+                        },
+                        child: Text(
+                          'Xem tất cả',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: ColorCustom.primaryColor,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: kAccentColor,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 16.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "4.5",
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  TextSpan(
+                                    text: "/5",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: kLightColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RatingBar(
+                                initialRating: 4.5,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 25,
+                                ratingWidget: RatingWidget(
+                                    full: const Icon(Icons.star,
+                                        color: Colors.orange),
+                                    half: const Icon(
+                                      Icons.star_half,
+                                      color: Colors.orange,
+                                    ),
+                                    empty: const Icon(
+                                      Icons.star_outline,
+                                      color: Colors.orange,
+                                    )),
+                                onRatingUpdate: (value) {
+                                  // setState(() {
+                                  //   _ratingValue = value;
+                                  // });
+                                }),
+                          ]),
+                          SizedBox(height: 16.0),
+                          Text(
+                            "5 Reviews",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: kLightColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Card(
+                  margin: EdgeInsets.all(10),
+                  color: Color.fromARGB(255, 250, 250, 241),
+                  shadowColor: Colors.blueGrey,
+                  elevation: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 45.0,
+                            width: 45.0,
+                            margin: EdgeInsets.only(right: 16.0),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/icon.png"),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(44.0),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Bảo",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: null,
+                            icon: Icon(Icons.more_vert),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          RatingBar(
+                              initialRating: 5,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 25,
+                              ratingWidget: RatingWidget(
+                                  full: const Icon(Icons.star,
+                                      color: Colors.orange),
+                                  half: const Icon(
+                                    Icons.star_half,
+                                    color: Colors.orange,
+                                  ),
+                                  empty: const Icon(
+                                    Icons.star_outline,
+                                    color: Colors.orange,
+                                  )),
+                              onRatingUpdate: (value) {
+                                // setState(() {
+                                //   _ratingValue = value;
+                                // });
+                              }),
+                          SizedBox(width: kFixPadding),
+                          Text(
+                            "20-02-2022",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.0),
+                      GestureDetector(
+                        //onTap: onTap,
+                        child:
+                            // ? Text(
+                            //     "So Good",
+                            //     style: TextStyle(
+                            //       fontSize: 18.0,
+                            //       color: kLightColor,
+                            //     ),
+                            //   )
+                            Text(
+                          "So bad",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: kLightColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             )),
             Padding(

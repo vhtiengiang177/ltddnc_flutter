@@ -282,8 +282,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color.fromARGB(190, 149, 149, 149)),
+                  borderRadius: BorderRadius.circular(25), color: Colors.white),
               child: IconButton(
                 onPressed: () => Navigator.of(context).pop(''),
                 icon: Icon(Icons.arrow_back),

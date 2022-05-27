@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ltddnc_flutter/models/user.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
@@ -13,6 +19,9 @@ class UserInfoScreen extends StatefulWidget {
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
+  final ImagePicker _picker = ImagePicker();
+
+  String avatarUrl = '';
   bool _isInit = true;
   bool _isLoading = false;
   final _name = TextEditingController();
@@ -39,6 +48,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         _email.text = userProvider.user?.email ?? "";
         _phonenumber.text = userProvider.user?.phone ?? "";
         _address.text = userProvider.user?.address ?? "";
+        avatarUrl = userProvider.user?.image ?? '';
       });
       // handle
       Future.delayed(Duration(seconds: 1)).then((_) => {
@@ -66,7 +76,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 child: Column(children: [
                   Container(
                     height: 60,
-                    color: Colors.amber,
+                    color: ColorCustom.buttonSecondaryColor,
                     child: Row(children: [
                       IconButton(
                           onPressed: () => Navigator.of(context).pop(''),
@@ -74,7 +84,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       Text(
                         'Tài khoản',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ]),
                   ),
@@ -92,16 +102,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/profile-default.jpg'),
+                              backgroundImage: avatarUrl.isNotEmpty == true
+                                  ? NetworkImage(avatarUrl) as ImageProvider
+                                  : AssetImage(
+                                      'assets/images/profile-default.jpg'),
                             ),
                           ),
                         ),
                         Center(
                             child: ElevatedButton(
-                          onPressed: (() => {
-                                // handle change image
-                              }),
+                          onPressed: _updateAvatar,
                           child: Text("Đổi ảnh đại diện"),
                         )),
                         const Padding(
@@ -252,6 +262,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                     User userParams = User(
                                         idAccount: userProvider.user?.idAccount,
                                         name: _name.text,
+                                        image: avatarUrl,
                                         phone: _phonenumber.text,
                                         address: _address.text,
                                         email: _email.text);
@@ -276,5 +287,37 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
       ),
     );
+  }
+
+  Future<void> _updateAvatar() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final sp = await SharedPreferences.getInstance();
+      final userId = sp.getString('userId');
+      final ref = FirebaseStorage.instance
+          .ref('profilePics/${userId ?? 'Unknown'}/${image.name}');
+
+      EasyLoading.show();
+
+      try {
+        final snapshot = await ref.putFile(
+          File(image.path),
+        );
+
+        if (snapshot.state == TaskState.success) {
+          final newUrl = await snapshot.ref.getDownloadURL();
+          setState(() {
+            avatarUrl = newUrl;
+          });
+
+          print(newUrl);
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+
+      EasyLoading.dismiss();
+    }
   }
 }

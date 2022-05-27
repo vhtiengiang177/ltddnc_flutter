@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = true;
       });
-      
+
       Provider.of<CategoryProvider>(context).getCategories().then((_) {
         setState(() {
           _isLoading = false;
@@ -102,13 +102,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: _isLoading
               ? Container(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(),
                 )
               : ListCategories(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'TOP 10 SẢN PHẨM MỚI NHẤT',
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: ColorCustom.primaryColor),
+          ),
         ),
       ],
     );

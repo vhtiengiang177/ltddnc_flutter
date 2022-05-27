@@ -475,6 +475,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             id: 0,
             state: 1,
             createDate: new DateTime.now().toIso8601String(),
+            cancelDate: null,
             totalQuantity: _totalQuantity,
             totalProductPrice: _totalPrice,
             name: _name.text,

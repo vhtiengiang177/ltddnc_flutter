@@ -15,23 +15,25 @@ class Order {
   final String? address;
   final int? idUser;
   final String? createDate;
+  final String? cancelDate;
   final OrderDetail? firstOrderDetail;
   final int? reviewState;
 
-  Order(
-      {this.id,
-      this.state,
-      this.totalQuantity,
-      this.totalProductPrice,
-      this.name,
-      this.phone,
-      this.address,
-      this.idUser,
-      this.createDate,
-      this.firstOrderDetail,
-      this.reviewState});
+  Order({this.id,
+    this.state,
+    this.totalQuantity,
+    this.totalProductPrice,
+    this.name,
+    this.phone,
+    this.address,
+    this.idUser,
+    this.createDate,
+    this.firstOrderDetail,
+    this.reviewState,
+    this.cancelDate});
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "id": id,
         "state": state,
         "totalQuantity": totalQuantity,
@@ -42,19 +44,22 @@ class Order {
         "idUser": idUser,
         "createDate": createDate,
         "firstOrderDetail": firstOrderDetail,
-        "reviewState": reviewState
+        "reviewState": reviewState,
+        "cancelDate": cancelDate
       };
 
-  factory Order.fromJson(Map<String, dynamic> json) => Order(
-      id: json["id"],
-      state: json["state"],
-      totalQuantity: json["totalQuantity"],
-      totalProductPrice: json["totalProductPrice"],
-      name: json["name"],
-      phone: json["phone"],
-      address: json["address"],
-      idUser: json["idUser"],
-      createDate: json["createDate"],
-      firstOrderDetail: json["firstOrderDetail"],
-      reviewState: json["reviewState"]);
+  factory Order.fromJson(Map<String, dynamic> json) =>
+      Order(
+          id: json["id"],
+          state: json["state"],
+          totalQuantity: json["totalQuantity"],
+          totalProductPrice: json["totalProductPrice"],
+          name: json["name"],
+          phone: json["phone"],
+          address: json["address"],
+          idUser: json["idUser"],
+          createDate: json["createDate"],
+          cancelDate: json["cancelDate"],
+          firstOrderDetail: json["firstOrderDetail"],
+          reviewState: json["reviewState"]);
 }

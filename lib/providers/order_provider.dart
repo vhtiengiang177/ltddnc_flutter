@@ -32,7 +32,6 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> getOrderByState(int state) async {
     print("getOrderByState: " + state.toString());
-    listOrder = [];
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getString('userId');
     if (id != null) {
@@ -45,9 +44,15 @@ class OrderProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         var orderResponse = json.decode(response.body);
         print(orderResponse);
+        listOrder = [];
         for (var o in orderResponse) {
           String createDate = DateFormat('dd-MM-yyyy HH:mm')
               .format(DateTime.parse(o["createDate"]));
+          String cancelDate = "";
+          if (o["cancelDate"] != null) {
+            cancelDate = DateFormat('dd-MM-yyyy HH:mm')
+                .format(DateTime.parse(o["cancelDate"]));
+          }
           OrderDetail firstOrderDetail = OrderDetail(
               idOrder: o["firstOrderDetail"]["idOrder"],
               idProduct: o["firstOrderDetail"]["idProduct"],
@@ -65,6 +70,7 @@ class OrderProvider with ChangeNotifier {
               address: o["address"],
               idUser: o["idUser"],
               createDate: createDate,
+              cancelDate: cancelDate,
               firstOrderDetail: firstOrderDetail);
           listOrder.add(order);
         }
@@ -96,6 +102,20 @@ class OrderProvider with ChangeNotifier {
       }
       print(listOrderDetail.length);
       notifyListeners();
+    }
+  }
+
+  Future<void> updateStateOrder(int idOrder, int state) async {
+    print("updateStateOrder");
+    var response = await client.put(
+        Uri.parse(
+            apiHost + routeAPIOrder + "/UpdateStateOrder/${idOrder}&&${state}"),
+        headers: {"Content-Type": "application/json"});
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      notifyListeners();
+    } else if (response.statusCode == 400) {
+      print("Failed");
     }
   }
 }

@@ -53,15 +53,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 child: Column(children: [
                   Container(
                     height: 60,
-                    color: Colors.amber,
+                    color: ColorCustom.buttonSecondaryColor,
                     child: Row(children: [
                       IconButton(
                           onPressed: () => Navigator.of(context).pop(''),
                           icon: Icon(Icons.arrow_back)),
                       Text(
-                        'Đổi mật khẩu',
+                        'Cập nhật mật khẩu',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ]),
                   ),
@@ -71,11 +71,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
-                            padding: EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Mật khẩu cũ: ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 18),
                             )),
                         Padding(
                           padding: EdgeInsets.all(8.0),
@@ -92,16 +91,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 enabledBorder: InputBorder.none,
                                 contentPadding:
                                     EdgeInsets.only(left: 10, right: 10)),
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 16),
                             textInputAction: TextInputAction.next,
                           ),
                         ),
                         const Padding(
-                            padding: EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Mật khẩu mới: ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 18),
                             )),
                         Focus(
                           child: Padding(
@@ -119,7 +117,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   enabledBorder: InputBorder.none,
                                   contentPadding:
                                       EdgeInsets.only(left: 10, right: 10)),
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                               textInputAction: TextInputAction.next,
                             ),
                           ),
@@ -152,11 +150,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           },
                         ),
                         const Padding(
-                            padding: EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Nhập lại mật khẩu: ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 18),
                             )),
                         Padding(
                           padding: EdgeInsets.all(8.0),
@@ -173,7 +170,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 enabledBorder: InputBorder.none,
                                 contentPadding:
                                     EdgeInsets.only(left: 10, right: 10)),
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 16),
                             textInputAction: TextInputAction.done,
                             onChanged: (text) => {
                               setState(() {
@@ -195,6 +192,32 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }
                               })
                             },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: (() {
+                              // User userParams = User(
+                              //     idAccount: userProvider.user?.idAccount,
+                              //     name: _name.text,
+                              //     image: avatarUrl,
+                              //     phone: _phonenumber.text,
+                              //     address: _address.text,
+                              //     email: _email.text);
+                              // userProvider.updateInfo(userParams).then((value) {
+                              //   if (value != null) {
+                              //     Fluttertoast.showToast(msg: value);
+                              //   }
+                              // });
+                            }),
+                            child: Text("Cập nhật mật khẩu"),
                           ),
                         ),
                       ],

@@ -13,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ltddnc_flutter/providers/review_provider.dart';
 import 'package:ltddnc_flutter/screens/review_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-// import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({Key? key, required this.product})
@@ -26,13 +25,13 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
-  double? _ratingValue;
 
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final reviewProvider = Provider.of<ReviewProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -199,45 +198,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "4.5",
-                                    style: TextStyle(fontSize: 30.0),
+                                    text: widget.product.avgRating.toString(),
+                                    style: TextStyle(fontSize: 48.0),
                                   ),
                                   TextSpan(
                                     text: "/5",
                                     style: TextStyle(
-                                      fontSize: 20.0,
+                                      fontSize: 24.0,
                                       color: kLightColor,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            RatingBar(
-                                initialRating: 4.5,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 25,
-                                ratingWidget: RatingWidget(
-                                    full: const Icon(Icons.star,
-                                        color: Colors.orange),
-                                    half: const Icon(
-                                      Icons.star_half,
-                                      color: Colors.orange,
-                                    ),
-                                    empty: const Icon(
-                                      Icons.star_outline,
-                                      color: Colors.orange,
-                                    )),
-                                onRatingUpdate: (value) {
-                                  // setState(() {
-                                  //   _ratingValue = value;
-                                  // });
-                                }),
                           ]),
+                          RatingBarIndicator(
+                            rating: double.parse(
+                                widget.product.avgRating.toString()),
+                            direction: Axis.horizontal,
+                            itemBuilder: (context, index) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            itemCount: 5,
+                            itemSize: 25,
+                          ),
                           SizedBox(height: 16.0),
                           Text(
-                            "5 Reviews",
+                            " ${reviewProvider.listReview.length} Đánh giá",
                             style: TextStyle(
                               fontSize: 20.0,
                               color: kLightColor,
@@ -248,99 +236,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ],
                   ),
                 ),
-                Card(
-                  margin: EdgeInsets.all(10),
-                  color: Color.fromARGB(255, 250, 250, 241),
-                  shadowColor: Colors.blueGrey,
-                  elevation: 10,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 45.0,
-                            width: 45.0,
-                            margin: EdgeInsets.only(right: 16.0),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/icon.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(44.0),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              "Bảo",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: null,
-                            icon: Icon(Icons.more_vert),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.0),
-                      Row(
-                        children: [
-                          RatingBar(
-                              initialRating: 5,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 25,
-                              ratingWidget: RatingWidget(
-                                  full: const Icon(Icons.star,
-                                      color: Colors.orange),
-                                  half: const Icon(
-                                    Icons.star_half,
-                                    color: Colors.orange,
-                                  ),
-                                  empty: const Icon(
-                                    Icons.star_outline,
-                                    color: Colors.orange,
-                                  )),
-                              onRatingUpdate: (value) {
-                                // setState(() {
-                                //   _ratingValue = value;
-                                // });
-                              }),
-                          SizedBox(width: kFixPadding),
-                          Text(
-                            "20-02-2022",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.0),
-                      GestureDetector(
-                        //onTap: onTap,
-                        child:
-                            // ? Text(
-                            //     "So Good",
-                            //     style: TextStyle(
-                            //       fontSize: 18.0,
-                            //       color: kLightColor,
-                            //     ),
-                            //   )
-                            Text(
-                          "So bad",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: kLightColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             )),
             Padding(

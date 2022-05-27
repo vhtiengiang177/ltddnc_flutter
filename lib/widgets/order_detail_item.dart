@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/order.dart';
+import 'package:ltddnc_flutter/models/order_detail.dart';
 import 'package:ltddnc_flutter/providers/order_provider.dart';
+import 'package:ltddnc_flutter/screens/review_product_screen.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/alert-dialog.dart';
 import 'package:provider/provider.dart';
@@ -346,7 +348,8 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                         ),
                       ),
                     ),
-                    actionButton(context, widget.orderSelected.state)
+                    actionButton(context, widget.orderSelected.state,
+                        widget.orderSelected, orderProvider.listOrderDetail)
                   ],
                 )
               ],
@@ -355,7 +358,8 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
   }
 }
 
-Widget actionButton(BuildContext context, int? state) {
+Widget actionButton(BuildContext context, int? state, Order order,
+    List<OrderDetail> lOrderDetail) {
   Widget widget = Container();
   if (state == 1) {
     widget = Container(
@@ -496,12 +500,70 @@ Widget actionButton(BuildContext context, int? state) {
                         MaterialStateProperty.all<Color>(Colors.green)),
                 onPressed: () {
                   // HANDLE REVIEW
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ReviewProductScreen(lOrderDetail: lOrderDetail);
+                      },
+                    ),
+                  );
                 }),
           ],
         ),
       ),
     );
   }
+  // else if (state == 3 && order.reviewState == 1) {
+  //   widget = Container(
+  //     alignment: Alignment.center,
+  //     decoration: BoxDecoration(
+  //       color: Colors.grey[50],
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.5),
+  //           spreadRadius: 8,
+  //           blurRadius: 7,
+  //           offset: Offset(0, 3), // changes position of shadow
+  //         ),
+  //       ],
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 12.0),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Text.rich(
+  //             TextSpan(
+  //                 text: "Trạng thái: ",
+  //                 style: TextStyle(fontWeight: FontWeight.bold),
+  //                 children: <InlineSpan>[
+  //                   TextSpan(
+  //                     text: "ĐÃ GIAO",
+  //                     style: TextStyle(
+  //                       color: ColorCustom.primaryColor,
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 15,
+  //                     ),
+  //                   ),
+  //                 ]),
+  //           ),
+  //           ElevatedButton(
+  //               child: Text(
+  //                 "ĐÁNH GIÁ SẢN PHẨM",
+  //                 style: TextStyle(color: Colors.white),
+  //               ),
+  //               style: ButtonStyle(
+  //                   backgroundColor: MaterialStateProperty.all<Color>(
+  //                       Color.fromARGB(255, 93, 94, 93))),
+  //               onPressed: () {
+  //                 // HANDLE REVIEW
+  //               }),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   return widget;
 }

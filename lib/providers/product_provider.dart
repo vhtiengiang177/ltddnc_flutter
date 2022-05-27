@@ -65,7 +65,8 @@ class ProductProvider with ChangeNotifier {
             name: p['name'],
             unitPrice: p['unitPrice'],
             image: p['image'],
-            description: p["description"]);
+            description: p["description"],
+            avgRating: p["avgRating"]);
         listProduct.add(product);
       }
       print(listProduct);

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/models/order_detail.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
+import '../models/review.dart';
+import '../providers/order_provider.dart';
 import '../providers/review_provider.dart';
 import '../shared/constants.dart';
 import '../widgets/list-review.dart';
@@ -66,24 +69,6 @@ class _ReviewsState extends State<ReviewScreen> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )
                         ]),
-                        Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: IconButton(
-                              icon: Image.asset(
-                                'assets/images/button/shopping-cart.png',
-                                width: 24,
-                              ),
-                              onPressed: () => {
-                                /* handle cart */
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => CartScreen(
-                                //               isBack: true,
-                                //             ))),
-                              },
-                            ))
                       ],
                     ),
                   ),
@@ -103,7 +88,7 @@ class _ReviewsState extends State<ReviewScreen> {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "4.5",
+                                    text: widget.product.avgRating.toString(),
                                     style: TextStyle(fontSize: 30.0),
                                   ),
                                   TextSpan(
@@ -116,31 +101,20 @@ class _ReviewsState extends State<ReviewScreen> {
                                 ],
                               ),
                             ),
-                            RatingBar(
-                                initialRating: 5,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 25,
-                                ratingWidget: RatingWidget(
-                                    full: const Icon(Icons.star,
-                                        color: Colors.orange),
-                                    half: const Icon(
-                                      Icons.star_half,
-                                      color: Colors.orange,
-                                    ),
-                                    empty: const Icon(
-                                      Icons.star_outline,
-                                      color: Colors.orange,
-                                    )),
-                                onRatingUpdate: (value) {
-                                  // setState(() {
-                                  //   _ratingValue = value;
-                                  // });
-                                }),
+                            RatingBarIndicator(
+                              rating: double.parse(
+                                  widget.product.avgRating.toString()),
+                              direction: Axis.horizontal,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 25,
+                            ),
                             SizedBox(height: 16.0),
                             Text(
-                              " Reviews",
+                              "${reviewProvider.listReview.length} Đánh giá",
                               style: TextStyle(
                                 fontSize: 20.0,
                                 color: kLightColor,

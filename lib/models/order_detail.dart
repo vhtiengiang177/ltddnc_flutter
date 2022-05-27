@@ -11,6 +11,7 @@ class OrderDetail {
   final String? imageProduct;
   final double? unitPrice;
   final int? quantity;
+  final double? rating;
 
   OrderDetail(
       {this.idOrder,
@@ -18,7 +19,8 @@ class OrderDetail {
       this.nameProduct,
       this.imageProduct,
       this.unitPrice,
-      this.quantity});
+      this.quantity,
+      this.rating});
 
   Map<String, dynamic> toJson() => {
         "idOrder": idOrder,
@@ -26,7 +28,8 @@ class OrderDetail {
         "nameProduct": nameProduct,
         "imageProduct": imageProduct,
         "unitPrice": unitPrice,
-        "quantity": quantity
+        "quantity": quantity,
+        "rating": rating
       };
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
@@ -35,5 +38,6 @@ class OrderDetail {
       nameProduct: json["nameProduct"],
       imageProduct: json["imageProduct"],
       unitPrice: json["unitPrice"],
-      quantity: json["quantity"]);
+      quantity: json["quantity"],
+      rating: json["rating"]);
 }

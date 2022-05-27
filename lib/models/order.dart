@@ -16,6 +16,7 @@ class Order {
   final int? idUser;
   final String? createDate;
   final OrderDetail? firstOrderDetail;
+  final int? reviewState;
 
   Order(
       {this.id,
@@ -27,7 +28,8 @@ class Order {
       this.address,
       this.idUser,
       this.createDate,
-      this.firstOrderDetail});
+      this.firstOrderDetail,
+      this.reviewState});
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -39,7 +41,8 @@ class Order {
         "address": address,
         "idUser": idUser,
         "createDate": createDate,
-        "firstOrderDetail": firstOrderDetail
+        "firstOrderDetail": firstOrderDetail,
+        "reviewState": reviewState
       };
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -52,5 +55,6 @@ class Order {
       address: json["address"],
       idUser: json["idUser"],
       createDate: json["createDate"],
-      firstOrderDetail: json["firstOrderDetail"]);
+      firstOrderDetail: json["firstOrderDetail"],
+      reviewState: json["reviewState"]);
 }

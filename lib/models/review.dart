@@ -8,10 +8,13 @@ class Review {
   final int? idProduct;
   final int? idUser;
   final String? name;
-  final String? comment;
+  String? comment;
   final String? date;
   final String? image;
-  final double? rating;
+  double? rating;
+  final int? idOrder;
+  final String? nameProduct;
+  final String? imageProduct;
 
   Review(
       {this.id,
@@ -21,7 +24,10 @@ class Review {
       this.comment,
       this.date,
       this.image,
-      this.rating});
+      this.rating,
+      this.idOrder,
+      this.nameProduct,
+      this.imageProduct});
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -31,7 +37,8 @@ class Review {
         "comment": comment,
         "date": date,
         "image": image,
-        "rating": rating
+        "rating": rating,
+        "idOrder": idOrder
       };
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
@@ -42,5 +49,6 @@ class Review {
       comment: json["comment"],
       date: json["date"],
       image: json["image"],
-      rating: json["rating"]);
+      rating: json["rating"],
+      idOrder: json["idOrder"]);
 }

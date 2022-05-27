@@ -94,4 +94,4 @@ class Palette {
 
 final imageFailed = "assets/no-image-available.jpg";
 
-final apiHost = "http://82bb-101-99-24-194.ngrok.io/api";
+final apiHost = "http://7957-1-52-235-222.ngrok.io/api";

@@ -377,6 +377,34 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                                                           ],
                                                         ),
                                                       ),
+                                                      orderSelected?.cancelDate
+                                                                  ?.isNotEmpty ==
+                                                              true
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .fromLTRB(
+                                                                      0,
+                                                                      4,
+                                                                      0,
+                                                                      12),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    "Thời gian huỷ đơn: ",
+                                                                  ),
+                                                                  Text(
+                                                                    "${orderSelected?.cancelDate}",
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : SizedBox(
+                                                              height: 0,
+                                                            ),
                                                     ]),
                                               ),
                                             ),

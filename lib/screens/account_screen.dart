@@ -4,9 +4,14 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/menu_account_screen.dart';
 import 'package:provider/provider.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -45,10 +50,15 @@ class AccountScreen extends StatelessWidget {
                       border: Border.all(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/profile-default.jpg'),
-                    ),
+                    child: userProvider.user?.image?.isNotEmpty == true
+                        ? CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(userProvider.user?.image ?? ''),
+                          )
+                        : CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/profile-default.jpg'),
+                          ),
                   ),
                 )
               ],

@@ -6,6 +6,9 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/alert-dialog.dart';
 import 'package:provider/provider.dart';
 
+import '../models/order_detail.dart';
+import '../screens/review_product_screen.dart';
+
 class OrderDetailItem extends StatefulWidget {
   const OrderDetailItem({Key? key, required this.orderSelected})
       : super(key: key);
@@ -413,7 +416,8 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                                       ),
                                     ),
                                   ),
-                                  actionButton(context, orderProvider)
+                                  actionButton(context, orderProvider,
+                                      orderProvider.listOrderDetail)
                                 ],
                               )
                             ],
@@ -423,7 +427,8 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
         });
   }
 
-  Widget actionButton(BuildContext context, OrderProvider orderProvider) {
+  Widget actionButton(BuildContext context, OrderProvider orderProvider,
+      List<OrderDetail> lOrderDetail) {
     Widget widget = Container();
     var state = orderSelected?.state!;
     if (state == 1) {
@@ -580,6 +585,15 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                           MaterialStateProperty.all<Color>(Colors.green)),
                   onPressed: () {
                     // HANDLE REVIEW
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ReviewProductScreen(
+                              lOrderDetail: lOrderDetail);
+                        },
+                      ),
+                    );
                   }),
             ],
           ),

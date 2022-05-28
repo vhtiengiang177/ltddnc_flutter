@@ -44,7 +44,7 @@ class ReviewProvider with ChangeNotifier {
             date: createDate);
         listReview.add(review);
       }
-      print(listReview);
+      print(json.encode(listReview));
       print(listReview.length);
       notifyListeners();
     } else if (response.statusCode == 400) {}
@@ -57,8 +57,14 @@ class ReviewProvider with ChangeNotifier {
       listReview = [];
       lOrderDetail.forEach((element) {
         Review review = Review(
+            id: 0,
             idProduct: element.idProduct,
             idUser: int.parse(id),
+            name: "",
+            comment: "",
+            date: DateTime.now().toString(),
+            image: "",
+            idOrder: element.idOrder,
             nameProduct: element.nameProduct,
             imageProduct: element.imageProduct,
             rating: 5);
@@ -67,13 +73,30 @@ class ReviewProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addReview(Review review) async {
+  // Future<void> addReview(Review review) async {
+  //   // listReview.add(review);
+  //   print("add review");
+  //   print(json.encode(review));
+
+  //   var response = await http.post(
+  //       Uri.parse(apiHost + routeAPIReviews + "/CreateReview"),
+  //       body: json.encode(review),
+  //       headers: {"Content-Type": "application/json"});
+  //   if (response.statusCode == 200) {
+  //     print("add review success");
+  //   } else if (response.statusCode == 400) {
+  //     print("add review failed");
+  //   }
+  //   notifyListeners();
+  // }
+
+  Future<void> addReview(List<Review> lReview) async {
     // listReview.add(review);
     print("add review");
-
+    print(json.encode(lReview));
     var response = await http.post(
         Uri.parse(apiHost + routeAPIReviews + "/CreateReview"),
-        body: json.encode(review),
+        body: json.encode(lReview),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       print("add review success");

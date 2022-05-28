@@ -38,7 +38,9 @@ class Review {
         "date": date,
         "image": image,
         "rating": rating,
-        "idOrder": idOrder
+        "idOrder": idOrder,
+        "nameProduct": nameProduct,
+        "imageProduct": imageProduct
       };
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
@@ -50,5 +52,7 @@ class Review {
       date: json["date"],
       image: json["image"],
       rating: json["rating"],
-      idOrder: json["idOrder"]);
+      idOrder: json["idOrder"],
+      nameProduct: json["nameProduct"],
+      imageProduct: json["imageProduct"]);
 }

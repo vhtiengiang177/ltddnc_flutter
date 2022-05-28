@@ -25,13 +25,22 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
+  int countRating = 0;
+  @override
+  void didChangeDependencies() {
+    final reviewProvider = Provider.of<ReviewProvider>(context, listen: false);
+    reviewProvider.getReviews(widget.product.id).then((value) =>
+        setState((() => {countRating = reviewProvider.listReview.length})));
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final reviewProvider = Provider.of<ReviewProvider>(context);
+    // final reviewProvider = Provider.of<ReviewProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -224,13 +233,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             itemSize: 25,
                           ),
                           SizedBox(height: 16.0),
-                          Text(
-                            " ${reviewProvider.listReview.length} Đánh giá",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: kLightColor,
-                            ),
-                          ),
+                          // Text(
+                          //   " ${countRating} Đánh giá",
+                          //   style: TextStyle(
+                          //     fontSize: 20.0,
+                          //     color: kLightColor,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],

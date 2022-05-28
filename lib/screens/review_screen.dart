@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/models/order_detail.dart';
+import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../models/review.dart';
@@ -45,92 +46,89 @@ class _ReviewsState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final reviewProvider = Provider.of<ReviewProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
       body: SafeArea(
-        child: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                child: Column(children: [
-                  Container(
-                    height: 60,
-                    color: Colors.amber,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          IconButton(
-                              onPressed: () => Navigator.of(context).pop(''),
-                              icon: Icon(Icons.arrow_back)),
-                          Text(
-                            'Đánh giá ${widget.product.name}',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )
-                        ]),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: kAccentColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 16.0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: 60,
+              color: Colors.amber,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    IconButton(
+                        onPressed: () => Navigator.of(context).pop(''),
+                        icon: Icon(Icons.arrow_back)),
+                    Text(
+                      'Đánh giá ${widget.product.name}',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ]),
+                ],
+              ),
+            ),
+            Container(
+              color: kAccentColor,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 16.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
                           children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: widget.product.avgRating.toString(),
-                                    style: TextStyle(fontSize: 30.0),
-                                  ),
-                                  TextSpan(
-                                    text: "/5",
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      color: kLightColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            TextSpan(
+                              text: widget.product.avgRating.toString(),
+                              style: TextStyle(fontSize: 30.0),
                             ),
-                            RatingBarIndicator(
-                              rating: double.parse(
-                                  widget.product.avgRating.toString()),
-                              direction: Axis.horizontal,
-                              itemBuilder: (context, index) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              itemCount: 5,
-                              itemSize: 25,
-                            ),
-                            SizedBox(height: 16.0),
-                            Text(
-                              "${reviewProvider.listReview.length} Đánh giá",
+                            TextSpan(
+                              text: "/5",
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 24.0,
                                 color: kLightColor,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      RatingBarIndicator(
+                        rating:
+                            double.parse(widget.product.avgRating.toString()),
+                        direction: Axis.horizontal,
+                        itemBuilder: (context, index) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        itemCount: 5,
+                        itemSize: 25,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        "${reviewProvider.listReview.length} Đánh giá",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: kLightColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListReview(),
-                  )
-                ]),
+                ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListReview(),
+            )
+          ]),
+        ),
       ),
     );
   }

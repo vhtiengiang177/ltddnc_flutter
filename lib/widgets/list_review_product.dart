@@ -216,10 +216,7 @@ class _ListReviewProductState extends State<ListReviewProduct> {
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.green)),
                           onPressed: () {
-                            reviewProvider.listReview.forEach((element) {
-                              print(element.comment);
-                              reviewProvider.addReview(element);
-                            });
+                            reviewProvider.addReview(reviewProvider.listReview);
                             Navigator.of(context).pop('');
                             Fluttertoast.showToast(msg: 'Đánh giá thành công');
                           }),

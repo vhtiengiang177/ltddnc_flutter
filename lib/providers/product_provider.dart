@@ -7,6 +7,7 @@ import 'dart:convert';
 class ProductProvider with ChangeNotifier {
   Product? product;
   List<Product> listProduct = [];
+  List<Product> listTop10Product = [];
 
   ProductProvider({this.product});
 
@@ -70,6 +71,31 @@ class ProductProvider with ChangeNotifier {
         listProduct.add(product);
       }
       print(listProduct);
+      notifyListeners();
+    } else if (response.statusCode == 400) {}
+  }
+
+    Future<void> getTop10NewProduct() async {
+    print("getTop10NewProduct: ");
+    listTop10Product = [];
+
+    var response = await http.get(
+        Uri.parse(apiHost +
+            routeAPIProducts +
+            "/getTop10NewProduct/"),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      var productResponse = json.decode(response.body);
+      for (var p in productResponse) {
+        Product product = Product(
+            id: p['id'],
+            name: p['name'],
+            unitPrice: p['unitPrice'],
+            image: p['image'],
+            description: p["description"]);
+        listTop10Product.add(product);
+      }
+      print(listTop10Product);
       notifyListeners();
     } else if (response.statusCode == 400) {}
   }

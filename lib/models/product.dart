@@ -12,8 +12,19 @@ class Product {
   final int? stock;
   final int? state;
   final int? idCategory;
+  final String? createdDate;
 
-  Product({this.id, this.name, this.unitPrice, this.image, this.description, this.stock, this.state, this.idCategory});
+  Product(
+      {this.id,
+      this.name,
+      this.unitPrice,
+      this.image,
+      this.description,
+      this.stock,
+      this.state,
+      this.idCategory,
+      this.createdDate
+      });
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -23,7 +34,8 @@ class Product {
         "description": description,
         "stock": stock,
         "state": state,
-        "idCategory": idCategory
+        "idCategory": idCategory,
+        "createdDate": createdDate
       };
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -34,5 +46,6 @@ class Product {
       description: json["description"],
       stock: json["stock"],
       state: json["state"],
-      idCategory: json["idCategory"]);
+      idCategory: json["idCategory"],
+      createdDate: json["createdDate"]);
 }

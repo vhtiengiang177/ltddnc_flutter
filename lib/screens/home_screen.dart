@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/mock/carousel.dart';
 import 'package:ltddnc_flutter/providers/category_provider.dart';
+import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/list_categories.dart';
+import 'package:ltddnc_flutter/widgets/list_new_product.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _isLoading = false;
         });
       });
+
+      Provider.of<ProductProvider>(context).getTop10NewProduct();
 
       _isInit = false;
     }
@@ -119,6 +123,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
                 color: ColorCustom.primaryColor),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: _isLoading
+              ? Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                )
+              : ListNewProduct(),
         ),
       ],
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -43,6 +47,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: _isLoading
@@ -141,11 +147,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   _confirmpassword.text.isNotEmpty &&
                                   _confirmpassword.text != _newpassword.text) {
                                 _validateConfirmPassword = true;
+                                _validateNewPassword = false;
                                 _confirmPasswordErrorText =
                                     "Mật khẩu mới không khớp";
                               } else if (_confirmpassword.text.isNotEmpty &&
                                   _confirmpassword.text == _newpassword.text)
                                 _validateConfirmPassword = false;
+                              _validateNewPassword = false;
                             });
                           },
                         ),
@@ -203,19 +211,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: (() {
-                              // User userParams = User(
-                              //     idAccount: userProvider.user?.idAccount,
-                              //     name: _name.text,
-                              //     image: avatarUrl,
-                              //     phone: _phonenumber.text,
-                              //     address: _address.text,
-                              //     email: _email.text);
-                              // userProvider.updateInfo(userParams).then((value) {
-                              //   if (value != null) {
-                              //     Fluttertoast.showToast(msg: value);
-                              //   }
-                              // });
+                            onPressed: (() async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              final id = prefs.getString('userId');
+                              userProvider
+                                  .updatePassword(
+                                      int.parse(id!), _newpassword.text)
+                                  .then((value) => {
+                                        Fluttertoast.showToast(
+                                            msg: value.toString())
+                                      });
                             }),
                             child: Text("Cập nhật mật khẩu"),
                           ),

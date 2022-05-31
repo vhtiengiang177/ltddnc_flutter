@@ -14,9 +14,7 @@ import '../widgets/list_review_product.dart';
 class ReviewProductScreen extends StatefulWidget {
   const ReviewProductScreen({Key? key, required this.lOrderDetail})
       : super(key: key);
-  // final Product product;
   final List<OrderDetail> lOrderDetail;
-  // final OrderDetail orderDetail;
 
   @override
   _ReviewProductScreenState createState() => _ReviewProductScreenState();

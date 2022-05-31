@@ -75,14 +75,12 @@ class ProductProvider with ChangeNotifier {
     } else if (response.statusCode == 400) {}
   }
 
-    Future<void> getTop10NewProduct() async {
+  Future<void> getTop10NewProduct() async {
     print("getTop10NewProduct: ");
     listTop10Product = [];
 
     var response = await http.get(
-        Uri.parse(apiHost +
-            routeAPIProducts +
-            "/getTop10NewProduct/"),
+        Uri.parse(apiHost + routeAPIProducts + "/getTop10NewProduct/"),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       var productResponse = json.decode(response.body);
@@ -92,7 +90,8 @@ class ProductProvider with ChangeNotifier {
             name: p['name'],
             unitPrice: p['unitPrice'],
             image: p['image'],
-            description: p["description"]);
+            description: p["description"],
+            avgRating: p["avgRating"]);
         listTop10Product.add(product);
       }
       print(listTop10Product);

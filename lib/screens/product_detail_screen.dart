@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -26,11 +27,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final formatCurrency = new NumberFormat.currency(locale: 'vi');
   int quantity = 1;
   int countRating = 0;
+
+  get avgRating => null;
   @override
   void didChangeDependencies() {
     final reviewProvider = Provider.of<ReviewProvider>(context, listen: false);
-    reviewProvider.getReviews(widget.product.id).then((value) =>
-        setState((() => {countRating = reviewProvider.listReview.length})));
+    reviewProvider
+        .getReviews(widget.product.id)
+        .then((value) => setState((() => {
+              countRating = reviewProvider.listReview.length,
+              print(json.encode(widget.product))
+            })));
 
     super.didChangeDependencies();
   }
@@ -40,7 +47,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    // final reviewProvider = Provider.of<ReviewProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -174,10 +180,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   builder: (context) => ReviewScreen(
                                         product: widget.product,
                                       )));
-
-                          // setState(() {
-                          //   if (result != null) _email.text = result.toString();
-                          // });
                         },
                         child: Text(
                           'Xem tất cả',
@@ -233,13 +235,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             itemSize: 25,
                           ),
                           SizedBox(height: 16.0),
-                          // Text(
-                          //   " ${countRating} Đánh giá",
-                          //   style: TextStyle(
-                          //     fontSize: 20.0,
-                          //     color: kLightColor,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],

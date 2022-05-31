@@ -162,6 +162,29 @@ class UserProvider with ChangeNotifier {
     return "Lỗi không xác định";
   }
 
+  Future<String?> updatePassword(int idAccount, String password) async {
+    print("update pass");
+    // print(userToJson(userParams));
+    var response = await client.patch(Uri.parse(apiHost +
+        routeAPIAccount +
+        "/updatepassword/" +
+        idAccount.toString() +
+        "&&" +
+        password.toString()));
+    print(response.statusCode);
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      return "Cập nhật thành công";
+    } else if (response.statusCode == 400) {
+      user = null;
+      print("updateInfo failed");
+      return response.body;
+    }
+
+    return "Lỗi không xác định";
+  }
+
   Future<String?> getUser(int accountId) async {
     print("getUser: " + accountId.toString());
     var response = await client.get(
@@ -190,9 +213,7 @@ class UserProvider with ChangeNotifier {
         headers: {"Content-Type": "application/json"});
     print(response.statusCode);
     if (response.statusCode == 200) {
-
-    } 
-    else if (response.statusCode == 400) {
+    } else if (response.statusCode == 400) {
       print("Failed");
     }
   }

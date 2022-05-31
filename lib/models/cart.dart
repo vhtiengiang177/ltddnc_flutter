@@ -7,9 +7,6 @@ Cart cartFromJson(String str) => Cart.fromJson(json.decode(str));
 String cartToJson(Cart data) => json.encode(data.toJson());
 
 class Cart {
-  // final String? name;
-  // final int? price;
-  // final String? image;
   final int? idUser;
   final int? idProduct;
   int? quantity;

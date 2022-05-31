@@ -10,32 +10,6 @@ class CategoryProvider with ChangeNotifier {
 
   CategoryProvider({this.category});
 
-  // CollectionReference categories =
-  //     FirebaseFirestore.instance.collection('categories');
-
-  // Future<void> getAll() async {
-  //   print("getAllCategories");
-
-  //   print(listCategory);
-  //   listCategory = [];
-
-  //   print(listCategory);
-  //   await categories.orderBy("name").get().then((querySnapshot) {
-  //     print('------------${querySnapshot.docs.length}');
-  //     querySnapshot.docs.forEach((e) {
-  //       final element = e.data();
-  //       try {
-  //         if (element is Map<String, dynamic>) {
-  //           Category category = new Category(
-  //               id: e.id, name: element['name'], image: element['image']);
-
-  // // static var categories = http.;
-  // final routeAPICategories = "/categories";
-
-  //   notifyListeners();
-  //   print(listCategory.length);
-  // }
-
   final routeAPICategories = "/categories";
 
   Future<void> getCategories() async {

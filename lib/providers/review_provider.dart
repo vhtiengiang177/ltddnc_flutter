@@ -73,23 +73,6 @@ class ReviewProvider with ChangeNotifier {
     }
   }
 
-  // Future<void> addReview(Review review) async {
-  //   // listReview.add(review);
-  //   print("add review");
-  //   print(json.encode(review));
-
-  //   var response = await http.post(
-  //       Uri.parse(apiHost + routeAPIReviews + "/CreateReview"),
-  //       body: json.encode(review),
-  //       headers: {"Content-Type": "application/json"});
-  //   if (response.statusCode == 200) {
-  //     print("add review success");
-  //   } else if (response.statusCode == 400) {
-  //     print("add review failed");
-  //   }
-  //   notifyListeners();
-  // }
-
   Future<void> addReview(List<Review> lReview) async {
     // listReview.add(review);
     print("add review");

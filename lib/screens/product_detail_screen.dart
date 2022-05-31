@@ -193,7 +193,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 Container(
-                  color: kAccentColor,
+                  color: ColorCustom.kAccentColor,
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.0,
                     vertical: 16.0,
@@ -216,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     text: "/5",
                                     style: TextStyle(
                                       fontSize: 24.0,
-                                      color: kLightColor,
+                                      color: ColorCustom.kLightColor,
                                     ),
                                   ),
                                 ],

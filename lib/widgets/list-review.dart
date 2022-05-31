@@ -77,7 +77,7 @@ class _ListReviewState extends State<ListReview> {
                                     itemCount: 5,
                                     itemSize: 25,
                                   ),
-                                  SizedBox(width: kFixPadding),
+                                  SizedBox(width: 16.0),
                                   Text(
                                     e.date ?? "20-01-2022",
                                     style: TextStyle(fontSize: 18.0),
@@ -101,7 +101,7 @@ class _ListReviewState extends State<ListReview> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 18.0,
-                                    color: kLightColor,
+                                    color: ColorCustom.kLightColor,
                                   ),
                                 ),
                               ),

@@ -71,7 +71,7 @@ class _ReviewsState extends State<ReviewScreen> {
               ),
             ),
             Container(
-              color: kAccentColor,
+              color: ColorCustom.kAccentColor,
               padding: EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 16.0,
@@ -93,7 +93,7 @@ class _ReviewsState extends State<ReviewScreen> {
                               text: "/5",
                               style: TextStyle(
                                 fontSize: 24.0,
-                                color: kLightColor,
+                                color: ColorCustom.kLightColor,
                               ),
                             ),
                           ],
@@ -115,7 +115,7 @@ class _ReviewsState extends State<ReviewScreen> {
                         "${reviewProvider.listReview.length} Đánh giá",
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: kLightColor,
+                          color: ColorCustom.kLightColor,
                         ),
                       ),
                     ],

@@ -132,7 +132,7 @@ class _ListReviewProductState extends State<ListReviewProduct> {
                                         onRatingUpdate: (value) {
                                           e.rating = value;
                                         }),
-                                    SizedBox(width: kFixPadding),
+                                    SizedBox(width: 16.0),
                                   ],
                                 ),
                                 SizedBox(height: 8.0),

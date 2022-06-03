@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/account_screen.dart';
 import 'package:ltddnc_flutter/screens/cart_screen.dart';
@@ -21,6 +22,7 @@ class _BodyScreenState extends State<BodyScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       // appBar: AppBar(
       //   title: SizedBox(
@@ -55,10 +57,7 @@ class _BodyScreenState extends State<BodyScreen> {
           BottomNavigationBarItem(
               icon: ImageIcon(AssetImage('assets/images/button/heart.png')),
               label: "Favorite"),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                  AssetImage('assets/images/button/shopping-cart.png')),
-              label: "Cart"),
+          BottomNavigationBarItem(icon: _buildCartIcon(), label: "Cart"),
           BottomNavigationBarItem(
               icon: ImageIcon(AssetImage('assets/images/button/user.png')),
               label: "User")
@@ -86,11 +85,43 @@ class _BodyScreenState extends State<BodyScreen> {
     if (selectedIndex == 3) {
       return AccountScreen();
     } else if (selectedIndex == 2) {
-      return CartScreen(isBack: false,);
-    }
-    else if (selectedIndex == 1) {
+      return CartScreen(
+        isBack: false,
+      );
+    } else if (selectedIndex == 1) {
       return FavoriteScreen();
     }
     return HomeScreen();
+  }
+
+  Widget _buildCartIcon() {
+    return Consumer<CartProvider>(builder: (context, value, child) {
+      final total = value.getTotalQuantity;
+      return Stack(
+        alignment: Alignment.topRight,
+        children: [
+          ImageIcon(
+            AssetImage('assets/images/button/shopping-cart.png'),
+          ),
+          if (total > 0)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(180),
+              ),
+              padding: EdgeInsets.all(1),
+              child: FittedBox(
+                child: Text(
+                  '${total > 0 ? total : ''}',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )
+        ],
+      );
+    });
   }
 }

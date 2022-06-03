@@ -118,7 +118,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             padding: EdgeInsets.only(
                                 left: 8.0, right: 8.0, bottom: 8.0, top: 20.0),
                             child: Text(
-                              'Tên: ',
+                              'Tên *',
                               style: TextStyle(fontSize: 18),
                             )),
                         Padding(
@@ -142,50 +142,32 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             padding: EdgeInsets.only(
                                 left: 8.0, right: 8.0, bottom: 8.0),
                             child: Text(
-                              'Email: ',
+                              'Email *',
                               style: TextStyle(fontSize: 18),
                             )),
-                        Focus(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: TextField(
-                                controller: _email,
-                                maxLength: 30,
-                                decoration: InputDecoration(
-                                    hintText: 'Nhập email của bạn',
-                                    errorText:
-                                        _validateEmail ? _emailErrorText : null,
-                                    fillColor: ColorCustom.inputColor,
-                                    filled: true,
-                                    enabledBorder: InputBorder.none,
-                                    contentPadding:
-                                        EdgeInsets.only(left: 10, right: 10)),
-                                style: TextStyle(fontSize: 16),
-                                textInputAction: TextInputAction.next),
-                          ),
-                          onFocusChange: (hasFocus) {
-                            if (!hasFocus) {
-                              var emailValid = RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(_email.text);
-                              setState(() {
-                                if (_email.text.trim() == "") {
-                                  _emailErrorText = "Vui lòng nhập email";
-                                } else if (!emailValid) {
-                                  _validateEmail = !emailValid;
-                                  _emailErrorText =
-                                      "Định dạng email không hợp lệ";
-                                } else
-                                  _validateEmail = false;
-                              });
-                            }
-                          },
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: TextField(
+                              enabled: false,
+                              controller: _email,
+                              maxLength: 30,
+                              decoration: InputDecoration(
+                                  hintText: 'Nhập email của bạn',
+                                  errorText:
+                                      _validateEmail ? _emailErrorText : null,
+                                  fillColor: Color.fromARGB(255, 205, 205, 205),
+                                  filled: true,
+                                  enabledBorder: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.only(left: 10, right: 10)),
+                              style: TextStyle(fontSize: 16),
+                              textInputAction: TextInputAction.next),
                         ),
                         const Padding(
                             padding: EdgeInsets.only(
                                 left: 8.0, right: 8.0, bottom: 8.0),
                             child: Text(
-                              'Số điện thoại: ',
+                              'Số điện thoại *',
                               style: TextStyle(fontSize: 18),
                             )),
                         Focus(

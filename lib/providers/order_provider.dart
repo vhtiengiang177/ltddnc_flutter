@@ -71,7 +71,8 @@ class OrderProvider with ChangeNotifier {
               idUser: o["idUser"],
               createDate: createDate,
               cancelDate: cancelDate,
-              firstOrderDetail: firstOrderDetail);
+              firstOrderDetail: firstOrderDetail,
+              reviewState: o["reviewState"]);
           listOrder.add(order);
         }
         listOrder = listOrder.reversed.toList();

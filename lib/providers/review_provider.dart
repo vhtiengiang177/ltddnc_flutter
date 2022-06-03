@@ -3,9 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/order_detail.dart';
 import 'package:ltddnc_flutter/models/review.dart';
-import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
-import 'package:provider/provider.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';

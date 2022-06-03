@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ltddnc_flutter/models/order_detail.dart';
-import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
-import '../models/review.dart';
-import '../providers/order_provider.dart';
 import '../providers/review_provider.dart';
 import '../shared/constants.dart';
 import '../widgets/list-review.dart';
@@ -20,21 +16,16 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewsState extends State<ReviewScreen> {
   bool _isInit = true;
-  bool _isLoading = false;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
+      setState(() {});
 
       Provider.of<ReviewProvider>(context)
           .getReviews(widget.product.id)
           .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        setState(() {});
       });
 
       _isInit = false;
@@ -46,14 +37,13 @@ class _ReviewsState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final reviewProvider = Provider.of<ReviewProvider>(context);
-    final productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
             Container(
               height: 60,
-              color: Colors.amber,
+              color: ColorCustom.buttonSecondaryColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

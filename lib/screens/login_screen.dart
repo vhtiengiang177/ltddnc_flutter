@@ -3,11 +3,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ltddnc_flutter/models/account.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/register_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -144,29 +146,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       EasyLoading.show();
 
-                      userProvider
-                          .login(account)
-                          .then((value) => {
-                                EasyLoading.dismiss(),
-                                if (value == null)
-                                  {
-                                    _email.clear(),
-                                    _password.clear(),
-                                    _validateCredentials = false,
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => BodyScreen()))
-                                  }
-                                else
-                                  {
-                                    setState(() => {
-                                          _errorText = value,
-                                          _validateCredentials = true
-                                        })
-                                  }
-                              })
-                          .catchError((error, stackTrace) {
+                      userProvider.login(account).then((value) {
+                        EasyLoading.dismiss();
+                        if (value == null) {
+                          _email.clear();
+                          _password.clear();
+                          _validateCredentials = false;
+
+                          final cartProvider =
+                              Provider.of<CartProvider>(context, listen: false);
+
+                          if (userProvider.user?.idAccount != null) {
+                            cartProvider.getCart(userProvider.user?.idAccount);
+                          }
+
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BodyScreen()));
+                        } else {
+                          setState(() => {
+                                _errorText = value,
+                                _validateCredentials = true
+                              });
+                        }
+                      }).catchError((error, stackTrace) {
                         EasyLoading.dismiss();
                         Fluttertoast.showToast(
                             msg: "Lỗi hệ thống. Vui lòng đăng nhập sau.");

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/change-password.dart';
@@ -169,6 +170,8 @@ class _MenuAccountScreenState extends State<MenuAccountScreen> {
                           if (value)
                             {
                               userProvider.logout(),
+                              Provider.of<CartProvider>(context, listen: false)
+                                  .clearCarts(),
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

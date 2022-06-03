@@ -76,11 +76,11 @@ class UserProvider with ChangeNotifier {
   void logout() async {
     final prefs = await SharedPreferences.getInstance();
 
-    prefs.remove("userId");
+    await prefs.remove("userId");
     if (prefs.getString("cart") != null) {
       await updateCart(prefs.getString("cart")!);
     }
-    prefs.remove("cart");
+    await prefs.remove("cart");
 
     notifyListeners();
   }

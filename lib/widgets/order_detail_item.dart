@@ -380,34 +380,32 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                                                           ],
                                                         ),
                                                       ),
-                                                      orderSelected?.cancelDate
+                                                      if (orderSelected
+                                                                  ?.cancelDate
                                                                   ?.isNotEmpty ==
-                                                              true
-                                                          ? Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .fromLTRB(
-                                                                      0,
-                                                                      4,
-                                                                      0,
-                                                                      12),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    "Thời gian huỷ đơn: ",
-                                                                  ),
-                                                                  Text(
-                                                                    "${orderSelected?.cancelDate}",
-                                                                  ),
-                                                                ],
+                                                              true ||
+                                                          orderSelected
+                                                                  ?.state ==
+                                                              4)
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  0, 4, 0, 12),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                "Thời gian huỷ đơn: ",
                                                               ),
-                                                            )
-                                                          : SizedBox(
-                                                              height: 0,
-                                                            ),
+                                                              Text(
+                                                                "${orderSelected?.cancelDate}",
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
                                                     ]),
                                               ),
                                             ),
@@ -431,6 +429,8 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
       List<OrderDetail> lOrderDetail) {
     Widget widget = Container();
     var state = orderSelected?.state!;
+    print('review state');
+    print(orderSelected?.reviewState);
     if (state == 1) {
       widget = Container(
         alignment: Alignment.center,
@@ -488,6 +488,10 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                                         .then((value) => {
                                               setState(() {
                                                 orderSelected?.state = 4;
+                                                orderSelected
+                                                    ?.cancelDate = DateFormat(
+                                                        'dd-MM-yyyy HH:mm')
+                                                    .format(new DateTime.now());
                                               }),
                                               print(
                                                   '---------oreder state: ${orderSelected?.state}-------'),
@@ -586,7 +590,7 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                             MaterialStateProperty.all<Color>(Colors.green)),
                     onPressed: () {
                       // HANDLE REVIEW
-                      Navigator.push(
+                      var result = Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
@@ -595,6 +599,14 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                           },
                         ),
                       );
+                      result.then((value) => {
+                            if (value == true)
+                              {
+                                setState(() {
+                                  orderSelected?.reviewState = 1;
+                                }),
+                              }
+                          });
                     })
               else
                 ElevatedButton(

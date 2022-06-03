@@ -73,7 +73,7 @@ class _QuantityState extends State<Quantity> {
     print("decrease quantity");
     if (quantity >= 1) {
       var result = widget.onChangeQuantity(false, widget.index);
-      if (result) {
+      if (result && quantity > 1) {
         setState(() {
           quantity -= 1;
         });

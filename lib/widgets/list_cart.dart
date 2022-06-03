@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +7,6 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/alert-dialog.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ListCart extends StatefulWidget {
   const ListCart({Key? key, required this.onChangeSelected}) : super(key: key);
@@ -138,39 +135,13 @@ class _ListCartState extends State<ListCart> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     if (index != null) {
-      Cart cart = cartProvider.listCart.elementAt(index);
-      int quantity = cart.quantity!;
       if (isIncrease) {
-        cartProvider.listCart.elementAt(index).quantity = quantity + 1;
+        cartProvider.onQuantityChanged(context, index, isInscrease: isIncrease);
       } else if (!isIncrease) {
-        if (quantity - 1 <= 0) {
-          showAlertDialog(context, "Bạn có chắc chắn xoá sản phẩm không?",
-                  ["Đồng ý", "Huỷ"], "Thông báo")
-              .then((value) => {
-                    if (value)
-                      {
-                        cartProvider
-                            .deleteItems(cartProvider.listCart
-                                .getRange(index, index + 1)
-                                .toList())
-                            .then((value) async {
-                          cartProvider.listCart.removeRange(index, index + 1);
-                          cartProvider.updateListCartLocal();
-                          if (value.statusCode == 200) {
-                            Fluttertoast.showToast(msg: value.body);
-                          } else if (value.statusCode == 400) {
-                            Fluttertoast.showToast(msg: value.body);
-                          }
-                        })
-                      }
-                  });
-          return false;
-        } else {
-          cartProvider.listCart.elementAt(index).quantity = quantity - 1;
-        }
+        cartProvider.onQuantityChanged(context, index, isInscrease: isIncrease);
       }
     }
-    cartProvider.onQuantityChanged();
+
     widget.onChangeSelected(null);
     return true;
   }

@@ -1,67 +1,40 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/alert-dialog.dart';
+
 class CartProvider with ChangeNotifier {
-  Cart? cart;
+  // Cart? cart;
   List<Cart> listCart = [];
 
-  CartProvider({this.cart});
+  // CartProvider({this.cart});
+  CartProvider();
   static var client = http.Client();
   final routeAPICart = "/carts";
 
-  // CollectionReference users = FirebaseFirestore.instance.collection('users');
-  // CollectionReference categories =
-  //     FirebaseFirestore.instance.collection('categories');
+  int get getTotalQuantity {
+    int total = 0;
 
-  // Future<void> getCart() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final userId = prefs.get("userData");
-  //   listProduct = [];
-  //   await users
-  //       .doc(userId as String)
-  //       .collection('carts')
-  //       .get()
-  //       .then((querySnapshot) {
-  //     querySnapshot.docs.forEach((e) {
-  //       final element = e.data();
-  //       try {
-  //         if (element is Map<String, dynamic>) {
-  //           categories
-  //               .doc(element["idCategory"])
-  //               .collection('products')
-  //               .where("id", isEqualTo: element["idProduct"])
-  //               .get()
-  //               .then((value) {
-  //             value.docs.forEach((e) {
-  //               final element = e.data();
+    this.listCart.forEach((element) {
+      total = total + (element.quantity ?? 0);
+    });
 
-  //               if (element is Map<String, dynamic>) {
-  //                 Product product = new Product(
-  //                     // id: e,
-  //                     name: element['name'],
-  //                     unitPrice: element['unitPrice'],
-  //                     image: element['image'],
-  //                     description: element['description']);
+    return total;
+  }
 
-  //                 listProduct.add(product);
-  //               }
-  //             });
-  //           });
-  //         }
-  //       } on Exception catch (e) {
-  //         print(e.toString());
-  //       }
-  //     });
-  //   });
+  void clearCarts() {
+    this.listCart = [];
 
-  //   notifyListeners();
-  // }
+    notifyListeners();
+  }
 
   Future<void> getCart(int? idUser) async {
     print("getCart: ");
@@ -75,15 +48,23 @@ class CartProvider with ChangeNotifier {
       print("response body " + response.body);
       var cartResponse = json.decode(response.body);
       for (var c in cartResponse) {
+        print(c['product']);
+        String createdDate = c['product']["createdDate"] != null
+            ? DateFormat('dd-MM-yyyy HH:mm')
+                .format(DateTime.parse(c['product']["createdDate"]))
+            : '';
         Product product = Product(
-            id: c['product']['id'],
-            name: c['product']['name'],
-            description: c['product']['description'],
-            unitPrice: c['product']['unitPrice'],
-            image: c['product']['image'],
-            stock: c['product']['stock'],
-            state: c['product']['state'],
-            idCategory: c['product']['stock']);
+          id: c['product']['id'],
+          name: c['product']['name'],
+          description: c['product']['description'],
+          unitPrice: c['product']['unitPrice'],
+          image: c['product']['image'],
+          stock: c['product']['stock'],
+          state: c['product']['state'],
+          idCategory: c['product']['stock'],
+          avgRating: c['product']["avgRating"],
+          createdDate: createdDate,
+        );
         Cart cart = Cart(
             idUser: c['idUser'],
             idProduct: c['idProduct'],
@@ -109,15 +90,23 @@ class CartProvider with ChangeNotifier {
 
     var cartResponse = json.decode(response);
     for (var c in cartResponse) {
+      print(c['product']);
+      String createdDate = c['product']["createdDate"] != null
+          ? DateFormat('dd-MM-yyyy HH:mm')
+              .format(DateTime.parse(c['product']["createdDate"]))
+          : '';
       Product product = Product(
-          id: c['product']['id'],
-          name: c['product']['name'],
-          description: c['product']['description'],
-          unitPrice: c['product']['unitPrice'],
-          image: c['product']['image'],
-          stock: c['product']['stock'],
-          state: c['product']['state'],
-          idCategory: c['product']['stock']);
+        id: c['product']['id'],
+        name: c['product']['name'],
+        description: c['product']['description'],
+        unitPrice: c['product']['unitPrice'],
+        image: c['product']['image'],
+        stock: c['product']['stock'],
+        state: c['product']['state'],
+        idCategory: c['product']['stock'],
+        avgRating: c['product']["avgRating"],
+        createdDate: createdDate,
+      );
       Cart cart = Cart(
           idUser: c['idUser'],
           idProduct: c['idProduct'],
@@ -161,8 +150,52 @@ class CartProvider with ChangeNotifier {
     return (response);
   }
 
-  Future<void> onQuantityChanged() async {
+  Future<bool> onQuantityChanged(
+    BuildContext context,
+    int index, {
+    isInscrease = true,
+  }) async {
+    if (index < 0) {
+      return false;
+    }
+
+    final quantity = this.listCart.elementAt(index).quantity;
+
+    if (isInscrease == false && quantity == 1) {
+      await showAlertDialog(context, "Bạn có chắc chắn xoá sản phẩm không?",
+              ["Đồng ý", "Huỷ"], "Thông báo")
+          .then(
+        (value) => {
+          if (value)
+            {
+              this
+                  .deleteItems(
+                      this.listCart.getRange(index, index + 1).toList())
+                  .then((value) async {
+                this.listCart.removeRange(index, index + 1);
+                this.updateListCartLocal();
+                if (value.statusCode == 200) {
+                  Fluttertoast.showToast(msg: value.body);
+                } else if (value.statusCode == 400) {
+                  Fluttertoast.showToast(msg: value.body);
+                }
+              })
+            }
+        },
+      );
+
+      notifyListeners();
+      return false;
+    }
+
+    this.listCart.elementAt(index).quantity =
+        (quantity ?? 0) + (isInscrease ? 1 : -1);
+
+    notifyListeners();
+
     await updateListCartLocal();
+
+    return true;
   }
 
   updateListCartLocal() async {

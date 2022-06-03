@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/providers/user_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
@@ -34,8 +35,8 @@ class _SlashScreenState extends State<SlashScreen> {
           //           MaterialPageRoute(builder: (context) => BodyScreen())));
           // }
           Future.delayed(Duration(seconds: 2)).then((value) =>
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => BodyScreen())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => BodyScreen())));
           return Scaffold(
               backgroundColor: Colors.white,
               body: Column(
@@ -63,7 +64,9 @@ class _SlashScreenState extends State<SlashScreen> {
     if (isAutoLogin && userProvider.user == null) {
       userProvider.getUser(int.parse(id!));
     }
-
+    if (id?.isNotEmpty == true) {
+      Provider.of<CartProvider>(context, listen: false).getCart(int.parse(id!));
+    }
     return id?.isNotEmpty == true;
   }
 }

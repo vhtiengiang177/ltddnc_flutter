@@ -3,7 +3,6 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../providers/review_provider.dart';
-import 'package:intl/intl.dart';
 
 class ListReview extends StatefulWidget {
   const ListReview({Key? key}) : super(key: key);
@@ -16,96 +15,93 @@ class _ListReviewState extends State<ListReview> {
   @override
   Widget build(BuildContext context) {
     final reviewProvider = Provider.of<ReviewProvider>(context);
-    var now = new DateTime.now();
-    var formatter = new DateFormat('yyyy-MM-dd');
 
     return reviewProvider.listReview.isNotEmpty == true
         ? Column(
-            children: reviewProvider.listReview
+            children: reviewProvider.listReview.reversed
                 .map(
                   (e) => InkWell(
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 3.0),
+                            horizontal: 4.0, vertical: 3.0),
                         child: Card(
-                          margin: EdgeInsets.all(2),
-                          color: Color.fromARGB(255, 250, 250, 241),
+                          color: Colors.white,
                           shadowColor: Colors.blueGrey,
                           elevation: 10,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 45.0,
-                                    width: 45.0,
-                                    margin: EdgeInsets.only(right: 16.0),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/icon.png"),
-                                        fit: BoxFit.cover,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 45,
+                                      height: 45,
+                                      margin: EdgeInsets.only(right: 16.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.white, width: 2),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
-                                      borderRadius: BorderRadius.circular(44.0),
+                                      child: e.image?.isNotEmpty == true
+                                          ? CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(e.image ?? ''),
+                                            )
+                                          : CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/profile-default.jpg'),
+                                            ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      e.name ?? "",
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
+                                    Expanded(
+                                      child: Text(
+                                        e.name ?? "",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: null,
-                                    icon: Icon(Icons.more_vert),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.0),
-                              Row(
-                                children: [
-                                  RatingBarIndicator(
-                                    rating: double.parse(e.rating.toString()),
-                                    direction: Axis.horizontal,
-                                    itemBuilder: (context, index) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
+                                  ],
+                                ),
+                                SizedBox(height: 8.0),
+                                Row(
+                                  children: [
+                                    RatingBarIndicator(
+                                      rating: double.parse(e.rating.toString()),
+                                      direction: Axis.horizontal,
+                                      itemBuilder: (context, index) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      itemCount: 5,
+                                      itemSize: 25,
                                     ),
-                                    itemCount: 5,
-                                    itemSize: 25,
-                                  ),
-                                  SizedBox(width: 16.0),
-                                  Text(
-                                    e.date ?? "20-01-2022",
-                                    style: TextStyle(fontSize: 18.0),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8.0),
-                              GestureDetector(
-                                //onTap: onTap,
-                                child:
-                                    // ? Text(
-                                    //     "So Good",
-                                    //     style: TextStyle(
-                                    //       fontSize: 18.0,
-                                    //       color: kLightColor,
-                                    //     ),
-                                    //   )
+                                    SizedBox(width: 16.0),
                                     Text(
-                                  e.comment ?? "",
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: ColorCustom.kLightColor,
+                                      '${e.date}',
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.grey[600]),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.0),
+                                GestureDetector(
+                                  child: Text(
+                                    e.comment ?? "",
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         )),
                   ),

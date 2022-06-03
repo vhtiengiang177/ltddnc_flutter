@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ltddnc_flutter/models/category.dart';
 import 'package:ltddnc_flutter/providers/product_provider.dart';
 import 'package:ltddnc_flutter/screens/cart_screen.dart';
+import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/widgets/list_product.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/cart_provider.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.category}) : super(key: key);
@@ -49,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: Column(children: [
                   Container(
                     height: 60,
-                    color: Colors.amber,
+                    color: ColorCustom.buttonSecondaryColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -67,10 +70,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: IconButton(
-                              icon: Image.asset(
-                                'assets/images/button/shopping-cart.png',
-                                width: 24,
-                              ),
+                              icon: _buildCartIcon(),
                               onPressed: () => {
                                 /* handle cart */
                                 Navigator.push(
@@ -92,5 +92,36 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
       ),
     );
+  }
+
+  Widget _buildCartIcon() {
+    return Consumer<CartProvider>(builder: (context, value, child) {
+      final total = value.getTotalQuantity;
+      return Stack(
+        alignment: Alignment.topRight,
+        children: [
+          ImageIcon(
+            AssetImage('assets/images/button/shopping-cart.png'),
+          ),
+          if (total > 0)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(180),
+              ),
+              padding: EdgeInsets.all(1),
+              child: FittedBox(
+                child: Text(
+                  '${total > 0 ? total : ''}',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )
+        ],
+      );
+    });
   }
 }

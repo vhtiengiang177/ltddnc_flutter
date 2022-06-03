@@ -15,9 +15,9 @@ class Order {
   final String? address;
   final int? idUser;
   final String? createDate;
-  final String? cancelDate;
+  String? cancelDate;
   final OrderDetail? firstOrderDetail;
-  final int? reviewState;
+  int? reviewState;
 
   Order(
       {this.id,

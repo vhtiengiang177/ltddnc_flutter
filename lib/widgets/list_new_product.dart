@@ -137,7 +137,7 @@ class _ListNewProductState extends State<ListNewProduct> {
           )
         : Center(
           child: Text(
-              "Không có sản phẩm",
+              '',
               style: TextStyle(fontSize: 18),
             ),
         );

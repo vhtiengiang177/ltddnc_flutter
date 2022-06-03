@@ -575,26 +575,41 @@ class _OrderDetailItemState extends State<OrderDetailItem> {
                       ),
                     ]),
               ),
-              ElevatedButton(
+              if (orderSelected?.reviewState == 0)
+                ElevatedButton(
+                    child: Text(
+                      "ĐÁNH GIÁ SẢN PHẨM",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green)),
+                    onPressed: () {
+                      // HANDLE REVIEW
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ReviewProductScreen(
+                                lOrderDetail: lOrderDetail);
+                          },
+                        ),
+                      );
+                    })
+              else
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onSurface: Colors.white,
+                    onPrimary: Colors.white,
+                    primary: Colors.white,
+                    shadowColor: Colors.white,
+                  ),
+                  onPressed: null,
                   child: Text(
-                    "ĐÁNH GIÁ SẢN PHẨM",
+                    "",
                     style: TextStyle(color: Colors.white),
                   ),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green)),
-                  onPressed: () {
-                    // HANDLE REVIEW
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ReviewProductScreen(
-                              lOrderDetail: lOrderDetail);
-                        },
-                      ),
-                    );
-                  }),
+                ),
             ],
           ),
         ),

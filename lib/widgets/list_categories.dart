@@ -39,17 +39,20 @@ class _ListCategoriesState extends State<ListCategories> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          height: 10,
+                        ),
                         Expanded(
                           child: e.image != null
                               ? Image.network(
                                   '${e.image}',
-                                  width: 50,
-                                  height: 50,
+                                  width: 40,
+                                  height: 40,
                                 )
                               : Image.asset(
                                   'assets/images/categories.png',
-                                  width: 50,
-                                  height: 50,
+                                  width: 40,
+                                  height: 40,
                                 ),
                         ),
                         SizedBox(
@@ -59,6 +62,9 @@ class _ListCategoriesState extends State<ListCategories> {
                           '${e.name}',
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 10,
                         )
                       ],
                     ),

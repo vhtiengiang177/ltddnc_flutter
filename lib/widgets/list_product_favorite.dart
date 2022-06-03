@@ -68,8 +68,12 @@ class _ListProductFavoriteState extends State<ListProductFavorite> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
-                                    e.name ?? '',
-                                    style: TextStyle(fontSize: 22),
+                                    '${e.name}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   Row(
                                     mainAxisAlignment:

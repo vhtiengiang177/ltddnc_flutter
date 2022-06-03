@@ -7,7 +7,7 @@ String orderToJson(Order data) => json.encode(data.toJson());
 
 class Order {
   final int? id;
-  late final int? state;
+  int? state;
   final int? totalQuantity;
   final double? totalProductPrice;
   final String? name;

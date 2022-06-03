@@ -36,7 +36,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         .getReviews(widget.product.id)
         .then((value) => setState((() => {
               countRating = reviewProvider.listReview.length,
-              print(json.encode(widget.product))
+              print("listReview: length = " + countRating.toString())
             })));
 
     super.didChangeDependencies();
@@ -69,7 +69,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 20.0, bottom: 8, left: 15.0, right: 15.0),
+                      top: 20.0, bottom: 5, left: 15.0, right: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -150,96 +150,92 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 15.0),
                   child: Text(
-                    widget.product.description ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 6,
+                    '${widget.product.description}',
                     style: TextStyle(
                         fontSize: 16, color: ColorCustom.secondaryColor),
                     textAlign: TextAlign.justify,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Đánh giá",
-                        style: TextStyle(
-                            color: ColorCustom.textPrimaryColor,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      //
-                      TextButton(
-                        onPressed: () async {
-                          final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ReviewScreen(
-                                        product: widget.product,
-                                      )));
-                        },
-                        child: Text(
-                          'Xem tất cả',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: ColorCustom.primaryColor,
-                              decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  color: ColorCustom.kAccentColor,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 16.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(color: ColorCustom.primaryColor),
+                      borderRadius: BorderRadius.circular(6)),
+                  borderOnForeground: true,
+                  margin: EdgeInsets.all(10),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: widget.product.avgRating.toString(),
-                                    style: TextStyle(fontSize: 48.0),
-                                  ),
-                                  TextSpan(
-                                    text: "/5",
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      color: ColorCustom.kLightColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ]),
-                          RatingBarIndicator(
-                            rating: double.parse(
-                                widget.product.avgRating.toString()),
-                            direction: Axis.horizontal,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            itemCount: 5,
-                            itemSize: 25,
+                          Text(
+                            "Đánh giá",
+                            style: TextStyle(
+                                color: ColorCustom.textPrimaryColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 16.0),
+                          //
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ReviewScreen(
+                                            product: widget.product,
+                                          )));
+                            },
+                            child: Text(
+                              'Xem tất cả',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: ColorCustom.primaryColor,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
                         ],
                       ),
-                    ],
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: widget.product.avgRating.toString(),
+                              style: TextStyle(
+                                  fontSize: 35.0,
+                                  color: ColorCustom.primaryColor),
+                            ),
+                            TextSpan(
+                              text: "/5",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                color: ColorCustom.kLightColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
+                        child: RatingBarIndicator(
+                          rating:
+                              double.parse(widget.product.avgRating.toString()),
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          itemCount: 5,
+                          itemSize: 30,
+                        ),
+                      ),
+                    ]),
                   ),
-                ),
+                )
               ],
             )),
             Padding(

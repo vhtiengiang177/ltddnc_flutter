@@ -18,7 +18,7 @@ class _ListOrderState extends State<ListOrder> {
   Widget build(BuildContext context) {
     return widget.listOrder.isNotEmpty == true
         ? Column(
-            children: widget.listOrder
+            children: widget.listOrder.reversed
                 .map(
                   (e) => InkWell(
                     onTap: () => Navigator.push(

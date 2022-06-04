@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:ltddnc_flutter/models/cart.dart';
 import 'package:ltddnc_flutter/providers/cart_provider.dart';
 import 'package:ltddnc_flutter/shared/constants.dart';
-import 'package:ltddnc_flutter/widgets/alert-dialog.dart';
 import 'package:ltddnc_flutter/widgets/quantity.dart';
 import 'package:provider/provider.dart';
 

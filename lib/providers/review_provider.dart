@@ -69,10 +69,11 @@ class ReviewProvider with ChangeNotifier {
         listReview.add(review);
       });
     }
+
+    notifyListeners();
   }
 
   Future<void> addReview(List<Review> lReview) async {
-    // listReview.add(review);
     print("add review");
     print(json.encode(lReview));
     var response = await http.post(

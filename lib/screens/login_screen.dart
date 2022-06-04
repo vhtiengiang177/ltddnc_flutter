@@ -9,7 +9,6 @@ import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:ltddnc_flutter/screens/body-screen.dart';
 import 'package:ltddnc_flutter/screens/register_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

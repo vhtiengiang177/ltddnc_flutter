@@ -9,7 +9,6 @@ class Product {
   final double? unitPrice;
   final String? image;
   final String? description;
-  final int? stock;
   final int? state;
   final int? idCategory;
   final double? avgRating;
@@ -21,7 +20,6 @@ class Product {
       this.unitPrice,
       this.image,
       this.description,
-      this.stock,
       this.state,
       this.idCategory,
       this.avgRating,
@@ -33,7 +31,6 @@ class Product {
         "unitPrice": unitPrice,
         "image": image,
         "description": description,
-        "stock": stock,
         "state": state,
         "idCategory": idCategory,
         "avgRating": avgRating,
@@ -46,7 +43,6 @@ class Product {
       unitPrice: json["unitPrice"],
       image: json["image"],
       description: json["description"],
-      stock: json["stock"],
       state: json["state"],
       idCategory: json["idCategory"],
       avgRating: json["avgRating"],

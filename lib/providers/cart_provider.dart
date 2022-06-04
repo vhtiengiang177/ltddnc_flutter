@@ -50,18 +50,17 @@ class CartProvider with ChangeNotifier {
       for (var c in cartResponse) {
         print(c['product']);
         String createdDate = c['product']["createdDate"] != null
-            ? DateFormat('dd-MM-yyyy HH:mm')
-                .format(DateTime.parse(c['product']["createdDate"]))
+            ? (DateTime.parse(c['product']["createdDate"])).toString()
             : '';
+
         Product product = Product(
           id: c['product']['id'],
           name: c['product']['name'],
           description: c['product']['description'],
           unitPrice: c['product']['unitPrice'],
           image: c['product']['image'],
-          stock: c['product']['stock'],
           state: c['product']['state'],
-          idCategory: c['product']['stock'],
+          idCategory: c['product']['idCategory'],
           avgRating: c['product']["avgRating"],
           createdDate: createdDate,
         );
@@ -92,8 +91,7 @@ class CartProvider with ChangeNotifier {
     for (var c in cartResponse) {
       print(c['product']);
       String createdDate = c['product']["createdDate"] != null
-          ? DateFormat('dd-MM-yyyy HH:mm')
-              .format(DateTime.parse(c['product']["createdDate"]))
+          ? (DateTime.parse(c['product']["createdDate"])).toString()
           : '';
       Product product = Product(
         id: c['product']['id'],
@@ -101,9 +99,8 @@ class CartProvider with ChangeNotifier {
         description: c['product']['description'],
         unitPrice: c['product']['unitPrice'],
         image: c['product']['image'],
-        stock: c['product']['stock'],
         state: c['product']['state'],
-        idCategory: c['product']['stock'],
+        idCategory: c['product']['idCategory'],
         avgRating: c['product']["avgRating"],
         createdDate: createdDate,
       );
@@ -138,7 +135,7 @@ class CartProvider with ChangeNotifier {
 
   Future<Response> deleteItems(List<Cart> listCartDeleted) async {
     print("deleteItems: ");
-    print(listCartDeleted);
+    print(json.encode(listCartDeleted));
 
     var response = await client.post(
         Uri.parse(apiHost + routeAPICart + "/DeleteItemsInCart"),

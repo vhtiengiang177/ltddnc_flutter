@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(fontSize: 20),
                       )),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: TextField(
                       controller: _name,
                       maxLength: 30,
@@ -90,14 +90,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
                       child: Text(
                         'Email: ',
                         style: TextStyle(fontSize: 20),
                       )),
                   Focus(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextField(
                           controller: _email,
                           maxLength: 30,
@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         'Số điện thoại: ',
                         style: TextStyle(fontSize: 20),
@@ -182,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       )),
                   Focus(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
                       child: TextField(
                         controller: _password,
                         obscureText: true,
@@ -233,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(fontSize: 20),
                       )),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
                     child: TextField(
                       controller: _confirmpassword,
                       obscureText: true,

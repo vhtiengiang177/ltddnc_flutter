@@ -126,7 +126,6 @@ class _ListReviewProductState extends State<ListReviewProduct> {
                                             fillColor: ColorCustom.inputColor,
                                             enabledBorder:
                                                 const OutlineInputBorder(
-                                              // width: 0.0 produces a thin "hairline" border
                                               borderSide: const BorderSide(
                                                   color: Colors.grey,
                                                   width: 0.0),
@@ -157,7 +156,7 @@ class _ListReviewProductState extends State<ListReviewProduct> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 8,
                       blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),

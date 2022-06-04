@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ltddnc_flutter/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../providers/review_provider.dart';
@@ -38,7 +37,7 @@ class _ListReviewState extends State<ListReview> {
                                   children: [
                                     Container(
                                       width: 45,
-                                      height: 45,
+                                      height: 45,  
                                       margin: EdgeInsets.only(right: 16.0),
                                       decoration: BoxDecoration(
                                         border: Border.all(
